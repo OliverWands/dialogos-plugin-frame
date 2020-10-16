@@ -1,4 +1,4 @@
-package dialogos.frame;
+package dialogos.frame.utils;
 
 public class Token
 {

@@ -1,9 +1,11 @@
-package dialogos.frame;
+package dialogos.frame.utils;
 
 import com.clt.diamant.graph.Node;
 import com.clt.diamant.graph.nodes.ReturnNode;
 import com.clt.diamant.graph.nodes.StartNode;
 import de.saar.coli.dialogos.marytts.plugin.TTSNode;
+import dialogos.frame.GraphAdjacencyList;
+import dialogos.frame.nodes.FrameNode;
 
 import java.awt.*;
 

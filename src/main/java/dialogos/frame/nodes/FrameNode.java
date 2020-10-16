@@ -1,4 +1,4 @@
-package dialogos.frame;
+package dialogos.frame.nodes;
 
 import com.clt.diamant.*;
 import com.clt.diamant.graph.*;
@@ -7,6 +7,8 @@ import com.clt.diamant.graph.nodes.OwnerNode;
 import com.clt.diamant.gui.GraphEditorFactory;
 import com.clt.diamant.gui.NodePropertiesDialog;
 import com.clt.xml.XMLWriter;
+import dialogos.frame.utils.FrameGraphBuilder;
+import dialogos.frame.utils.Token;
 
 import javax.swing.*;
 import java.awt.*;
@@ -145,7 +147,7 @@ public class FrameNode extends OwnerNode
             Collection<Node> nodes = FrameNode.this.getGraph().getNodes();
             for (Node node : nodes)
             {
-                if (node.getClassName().equals("edu.cmu.lti.dialogos.db.sqlite.dialogos.frame.FrameNode"))
+                if (node.getClassName().equals("edu.cmu.lti.dialogos.db.sqlite.dialogos.frame.nodes.FrameNode"))
                 {
                     FrameNode fNode = (FrameNode) node;
 

@@ -6,6 +6,7 @@ import com.clt.diamant.IdMap;
 import com.clt.diamant.graph.Node;
 import com.clt.xml.XMLReader;
 import com.clt.xml.XMLWriter;
+import dialogos.frame.nodes.FrameNode;
 import org.xml.sax.SAXException;
 
 import javax.swing.*;
