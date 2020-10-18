@@ -4,23 +4,17 @@ import com.clt.diamant.graph.Node;
 import com.clt.diamant.graph.nodes.ReturnNode;
 import com.clt.diamant.graph.nodes.StartNode;
 import de.saar.coli.dialogos.marytts.plugin.TTSNode;
-import dialogos.frame.GraphAdjacencyList;
 import dialogos.frame.nodes.FrameNode;
 
 import java.awt.*;
 
 public class FrameGraphBuilder
 {
-    private FrameNode frameNode;
+    private final FrameNode frameNode;
 
     public FrameGraphBuilder(FrameNode frameNode)
     {
         this.frameNode = frameNode;
-    }
-
-    public FrameGraphBuilder(FrameNode frameNode, GraphAdjacencyList graphAdjacencyList)
-    {
-
     }
 
     public void buildGraph()
@@ -28,7 +22,7 @@ public class FrameGraphBuilder
         StartNode sNode = null;
         for (Node node : frameNode.getOwnedGraph().getNodes())
         {
-            if (node.getClassName().equals("com.clt.diamant.graph.nodes.StartNode"))
+            if (node.getClassName().equals(StartNode.class.getName()))
             {
                 sNode = (StartNode) node;
             }
@@ -55,7 +49,6 @@ public class FrameGraphBuilder
             speechSynthesis.getEdge(0).setTarget(returnNode);
         }
     }
-
 
     // TODO handle double edges???
     private Node setEdges(Node baseNode, Node[] targetNodes)

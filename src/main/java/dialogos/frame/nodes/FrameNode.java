@@ -1,6 +1,9 @@
 package dialogos.frame.nodes;
 
-import com.clt.diamant.*;
+import com.clt.diamant.ExecutionLogger;
+import com.clt.diamant.IdMap;
+import com.clt.diamant.InputCenter;
+import com.clt.diamant.WozInterface;
 import com.clt.diamant.graph.*;
 import com.clt.diamant.graph.nodes.EndNode;
 import com.clt.diamant.graph.nodes.OwnerNode;
@@ -8,18 +11,17 @@ import com.clt.diamant.gui.GraphEditorFactory;
 import com.clt.diamant.gui.NodePropertiesDialog;
 import com.clt.xml.XMLWriter;
 import dialogos.frame.utils.FrameGraphBuilder;
-import dialogos.frame.utils.Token;
 
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
-import java.util.List;
-import java.util.*;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.Map;
 
 public class FrameNode extends OwnerNode
 {
     public static final String SLOT = "frameSlot";
-    Token token;
 
     public FrameNode()
     {
@@ -57,7 +59,6 @@ public class FrameNode extends OwnerNode
                 edge.setColor(FrameNode.this.getPortColor(e.getIndex()));
             }
         });
-        token.setContent("Hello");
     }
 
     public static Color getDefaultColor()
@@ -102,13 +103,12 @@ public class FrameNode extends OwnerNode
      *
      * @return list of variables
      */
-    public java.util.List<AbstractVariable> getAllGlobalVariables()
-    {
-        List<AbstractVariable> allVariables = new ArrayList<AbstractVariable>(this.getOwnedGraph().getVariables());
-        allVariables.addAll(this.getOwnedGraph().getGroovyVariables());
-        return allVariables;
-    }
-
+//    public java.util.List<AbstractVariable> getAllGlobalVariables()
+//    {
+//        List<AbstractVariable> allVariables = new ArrayList<AbstractVariable>(this.getOwnedGraph().getVariables());
+//        allVariables.addAll(this.getOwnedGraph().getGroovyVariables());
+//        return allVariables;
+//    }
     @Override
     public JComponent createEditorComponent(Map<String, Object> properties)
     {
@@ -118,24 +118,29 @@ public class FrameNode extends OwnerNode
 
         JPanel horiz = new JPanel();
         horiz.add(new JLabel("Enter Slot"));
-        //set x- and y-position of JPanel in GridBagLayout
+
+        //
+        // set x- and y-position of JPanel in GridBagLayout
+        //
         constraints.gridx = 0;
         constraints.gridy = 0;
         panel.add(horiz, constraints);
 
         horiz = new JPanel();
+
         String[] columnNames = {"Slot", "Value"};
         String[][] data = {
                 {"Start", "Hamburg"},
-                {"End", "Rome"}
-        };
+                {"End", "Rome"}};
+
         JTable table = new JTable(data, columnNames);
         JScrollPane scrollPane = new JScrollPane(table);
-        // horiz.add(NodePropertiesDialog.createTextArea(properties, SLOT));
-        // JTextField slotField = new JTextField("");
-        // slotField.setColumns(30);
-        // horiz.add(slotField);
+        horiz.add(NodePropertiesDialog.createTextArea(properties, SLOT));
+        JTextField slotField = new JTextField("");
+        slotField.setColumns(30);
+        horiz.add(slotField);
         horiz.add(scrollPane);
+
         constraints.gridy = 1;
         panel.add(horiz, constraints);
 
@@ -144,10 +149,10 @@ public class FrameNode extends OwnerNode
         graphButton.addActionListener(actionEvent ->
         {
             GraphEditorFactory.show(FrameNode.this);
-            Collection<Node> nodes = FrameNode.this.getGraph().getNodes();
-            for (Node node : nodes)
+            Collection<Node> mainGraphNodes = FrameNode.this.getGraph().getNodes();
+            for (Node node : mainGraphNodes)
             {
-                if (node.getClassName().equals("edu.cmu.lti.dialogos.db.sqlite.dialogos.frame.nodes.FrameNode"))
+                if (node.getClassName().equals(FrameNode.class.getName()))
                 {
                     FrameNode fNode = (FrameNode) node;
 
@@ -185,14 +190,7 @@ public class FrameNode extends OwnerNode
                 }
             }
 
-            for (Iterator<String> it = this.properties.keySet().iterator(); it.hasNext(); )
-            {
-                String key = it.next();
-                if (!props.containsKey(key))
-                {
-                    it.remove();
-                }
-            }
+            this.properties.keySet().removeIf(key -> !props.containsKey(key));
 
             return true;
         }

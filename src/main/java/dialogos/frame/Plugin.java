@@ -28,13 +28,13 @@ public class Plugin implements com.clt.dialogos.plugin.Plugin
     @Override
     public String getId()
     {
-        return "dialogos.plugin.frame";
+        return "dialogos-plugin-frame";
     }
 
     @Override
     public String getName()
     {
-        return "Frame dialogos.frame.Plugin";
+        return "Frame";
     }
 
     @Override
@@ -52,12 +52,11 @@ public class Plugin implements com.clt.dialogos.plugin.Plugin
     @Override
     public PluginSettings createDefaultSettings()
     {
-        return new SqlPluginSettings();
+        return new FramePluginSettings();
     }
 
-    static class SqlPluginSettings extends PluginSettings
+    static class FramePluginSettings extends PluginSettings
     {
-
         @Override
         public void writeAttributes(XMLWriter xmlWriter, IdMap idMap)
         {
@@ -96,63 +95,80 @@ public class Plugin implements com.clt.dialogos.plugin.Plugin
             return p;
         }
 
-        // @Override
-        // public JComponent createEditor()
-        // {
-        //     JPanel p = new JPanel();
-        //     JTextField urlField = new JTextField(db.jdbcURL, 40);
-        //     AbstractAction openSqliteFile = new AbstractAction("Open SQLite...", Images.load("OpenFile.png"))
-        //     {
-        //         @Override
-        //         public void actionPerformed(ActionEvent e)
-        //         {
-        //             FileChooser fc = new FileChooser(new FileExtensionFilter("db", "Sqlite database file"));
-        //             //fc.setFileFilter();
-        //             File file = fc.standardGetFile(p);
-        //             if (file != null)
-        //             {
-        //                 try
-        //                 {
-        //                     urlField.setText("jdbc:sqlite:" + file.getCanonicalPath());
-        //                     db.setDatabaseURL(urlField.getText());
-        //                 } catch (IOException e1)
-        //                 {
-        //                     e1.printStackTrace();
-        //                 }
-        //             }
-        //         }
-        //     };
-        //     urlField.addActionListener((ActionEvent e) ->
-        //     {
-        //         db.setDatabaseURL(urlField.getText());
-        //     });
-        //     p.add(new JButton(openSqliteFile));
-        //     p.add(urlField);
-        //     // ability to select a file
-        //     return p;
-        // }
+//        @Override
+//        public JComponent createEditor()
+//        {
+//            JPanel p = new JPanel();
+//            JTextField urlField = new JTextField("No Text", 45);
+//            AbstractAction getSlot = new AbstractAction("Enter something")
+//            {
+//                @Override
+//                public void actionPerformed(ActionEvent e)
+//                {
+//                    System.out.println("## act -> " + urlField.getText());
+//                }
+//            };
+
+//            urlField.addActionListener((ActionEvent e) ->
+//            {
+//                System.out.println("## url -> " + urlField.getText());
+//            });
+
+//            p.add(new JButton(getSlot));
+//            p.add(urlField);
+//            return p;
+//        }
+
+//        @Override
+//        public JComponent createEditor()
+//        {
+//            JPanel p = new JPanel();
+//            JTextField urlField = new JTextField("urlField", 40);
+//
+//            AbstractAction openSqliteFile = new AbstractAction("Open SQLite...", Images.load("OpenFile.png"))
+//            {
+//                @Override
+//                public void actionPerformed(ActionEvent e)
+//                {
+//                    FileChooser fc = new FileChooser(new FileExtensionFilter("json", "Frame Tag Matching"));
+//                    File file = fc.standardGetFile(p);
+//                    if (file != null)
+//                    {
+//                        try
+//                        {
+//                            urlField.setText("jdbc:sqlite:" + file.getCanonicalPath());
+//                        } catch (IOException e1)
+//                        {
+//                            e1.printStackTrace();
+//                        }
+//                    }
+//                }
+//            };
+//            urlField.addActionListener((ActionEvent e) ->
+//            {
+//                System.out.println("hello");
+//            });
+//
+//            p.add(new JButton(openSqliteFile));
+//            p.add(urlField);
+//            return p;
+//        }
 
         @Override
         protected PluginRuntime createRuntime(Component component) throws Exception
         {
-            return new FramePluginRuntime(SqlPluginSettings.this);
+            return new FramePluginRuntime(FramePluginSettings.this);
         }
     }
 
     static class FramePluginRuntime implements PluginRuntime
     {
+        FramePluginSettings settings;
 
-        SqlPluginSettings settings;
-
-        FramePluginRuntime(SqlPluginSettings settings)
+        FramePluginRuntime(FramePluginSettings settings)
         {
             this.settings = settings;
         }
-
-        // dialogos.frame.Database getDatabase()
-        // {
-        //     return settings.db;
-        // }
 
         @Override
         public void dispose()
