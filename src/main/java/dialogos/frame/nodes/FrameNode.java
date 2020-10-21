@@ -7,21 +7,18 @@ import com.clt.diamant.WozInterface;
 import com.clt.diamant.graph.*;
 import com.clt.diamant.graph.nodes.EndNode;
 import com.clt.diamant.graph.nodes.OwnerNode;
-import com.clt.diamant.gui.GraphEditorFactory;
 import com.clt.diamant.gui.NodePropertiesDialog;
 import com.clt.xml.XMLWriter;
-import dialogos.frame.utils.FrameGraphBuilder;
 
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.Map;
 
 public class FrameNode extends OwnerNode
 {
     public static final String SLOT = "frameSlot";
+    private Frame frame;
 
     public FrameNode()
     {
@@ -63,7 +60,7 @@ public class FrameNode extends OwnerNode
 
     public static Color getDefaultColor()
     {
-        return Color.ORANGE;
+        return new Color(233, 134, 87);
     }
 
     @Override
@@ -112,60 +109,7 @@ public class FrameNode extends OwnerNode
     @Override
     public JComponent createEditorComponent(Map<String, Object> properties)
     {
-        JPanel panel = new JPanel();
-        panel.setLayout(new GridBagLayout());
-        GridBagConstraints constraints = new GridBagConstraints();
-
-        JPanel horiz = new JPanel();
-        horiz.add(new JLabel("Enter Slot"));
-
-        //
-        // set x- and y-position of JPanel in GridBagLayout
-        //
-        constraints.gridx = 0;
-        constraints.gridy = 0;
-        panel.add(horiz, constraints);
-
-        horiz = new JPanel();
-
-        String[] columnNames = {"Slot", "Value"};
-        String[][] data = {
-                {"Start", "Hamburg"},
-                {"End", "Rome"}};
-
-        JTable table = new JTable(data, columnNames);
-        JScrollPane scrollPane = new JScrollPane(table);
-        horiz.add(NodePropertiesDialog.createTextArea(properties, SLOT));
-        JTextField slotField = new JTextField("");
-        slotField.setColumns(30);
-        horiz.add(slotField);
-        horiz.add(scrollPane);
-
-        constraints.gridy = 1;
-        panel.add(horiz, constraints);
-
-        horiz = new JPanel();
-        JButton graphButton = new JButton("Show Graph");
-        graphButton.addActionListener(actionEvent ->
-        {
-            GraphEditorFactory.show(FrameNode.this);
-            Collection<Node> mainGraphNodes = FrameNode.this.getGraph().getNodes();
-            for (Node node : mainGraphNodes)
-            {
-                if (node.getClassName().equals(FrameNode.class.getName()))
-                {
-                    FrameNode fNode = (FrameNode) node;
-
-                    FrameGraphBuilder frameGraphBuilder = new FrameGraphBuilder(fNode);
-                    frameGraphBuilder.buildGraph();
-                }
-            }
-        });
-        horiz.add(graphButton);
-        constraints.gridy = 2;
-        panel.add(horiz, constraints);
-
-        return panel;
+        return new FrameNodeMenu(properties, this);
     }
 
     @Override
