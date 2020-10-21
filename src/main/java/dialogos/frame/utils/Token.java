@@ -1,5 +1,7 @@
 package dialogos.frame.utils;
 
+import java.util.List;
+
 public class Token
 {
     private String content;
@@ -7,6 +9,7 @@ public class Token
     private int length;
     private int startIndex;
     private int endIndex;
+    private List<String> tags;
 
     public Token()
     {
@@ -21,7 +24,7 @@ public class Token
         this.endIndex = endIndex;
     }
 
-    public void setIndex(int startIndex, int endIndex)
+    public void setIndices(int startIndex, int endIndex)
     {
         this.startIndex = startIndex;
         this.endIndex = endIndex;
@@ -57,6 +60,11 @@ public class Token
     public String getLower()
     {
         return lower;
+    }
+
+    public List<String> getTags()
+    {
+        return tags;
     }
 }
 
