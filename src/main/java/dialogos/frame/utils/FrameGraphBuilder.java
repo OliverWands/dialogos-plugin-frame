@@ -32,8 +32,6 @@ public class FrameGraphBuilder
 
         baseHeight = startNode.getHeight();
         baseWidth = startNode.getWidth();
-
-        buildGraph();
     }
 
     public void buildGraph()
@@ -116,23 +114,21 @@ public class FrameGraphBuilder
         }
     }
 
-    private Node setEdge(Node startNode, Node targetNode)
+    private void setEdge(Node startNode, Node targetNode)
     {
         if (targetNode == null)
         {
-            return null;
+            return;
         }
 
         startNode.getEdge(0).setTarget(targetNode);
-
-        return startNode;
     }
 
-    private Node setEdges(Node startNode, Node[] targetNodes)
+    private void setEdges(Node startNode, Node[] targetNodes)
     {
         if (targetNodes == null)
         {
-            return null;
+            return;
         }
 
         for (Node targetNode : targetNodes)
@@ -140,7 +136,6 @@ public class FrameGraphBuilder
             setEdge(startNode, targetNode);
         }
 
-        return startNode;
     }
 
     private int getMiddle(Node node)
