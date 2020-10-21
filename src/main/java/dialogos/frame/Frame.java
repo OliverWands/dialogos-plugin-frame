@@ -5,7 +5,7 @@ import java.util.List;
 
 public class Frame
 {
-    private List<Slot> slotList;
+    private final List<Slot> slotList;
 
     public Frame()
     {

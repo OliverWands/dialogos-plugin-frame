@@ -95,65 +95,6 @@ public class Plugin implements com.clt.dialogos.plugin.Plugin
             return p;
         }
 
-//        @Override
-//        public JComponent createEditor()
-//        {
-//            JPanel p = new JPanel();
-//            JTextField urlField = new JTextField("No Text", 45);
-//            AbstractAction getSlot = new AbstractAction("Enter something")
-//            {
-//                @Override
-//                public void actionPerformed(ActionEvent e)
-//                {
-//                    System.out.println("## act -> " + urlField.getText());
-//                }
-//            };
-
-//            urlField.addActionListener((ActionEvent e) ->
-//            {
-//                System.out.println("## url -> " + urlField.getText());
-//            });
-
-//            p.add(new JButton(getSlot));
-//            p.add(urlField);
-//            return p;
-//        }
-
-//        @Override
-//        public JComponent createEditor()
-//        {
-//            JPanel p = new JPanel();
-//            JTextField urlField = new JTextField("urlField", 40);
-//
-//            AbstractAction openSqliteFile = new AbstractAction("Open SQLite...", Images.load("OpenFile.png"))
-//            {
-//                @Override
-//                public void actionPerformed(ActionEvent e)
-//                {
-//                    FileChooser fc = new FileChooser(new FileExtensionFilter("json", "Frame Tag Matching"));
-//                    File file = fc.standardGetFile(p);
-//                    if (file != null)
-//                    {
-//                        try
-//                        {
-//                            urlField.setText("jdbc:sqlite:" + file.getCanonicalPath());
-//                        } catch (IOException e1)
-//                        {
-//                            e1.printStackTrace();
-//                        }
-//                    }
-//                }
-//            };
-//            urlField.addActionListener((ActionEvent e) ->
-//            {
-//                System.out.println("hello");
-//            });
-//
-//            p.add(new JButton(openSqliteFile));
-//            p.add(urlField);
-//            return p;
-//        }
-
         @Override
         protected PluginRuntime createRuntime(Component component) throws Exception
         {

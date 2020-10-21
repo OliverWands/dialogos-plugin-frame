@@ -19,7 +19,7 @@ public class Slot
 
     public boolean setValue(Token token)
     {
-        for (String tag: matchedTags)
+        for (String tag : matchedTags)
         {
             if (!token.getTags().contains(tag))
             {
