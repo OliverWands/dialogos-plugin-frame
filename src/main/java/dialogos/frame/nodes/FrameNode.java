@@ -60,7 +60,7 @@ public class FrameNode extends OwnerNode
 
     public static Color getDefaultColor()
     {
-        return new Color(233, 134, 87);
+        return new Color(255, 187, 0);
     }
 
     @Override
@@ -95,17 +95,6 @@ public class FrameNode extends OwnerNode
         this.getOwnedGraph().exportVoiceXML(w, uid_map);
     }
 
-    /**
-     * Returns a List of all Groovy-specific and non-Groovy variables
-     *
-     * @return list of variables
-     */
-//    public java.util.List<AbstractVariable> getAllGlobalVariables()
-//    {
-//        List<AbstractVariable> allVariables = new ArrayList<AbstractVariable>(this.getOwnedGraph().getVariables());
-//        allVariables.addAll(this.getOwnedGraph().getGroovyVariables());
-//        return allVariables;
-//    }
     @Override
     public JComponent createEditorComponent(Map<String, Object> properties)
     {

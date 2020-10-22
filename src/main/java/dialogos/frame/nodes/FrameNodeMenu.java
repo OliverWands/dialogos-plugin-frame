@@ -3,7 +3,7 @@ package dialogos.frame.nodes;
 import com.clt.diamant.graph.Node;
 import com.clt.diamant.gui.GraphEditorFactory;
 import com.clt.gui.Images;
-import dialogos.frame.utils.FrameGraphBuilder;
+import dialogos.frame.utils.FrameGraph;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -88,7 +88,7 @@ public class FrameNodeMenu extends JPanel
                 {
                     FrameNode fNode = (FrameNode) node;
 
-                    FrameGraphBuilder frameGraphBuilder = new FrameGraphBuilder(fNode);
+                    FrameGraph frameGraphBuilder = new FrameGraph(fNode);
                     frameGraphBuilder.buildGraph();
                 }
             }
