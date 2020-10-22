@@ -40,39 +40,39 @@ public class FrameGraphBuilder
         {
             TTSNode speechSynthesis0 = new TTSNode();
             speechSynthesis0.setTitle("0");
-            speechSynthesis0.setProperty("prompt", "Adios amigos");
+            speechSynthesis0.setProperty("prompt", "Null");
 
             TTSNode speechSynthesis1 = new TTSNode();
             speechSynthesis1.setTitle("1");
-            speechSynthesis1.setProperty("prompt", "Adios amigos");
+            speechSynthesis1.setProperty("prompt", "Eins");
 
             TTSNode speechSynthesis2 = new TTSNode();
             speechSynthesis2.setTitle("2");
-            speechSynthesis2.setProperty("prompt", "Adios amigos");
+            speechSynthesis2.setProperty("prompt", "Zwei");
 
             TTSNode speechSynthesis3 = new TTSNode();
             speechSynthesis3.setTitle("3");
-            speechSynthesis3.setProperty("prompt", "Adios amigos");
+            speechSynthesis3.setProperty("prompt", "Drei");
 
             TTSNode speechSynthesis4 = new TTSNode();
             speechSynthesis4.setTitle("4");
-            speechSynthesis4.setProperty("prompt", "Adios amigos");
+            speechSynthesis4.setProperty("prompt", "Vier");
 
             TTSNode speechSynthesis5 = new TTSNode();
             speechSynthesis5.setTitle("5");
-            speechSynthesis5.setProperty("prompt", "Adios amigos");
+            speechSynthesis5.setProperty("prompt", "Fünf");
 
             TTSNode speechSynthesis6 = new TTSNode();
             speechSynthesis6.setTitle("6");
-            speechSynthesis6.setProperty("prompt", "Adios amigos");
+            speechSynthesis6.setProperty("prompt", "Sechs");
 
             TTSNode speechSynthesis7 = new TTSNode();
             speechSynthesis7.setTitle("7");
-            speechSynthesis7.setProperty("prompt", "Adios amigos");
+            speechSynthesis7.setProperty("prompt", "Sieben");
 
             TTSNode speechSynthesis8 = new TTSNode();
             speechSynthesis8.setTitle("8");
-            speechSynthesis8.setProperty("prompt", "Adios amigos");
+            speechSynthesis8.setProperty("prompt", "Acht");
 
             ReturnNode returnNode = new ReturnNode();
             returnNode.setTitle("Return");
