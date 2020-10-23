@@ -120,12 +120,13 @@ public class FrameNodeMenu extends JPanel
             {
                 frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
                 frame.setVisible(false);
+                frame.setAlwaysOnTop(false);
             }
-
         });
 
         frame.pack();
         frame.setVisible(true);
+        frame.setAlwaysOnTop(true);
         frame.toFront();
     }
 

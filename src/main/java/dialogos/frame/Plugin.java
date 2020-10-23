@@ -4,14 +4,16 @@ import com.clt.dialogos.plugin.PluginRuntime;
 import com.clt.dialogos.plugin.PluginSettings;
 import com.clt.diamant.IdMap;
 import com.clt.diamant.graph.Node;
+import com.clt.gui.Images;
 import com.clt.xml.XMLReader;
 import com.clt.xml.XMLWriter;
 import dialogos.frame.nodes.FrameNode;
 import org.xml.sax.SAXException;
 
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
-import java.awt.event.ActionEvent;
+import java.awt.event.WindowEvent;
 import java.util.Arrays;
 import java.util.Set;
 
@@ -76,23 +78,50 @@ public class Plugin implements com.clt.dialogos.plugin.Plugin
         @Override
         public JComponent createEditor()
         {
-            JPanel p = new JPanel();
-            JTextField urlField = new JTextField("No Text", 45);
-            AbstractAction getSlot = new AbstractAction("Enter something")
+            JPanel panel = new JPanel();
+            JLabel label = new JLabel();
+            JFrame frame = new JFrame();
+            JButton selectFile = new JButton();
+            JFileChooser fileChooser = new JFileChooser();
+
+            label.setText("Select global tags:");
+
+            selectFile.setIcon(Images.load("OpenFile.png"));
+
+            fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("JSON and XML files.", "json", "xml"));
+            fileChooser.addActionListener(e ->
             {
-                @Override
-                public void actionPerformed(ActionEvent e)
+                switch (e.getActionCommand())
                 {
-                    System.out.println("## act -> " + urlField.getText());
+                    case JFileChooser.APPROVE_SELECTION:
+                        System.out.printf("Chose %s\n", fileChooser.getSelectedFile());
+                    case JFileChooser.CANCEL_SELECTION:
+                        fileChooser.setEnabled(false);
+                        frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
+                        frame.setVisible(false);
+                        frame.dispose();
+                        break;
                 }
-            };
-            urlField.addActionListener((ActionEvent e) ->
-            {
-                System.out.println("## url -> " + urlField.getText());
             });
-            p.add(new JButton(getSlot));
-            p.add(urlField);
-            return p;
+
+            selectFile.addActionListener(e ->
+            {
+                frame.setLayout(new BorderLayout());
+                frame.add(fileChooser, BorderLayout.CENTER);
+
+                fileChooser.setEnabled(true);
+                fileChooser.showOpenDialog(frame);
+
+                frame.pack();
+                frame.setVisible(true);
+                frame.repaint();
+            });
+
+            panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+            panel.add(label);
+            panel.add(selectFile);
+
+            return panel;
         }
 
         @Override
