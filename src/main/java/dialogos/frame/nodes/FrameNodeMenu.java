@@ -3,6 +3,7 @@ package dialogos.frame.nodes;
 import com.clt.diamant.graph.Node;
 import com.clt.diamant.gui.GraphEditorFactory;
 import com.clt.gui.Images;
+import dialogos.frame.FrameNode;
 import dialogos.frame.utils.FrameGraph;
 
 import javax.swing.*;
@@ -18,7 +19,7 @@ public class FrameNodeMenu extends JPanel
     private File chosenFile;
     private FrameNode frameNode;
 
-    FrameNodeMenu(Map<String, Object> properties, FrameNode frameNode)
+    public FrameNodeMenu(Map<String, Object> properties, FrameNode frameNode, File global)
     {
         this.frameNode = frameNode;
         setLayout(new GridBagLayout());
@@ -26,7 +27,18 @@ public class FrameNodeMenu extends JPanel
 
         JPanel horiz = new JPanel();
         horiz.setBackground(Color.YELLOW);
-        JLabel field = new JLabel("Enter Slot");
+
+        // TODO do something useful
+        JLabel field;
+        if (global != null)
+        {
+            field = new JLabel(global.getName());
+        }
+        else
+        {
+            field = new JLabel("Slot:");
+        }
+
         field.setEnabled(false);
         horiz.add(field);
 
@@ -124,9 +136,9 @@ public class FrameNodeMenu extends JPanel
             }
         });
 
+        fileChooser.showOpenDialog(frame);
         frame.pack();
         frame.setVisible(true);
-        frame.setAlwaysOnTop(true);
         frame.toFront();
     }
 

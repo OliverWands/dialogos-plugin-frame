@@ -7,13 +7,13 @@ import com.clt.diamant.graph.Node;
 import com.clt.gui.Images;
 import com.clt.xml.XMLReader;
 import com.clt.xml.XMLWriter;
-import dialogos.frame.nodes.FrameNode;
 import org.xml.sax.SAXException;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.WindowEvent;
+import java.io.File;
 import java.util.Arrays;
 import java.util.Set;
 
@@ -36,7 +36,7 @@ public class Plugin implements com.clt.dialogos.plugin.Plugin
     @Override
     public String getName()
     {
-        return "Frame";
+        return "Frame-based Dialogs";
     }
 
     @Override
@@ -59,6 +59,13 @@ public class Plugin implements com.clt.dialogos.plugin.Plugin
 
     static class FramePluginSettings extends PluginSettings
     {
+        private static File globalTags = null;
+
+        public File getGlobalTagFile()
+        {
+            return globalTags;
+        }
+
         @Override
         public void writeAttributes(XMLWriter xmlWriter, IdMap idMap)
         {
@@ -78,49 +85,97 @@ public class Plugin implements com.clt.dialogos.plugin.Plugin
         @Override
         public JComponent createEditor()
         {
-            JPanel panel = new JPanel();
-            JLabel label = new JLabel();
-            JFrame frame = new JFrame();
-            JButton selectFile = new JButton();
-            JFileChooser fileChooser = new JFileChooser();
+            JPanel panel = new JPanel(new BorderLayout());
 
-            label.setText("Select global tags:");
-
-            selectFile.setIcon(Images.load("OpenFile.png"));
-
-            fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("JSON and XML files.", "json", "xml"));
-            fileChooser.addActionListener(e ->
+            JPanel gridPanel = new JPanel(new GridBagLayout());
+            JTextField textField = new JTextField();
+            textField.addActionListener(e ->
             {
-                switch (e.getActionCommand())
+                if (e.getActionCommand().equals(JTextField.notifyAction))
                 {
-                    case JFileChooser.APPROVE_SELECTION:
-                        System.out.printf("Chose %s\n", fileChooser.getSelectedFile());
-                    case JFileChooser.CANCEL_SELECTION:
-                        fileChooser.setEnabled(false);
-                        frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
-                        frame.setVisible(false);
-                        frame.dispose();
-                        break;
+                    System.out.println(textField.getText());
                 }
             });
 
+            JLabel label = new JLabel();
+            label.setText("Select the plugin-wide available tags:");
+
+            JButton helpDialog = new JButton();
+            helpDialog.setIcon(Images.load("Info16.png"));
+            helpDialog.addActionListener(e ->
+            {
+                System.out.println("HELP!");
+            });
+
+            JFrame frame = new JFrame();
+
+            JFileChooser fileChooser = new JFileChooser();
+            fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("JSON and XML files.", "json", "xml"));
+            fileChooser.addActionListener(e ->
+            {
+                if (e.getActionCommand().equals(JFileChooser.APPROVE_SELECTION))
+                {
+                    globalTags = fileChooser.getSelectedFile();
+                    textField.setText(globalTags.getAbsolutePath());
+                }
+                fileChooser.setEnabled(false);
+                frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
+                frame.setVisible(false);
+                frame.dispose();
+            });
+
+            JButton selectFile = new JButton();
+            selectFile.setIcon(Images.load("OpenFile.png"));
             selectFile.addActionListener(e ->
             {
-                frame.setLayout(new BorderLayout());
-                frame.add(fileChooser, BorderLayout.CENTER);
-
                 fileChooser.setEnabled(true);
                 fileChooser.showOpenDialog(frame);
 
+                frame.setLayout(new BorderLayout());
+                frame.add(fileChooser, BorderLayout.CENTER);
                 frame.pack();
                 frame.setVisible(true);
                 frame.repaint();
             });
 
-            panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-            panel.add(label);
-            panel.add(selectFile);
+            GridBagConstraints constraints = new GridBagConstraints();
+            constraints.anchor = GridBagConstraints.LINE_START;
 
+            //
+            // Label
+            //
+            constraints.gridx = 0;
+            constraints.gridy = 0;
+            constraints.weightx = 0.8;
+            constraints.fill = GridBagConstraints.HORIZONTAL;
+            gridPanel.add(label, constraints);
+
+            //
+            // Help Button
+            //
+            constraints.gridx = 1;
+            constraints.gridy = 0;
+            constraints.weightx = 0.2;
+            gridPanel.add(helpDialog, constraints);
+
+            //
+            // TextField
+            //
+            constraints.gridx = 0;
+            constraints.gridy = 1;
+            constraints.weightx = 0.8;
+            constraints.ipady = 0;
+            gridPanel.add(textField, constraints);
+
+            //
+            // Select file button
+            //
+            constraints.gridx = 1;
+            constraints.gridy = 1;
+            constraints.weightx = 0.2;
+            gridPanel.add(selectFile, constraints);
+
+            panel.add(gridPanel, BorderLayout.NORTH);
             return panel;
         }
 

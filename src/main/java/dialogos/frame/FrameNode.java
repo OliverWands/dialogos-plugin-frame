@@ -1,4 +1,4 @@
-package dialogos.frame.nodes;
+package dialogos.frame;
 
 import com.clt.diamant.ExecutionLogger;
 import com.clt.diamant.IdMap;
@@ -9,9 +9,12 @@ import com.clt.diamant.graph.nodes.EndNode;
 import com.clt.diamant.graph.nodes.OwnerNode;
 import com.clt.diamant.gui.NodePropertiesDialog;
 import com.clt.xml.XMLWriter;
+import dialogos.frame.nodes.FrameNodeMenu;
 
 import javax.swing.*;
+import java.awt.Frame;
 import java.awt.*;
+import java.io.File;
 import java.io.IOException;
 import java.util.Map;
 
@@ -28,6 +31,8 @@ public class FrameNode extends OwnerNode
     public FrameNode(SubGraph ownedGraph)
     {
         super(ownedGraph);
+
+//
 
         this.setProperty(SLOT, "");
 
@@ -98,7 +103,13 @@ public class FrameNode extends OwnerNode
     @Override
     public JComponent createEditorComponent(Map<String, Object> properties)
     {
-        return new FrameNodeMenu(properties, this);
+        Plugin.FramePluginSettings settings = (Plugin.FramePluginSettings) this.getPluginSettings(Plugin.class);
+        File globalTags = settings.getGlobalTagFile();
+        if (globalTags != null)
+        {
+            System.out.println(globalTags);
+        }
+        return new FrameNodeMenu(properties, this, globalTags);
     }
 
     @Override
