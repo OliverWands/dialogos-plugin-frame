@@ -147,32 +147,41 @@ public class Plugin implements com.clt.dialogos.plugin.Plugin
             constraints.gridx = 0;
             constraints.gridy = 0;
             constraints.weightx = 0.8;
+            constraints.gridwidth = 2;
             constraints.fill = GridBagConstraints.HORIZONTAL;
             gridPanel.add(label, constraints);
 
             //
             // Help Button
             //
+            constraints.anchor = GridBagConstraints.LINE_END;
             constraints.gridx = 1;
             constraints.gridy = 0;
             constraints.weightx = 0.2;
+            constraints.fill = GridBagConstraints.NONE;
             gridPanel.add(helpDialog, constraints);
 
             //
             // TextField
             //
+            constraints.anchor = GridBagConstraints.LINE_START;
             constraints.gridx = 0;
             constraints.gridy = 1;
-            constraints.weightx = 0.8;
-            constraints.ipady = 0;
+            constraints.weightx = 0.0;
+            constraints.gridwidth = 3;
+            constraints.fill = GridBagConstraints.HORIZONTAL;
             gridPanel.add(textField, constraints);
 
             //
             // Select file button
             //
-            constraints.gridx = 1;
-            constraints.gridy = 1;
-            constraints.weightx = 0.2;
+            constraints.gridx = 0;
+            constraints.gridy = 2;
+            constraints.weightx = 0.0;
+            constraints.gridwidth = 2;
+            constraints.fill = GridBagConstraints.NONE;
+            constraints.anchor = GridBagConstraints.CENTER;
+
             gridPanel.add(selectFile, constraints);
 
             panel.add(gridPanel, BorderLayout.NORTH);
