@@ -7,6 +7,7 @@ import com.clt.diamant.graph.Node;
 import com.clt.gui.Images;
 import com.clt.xml.XMLReader;
 import com.clt.xml.XMLWriter;
+import dialogos.frame.utils.TagIO;
 import org.xml.sax.SAXException;
 
 import javax.swing.*;
@@ -15,6 +16,8 @@ import java.awt.*;
 import java.awt.event.WindowEvent;
 import java.io.File;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 
 public class Plugin implements com.clt.dialogos.plugin.Plugin
@@ -60,6 +63,8 @@ public class Plugin implements com.clt.dialogos.plugin.Plugin
     static class FramePluginSettings extends PluginSettings
     {
         private static File globalTags = null;
+        private static final Map<String, String> definedMap = new HashMap<>();
+        private static final Map<String, String> regexMap = new HashMap<>();
 
         public File getGlobalTagFile()
         {
@@ -97,17 +102,17 @@ public class Plugin implements com.clt.dialogos.plugin.Plugin
                 }
             });
 
-            JLabel label = new JLabel();
-            label.setText("Select the plugin-wide available tags:");
+            JLabel instruction = new JLabel();
+            instruction.setText("Select the plugin-wide available tags:");
 
             JButton helpDialog = new JButton();
+            helpDialog.setToolTipText("The file must be either xml or json.");
             helpDialog.setIcon(Images.load("Info16.png"));
-            helpDialog.addActionListener(e ->
-            {
-                System.out.println("HELP!");
-            });
 
             JFrame frame = new JFrame();
+
+            JLabel tagInfo = new JLabel();
+            tagInfo.setFont(new Font(tagInfo.getFont().getName(), Font.PLAIN, 14));
 
             JFileChooser fileChooser = new JFileChooser();
             fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("JSON and XML files.", "json", "xml"));
@@ -117,7 +122,14 @@ public class Plugin implements com.clt.dialogos.plugin.Plugin
                 {
                     globalTags = fileChooser.getSelectedFile();
                     textField.setText(globalTags.getAbsolutePath());
+
+                    TagIO.jsonToTags(globalTags, definedMap, regexMap);
+                    int counts = TagIO.countTags(definedMap, regexMap);
+
+                    tagInfo.setText(String.format("Contains %d tags,\n%d words and %d regex patterns.",
+                            counts, definedMap.size(), regexMap.size()));
                 }
+
                 fileChooser.setEnabled(false);
                 frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
                 frame.setVisible(false);
@@ -149,7 +161,7 @@ public class Plugin implements com.clt.dialogos.plugin.Plugin
             constraints.weightx = 0.8;
             constraints.gridwidth = 2;
             constraints.fill = GridBagConstraints.HORIZONTAL;
-            gridPanel.add(label, constraints);
+            gridPanel.add(instruction, constraints);
 
             //
             // Help Button
@@ -181,8 +193,18 @@ public class Plugin implements com.clt.dialogos.plugin.Plugin
             constraints.gridwidth = 2;
             constraints.fill = GridBagConstraints.NONE;
             constraints.anchor = GridBagConstraints.CENTER;
-
             gridPanel.add(selectFile, constraints);
+
+            //
+            // Info label
+            //
+            constraints.gridx = 0;
+            constraints.gridy = 3;
+            constraints.weightx = 0.0;
+            constraints.gridwidth = 2;
+            constraints.fill = GridBagConstraints.NONE;
+            constraints.anchor = GridBagConstraints.CENTER;
+            gridPanel.add(tagInfo, constraints);
 
             panel.add(gridPanel, BorderLayout.NORTH);
             return panel;
