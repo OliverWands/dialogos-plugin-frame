@@ -5,16 +5,23 @@ import java.util.List;
 
 public class Frame
 {
+    private String ID;
     private final List<Slot> slotList;
 
-    public Frame()
+    public Frame(String ID)
     {
+        this.ID = ID;
         slotList = new ArrayList<>();
     }
 
     public Frame(List<Slot> slotList)
     {
         this.slotList = slotList;
+    }
+
+    public String getID()
+    {
+        return ID;
     }
 
     public void addSlot(Slot slot)
