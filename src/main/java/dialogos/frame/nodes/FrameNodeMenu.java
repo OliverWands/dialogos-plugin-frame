@@ -7,6 +7,7 @@ import dialogos.frame.FrameNode;
 import dialogos.frame.utils.FrameGraph;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.WindowEvent;
@@ -17,7 +18,7 @@ import java.util.Map;
 public class FrameNodeMenu extends JPanel
 {
     private File chosenFile;
-    private FrameNode frameNode;
+    private final FrameNode frameNode;
 
     public FrameNodeMenu(Map<String, Object> properties, FrameNode frameNode, File global)
     {
@@ -173,6 +174,136 @@ public class FrameNodeMenu extends JPanel
         panel.add(graphButton, constraints);
 
         return panel;
+    }
+
+    public JPanel createNewSlot()
+    {
+        JPanel topPanel = new JPanel(new BorderLayout());
+        topPanel.setBorder(new EmptyBorder(20, 10, 20, 10));
+
+        //
+        // The panel that contain the input components
+        //
+        JPanel inputPanel = new JPanel(new GridBagLayout());
+        inputPanel.setBorder(new EmptyBorder(5, 10, 5, 10));
+        GridBagConstraints constraints = new GridBagConstraints();
+
+        JLabel title = new JLabel("Create new Slot");
+        title.setFont(new Font(title.getFont().getName(), Font.BOLD, 14));
+
+        constraints.gridx = 0;
+        constraints.gridy = 0;
+        constraints.anchor = GridBagConstraints.LINE_START;
+        inputPanel.add(title, constraints);
+
+        JLabel name = new JLabel("Name:");
+
+        constraints.gridx = 0;
+        constraints.gridy = 1;
+        constraints.gridwidth = 1;
+        constraints.anchor = GridBagConstraints.LINE_START;
+        constraints.fill = GridBagConstraints.HORIZONTAL;
+        inputPanel.add(name, constraints);
+
+        JTextField nameText = new JTextField();
+        nameText.setColumns(20);
+
+        constraints.gridx = 1;
+        constraints.gridy = 1;
+        constraints.gridwidth = 3;
+        constraints.anchor = GridBagConstraints.LINE_END;
+        constraints.fill = GridBagConstraints.HORIZONTAL;
+        inputPanel.add(nameText, constraints);
+
+        JLabel tags = new JLabel("Tags:");
+
+        constraints.gridx = 0;
+        constraints.gridy = 2;
+        constraints.weightx = 0.0;
+        constraints.gridwidth = 1;
+        constraints.anchor = GridBagConstraints.LINE_START;
+        constraints.fill = GridBagConstraints.HORIZONTAL;
+        inputPanel.add(tags, constraints);
+
+        JTextField tagsText = new JTextField();
+        tagsText.setColumns(20);
+
+        constraints.gridx = 1;
+        constraints.gridy = 2;
+        constraints.gridwidth = 3;
+        constraints.anchor = GridBagConstraints.LINE_END;
+        constraints.fill = GridBagConstraints.HORIZONTAL;
+        inputPanel.add(tagsText, constraints);
+
+        JLabel isAdditional = new JLabel("Is additional?");
+
+        constraints.gridx = 0;
+        constraints.gridy = 3;
+        constraints.gridwidth = 1;
+        constraints.anchor = GridBagConstraints.LINE_START;
+        constraints.fill = GridBagConstraints.HORIZONTAL;
+        inputPanel.add(isAdditional, constraints);
+
+        JTextField isAdditionalText = new JTextField();
+        isAdditionalText.setColumns(20);
+        JCheckBox additionalCheck = new JCheckBox();
+
+        constraints.gridx = 1;
+        constraints.gridy = 3;
+        constraints.gridwidth = 3;
+        constraints.anchor = GridBagConstraints.LINE_END;
+        constraints.fill = GridBagConstraints.HORIZONTAL;
+        inputPanel.add(additionalCheck, constraints);
+
+        JLabel queryString = new JLabel("Enter query phrase:");
+
+        constraints.gridx = 0;
+        constraints.gridy = 4;
+        constraints.gridwidth = 1;
+        constraints.anchor = GridBagConstraints.LINE_START;
+        constraints.fill = GridBagConstraints.HORIZONTAL;
+        inputPanel.add(queryString, constraints);
+
+        JTextField queryText = new JTextField();
+        queryText.setColumns(20);
+
+        constraints.gridx = 1;
+        constraints.gridy = 4;
+        constraints.gridwidth = 3;
+        constraints.anchor = GridBagConstraints.LINE_END;
+        constraints.fill = GridBagConstraints.HORIZONTAL;
+        inputPanel.add(queryText, constraints);
+
+        JPanel buttonPanel = new JPanel(new GridBagLayout());
+        buttonPanel.setBorder(new EmptyBorder(20, 0, 0, 0));
+
+        //
+        // Panel with Apply and Cancel button
+        //
+        JButton cancel = new JButton("Cancel");
+
+        constraints.gridx = 0;
+        constraints.gridy = 0;
+        constraints.gridwidth = 1;
+        constraints.anchor = GridBagConstraints.LINE_START;
+        constraints.fill = GridBagConstraints.NONE;
+        buttonPanel.add(cancel, constraints);
+
+        JButton apply = new JButton("Apply");
+
+        constraints.gridx = 1;
+        constraints.gridy = 0;
+        constraints.gridwidth = 1;
+        constraints.anchor = GridBagConstraints.LINE_START;
+        buttonPanel.add(apply, constraints);
+
+        //
+        // Assemble the final panel
+        //
+        topPanel.add(inputPanel, BorderLayout.NORTH);
+        topPanel.add(buttonPanel, BorderLayout.SOUTH);
+
+        return topPanel;
     }
 }
 
