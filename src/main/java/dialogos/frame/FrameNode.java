@@ -10,18 +10,23 @@ import com.clt.diamant.graph.nodes.OwnerNode;
 import com.clt.diamant.gui.NodePropertiesDialog;
 import com.clt.xml.XMLWriter;
 import dialogos.frame.nodes.FrameNodeMenu;
+import dialogos.frame.nodes.FrameNodeUI;
 
 import javax.swing.*;
 import java.awt.Frame;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 
 public class FrameNode extends OwnerNode
 {
     public static final String SLOT = "frameSlot";
     private Frame frame;
+
+    private static final Map<String, String> definedMap = new HashMap<>();
+    private static final Map<String, String> regexMap = new HashMap<>();
 
     public FrameNode()
     {
@@ -31,9 +36,6 @@ public class FrameNode extends OwnerNode
     public FrameNode(SubGraph ownedGraph)
     {
         super(ownedGraph);
-
-//
-
         this.setProperty(SLOT, "");
 
         for (EndNode n : this.getEndNodes())
@@ -110,6 +112,7 @@ public class FrameNode extends OwnerNode
             System.out.println(globalTags);
         }
         return new FrameNodeMenu(properties, this, globalTags);
+        // return FrameNodeUI.getFrameComponent();
     }
 
     @Override

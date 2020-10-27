@@ -41,4 +41,12 @@ public class Frame
         }
         return true;
     }
+
+    //
+    // TODO implement collection of sorting methods.
+    //
+    public void sortBy()
+    {
+
+    }
 }

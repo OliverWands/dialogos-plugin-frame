@@ -39,7 +39,7 @@ public class Plugin implements com.clt.dialogos.plugin.Plugin
     @Override
     public String getName()
     {
-        return "Frame-based Dialogs";
+        return "Frame-based Dialogsystem";
     }
 
     @Override
@@ -66,9 +66,20 @@ public class Plugin implements com.clt.dialogos.plugin.Plugin
         private static final Map<String, String> definedMap = new HashMap<>();
         private static final Map<String, String> regexMap = new HashMap<>();
 
+        // TODO decide if necessary
         public File getGlobalTagFile()
         {
             return globalTags;
+        }
+
+        public static Map<String, String> getDefinedMap()
+        {
+            return definedMap;
+        }
+
+        public static Map<String, String> getRegexMap()
+        {
+            return regexMap;
         }
 
         @Override
