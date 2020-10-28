@@ -1,5 +1,8 @@
 package dialogos.frame.utils;
 
+import org.json.JSONObject;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class Token
@@ -22,6 +25,8 @@ public class Token
         this.lower = content.toLowerCase();
         this.startIndex = startIndex;
         this.endIndex = endIndex;
+        this.length = endIndex - startIndex;
+        tags = new ArrayList<>();
     }
 
     public void setIndices(int startIndex, int endIndex)
@@ -30,6 +35,18 @@ public class Token
         this.endIndex = endIndex;
         length = endIndex - startIndex;
     }
+
+    public void setTag(String tag)
+    {
+        tags.add(tag);
+    }
+
+    public void setTags(List<String> tags)
+    {
+        this.tags = tags;
+    }
+
+    // TODO remove tags methods
 
     public int getEndIndex()
     {
@@ -65,6 +82,12 @@ public class Token
     public List<String> getTags()
     {
         return tags;
+    }
+
+    public String toString()
+    {
+        JSONObject jsonObject = new JSONObject(this);
+        return jsonObject.toString(4);
     }
 }
 

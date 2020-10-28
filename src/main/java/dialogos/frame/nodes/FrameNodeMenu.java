@@ -58,6 +58,7 @@ public class FrameNodeMenu extends JPanel
             frame.pack();
             frame.setVisible(true);
             frame.setFocusable(true);
+            frame.requestFocus();
         });
 
         constraints.gridx = 1;

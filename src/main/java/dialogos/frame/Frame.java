@@ -30,6 +30,11 @@ public class Frame
         slotList.add(slot);
     }
 
+    public Slot getSlot(int index)
+    {
+        return slotList.get(index);
+    }
+
     public boolean isFilled()
     {
         for (Slot slot : slotList)
@@ -43,10 +48,30 @@ public class Frame
     }
 
     //
-    // TODO implement collection of sorting methods.
+    // TODO implement collection of sorting methods. That retains the original order.
     //
     public void sortBy()
     {
 
+    }
+
+    public void sortByName()
+    {
+
+    }
+
+    public void sortByFilled()
+    {
+
+    }
+
+    public int size()
+    {
+        return slotList.size();
+    }
+
+    public boolean isEmpty()
+    {
+        return slotList.isEmpty();
     }
 }

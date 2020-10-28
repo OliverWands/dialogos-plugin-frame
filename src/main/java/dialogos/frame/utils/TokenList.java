@@ -12,4 +12,16 @@ public class TokenList extends ArrayList<Token>
         sort(Comparator.comparingInt(Token::getStartIndex));
         return returnVal;
     }
+
+    @Override
+    public String toString()
+    {
+        StringBuilder builder = new StringBuilder();
+        for (Token token : this)
+        {
+            builder.append(token.toString()).append("\n");
+        }
+
+        return builder.toString();
+    }
 }

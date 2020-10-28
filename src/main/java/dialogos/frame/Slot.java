@@ -2,12 +2,14 @@ package dialogos.frame;
 
 import dialogos.frame.utils.Token;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class Slot
 {
     private final String name;
     private String value;
+    private String query;
     private List<String> matchedTags;
     private boolean isAdditional;
     private boolean isFilled;
@@ -31,6 +33,22 @@ public class Slot
         return true;
     }
 
+    public void removeValue()
+    {
+        value = null;
+        isFilled = false;
+    }
+
+    public void setQuery(String query)
+    {
+        this.query = query;
+    }
+
+    public void setMatchedTags(String[] matchedTags)
+    {
+        this.matchedTags = Arrays.asList(matchedTags);
+    }
+
     public void setMatchedTags(List<String> matchedTags)
     {
         this.matchedTags = matchedTags;
@@ -49,6 +67,11 @@ public class Slot
     public String getValue()
     {
         return value;
+    }
+
+    public String getQuery()
+    {
+        return query;
     }
 
     public List<String> getMatchedTags()
