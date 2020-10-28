@@ -63,8 +63,8 @@ public class Plugin implements com.clt.dialogos.plugin.Plugin
     static class FramePluginSettings extends PluginSettings
     {
         private static File globalTags = null;
-        private static final Map<String, String> definedMap = new HashMap<>();
-        private static final Map<String, String> regexMap = new HashMap<>();
+        public static final Map<String, String> definedMap = new HashMap<>();
+        public static final Map<String, String> regexMap = new HashMap<>();
 
         // TODO decide if necessary
         public File getGlobalTagFile()

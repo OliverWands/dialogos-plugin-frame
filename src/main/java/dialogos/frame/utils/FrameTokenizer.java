@@ -1,10 +1,10 @@
 package dialogos.frame.utils;
 
-class FrameTokenizer
+public class FrameTokenizer
 {
     private final int maxMatchLength;
 
-    FrameTokenizer(int maxMatchLength)
+    public FrameTokenizer(int maxMatchLength)
     {
         this.maxMatchLength = maxMatchLength;
     }
