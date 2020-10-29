@@ -1,5 +1,8 @@
 package dialogos.frame.utils;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.Comparator;
 
@@ -16,12 +19,12 @@ public class TokenList extends ArrayList<Token>
     @Override
     public String toString()
     {
-        StringBuilder builder = new StringBuilder();
+        JSONArray jsonArray = new JSONArray();
         for (Token token : this)
         {
-            builder.append(token.toString()).append("\n");
+            jsonArray.put(new JSONObject(token));
         }
 
-        return builder.toString();
+        return jsonArray.toString(4);
     }
 }
