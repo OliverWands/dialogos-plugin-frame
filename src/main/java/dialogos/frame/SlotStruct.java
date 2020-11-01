@@ -5,7 +5,7 @@ import dialogos.frame.utils.Token;
 import java.util.Arrays;
 import java.util.List;
 
-public class Slot
+public class SlotStruct
 {
     private final String name;
     private String value;
@@ -14,23 +14,24 @@ public class Slot
     private boolean isAdditional;
     private boolean isFilled;
 
-    public Slot(String name)
+    public SlotStruct(String name)
     {
         this.name = name;
     }
 
-    public boolean setValue(Token token)
+    public SlotStruct setValue(Token token)
     {
         for (String tag : matchedTags)
         {
             if (!token.getTags().contains(tag))
             {
-                return false;
+                isFilled = false;
+                return this;
             }
         }
         value = token.getLower();
         isFilled = true;
-        return true;
+        return this;
     }
 
     public void removeValue()
@@ -39,24 +40,28 @@ public class Slot
         isFilled = false;
     }
 
-    public void setQuery(String query)
+    public SlotStruct setQuery(String query)
     {
         this.query = query;
+        return this;
     }
 
-    public void setMatchedTags(String[] matchedTags)
+    public SlotStruct setMatchedTags(String[] matchedTags)
     {
         this.matchedTags = Arrays.asList(matchedTags);
+        return this;
     }
 
-    public void setMatchedTags(List<String> matchedTags)
+    public SlotStruct setMatchedTags(List<String> matchedTags)
     {
         this.matchedTags = matchedTags;
+        return this;
     }
 
-    public void setIsAdditional(boolean additional)
+    public SlotStruct setIsAdditional(boolean additional)
     {
         isAdditional = additional;
+        return this;
     }
 
     public String getName()

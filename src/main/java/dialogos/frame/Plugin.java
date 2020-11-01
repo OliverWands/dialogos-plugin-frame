@@ -13,7 +13,6 @@ import org.xml.sax.SAXException;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
-import java.awt.event.WindowEvent;
 import java.io.File;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -62,9 +61,15 @@ public class Plugin implements com.clt.dialogos.plugin.Plugin
 
     static class FramePluginSettings extends PluginSettings
     {
-        private static File globalTags = null;
-        public static final Map<String, String> definedMap = new HashMap<>();
-        public static final Map<String, String> regexMap = new HashMap<>();
+        public Map<String, String> definedMap = new HashMap<>();
+        public Map<String, String> regexMap = new HashMap<>();
+        private File globalTags = null;
+        private String test = "HELLO TEST";
+
+        public String getTest()
+        {
+            return test;
+        }
 
         // TODO decide if necessary
         public File getGlobalTagFile()
@@ -72,12 +77,12 @@ public class Plugin implements com.clt.dialogos.plugin.Plugin
             return globalTags;
         }
 
-        public static Map<String, String> getDefinedMap()
+        public Map<String, String> getDefinedMap()
         {
             return definedMap;
         }
 
-        public static Map<String, String> getRegexMap()
+        public Map<String, String> getRegexMap()
         {
             return regexMap;
         }
@@ -102,16 +107,13 @@ public class Plugin implements com.clt.dialogos.plugin.Plugin
         public JComponent createEditor()
         {
             JPanel panel = new JPanel(new BorderLayout());
-
             JPanel gridPanel = new JPanel(new GridBagLayout());
             JTextField textField = new JTextField();
-            textField.addActionListener(e ->
-            {
-                if (e.getActionCommand().equals(JTextField.notifyAction))
-                {
-                    System.out.println(textField.getText());
-                }
-            });
+
+            //
+            // TODO Handle path input
+            //
+            textField.addActionListener(e -> System.out.println(textField.getText()));
 
             JLabel instruction = new JLabel();
             instruction.setText("Select the plugin-wide available tags:");
@@ -120,16 +122,20 @@ public class Plugin implements com.clt.dialogos.plugin.Plugin
             helpDialog.setToolTipText("The file must be either xml or json.");
             helpDialog.setIcon(Images.load("Info16.png"));
 
-            JFrame frame = new JFrame();
-
             JLabel tagInfo = new JLabel();
             tagInfo.setFont(new Font(tagInfo.getFont().getName(), Font.PLAIN, 14));
 
+            JFrame fileChooserFrame = new JFrame();
             JFileChooser fileChooser = new JFileChooser();
             fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("JSON and XML files.", "json", "xml"));
-            fileChooser.addActionListener(e ->
+
+            JButton selectFile = new JButton();
+            selectFile.setIcon(Images.load("OpenFile.png"));
+            selectFile.addActionListener(e ->
             {
-                if (e.getActionCommand().equals(JFileChooser.APPROVE_SELECTION))
+                fileChooser.setEnabled(true);
+                int val = fileChooser.showOpenDialog(fileChooserFrame);
+                if (val == JFileChooser.APPROVE_OPTION)
                 {
                     globalTags = fileChooser.getSelectedFile();
                     textField.setText(globalTags.getAbsolutePath());
@@ -140,25 +146,6 @@ public class Plugin implements com.clt.dialogos.plugin.Plugin
                     tagInfo.setText(String.format("Contains %d tags,\n%d words and %d regex patterns.",
                             counts, definedMap.size(), regexMap.size()));
                 }
-
-                fileChooser.setEnabled(false);
-                frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
-                frame.setVisible(false);
-                frame.dispose();
-            });
-
-            JButton selectFile = new JButton();
-            selectFile.setIcon(Images.load("OpenFile.png"));
-            selectFile.addActionListener(e ->
-            {
-                fileChooser.setEnabled(true);
-                fileChooser.showOpenDialog(frame);
-
-                frame.setLayout(new BorderLayout());
-                frame.add(fileChooser, BorderLayout.CENTER);
-                frame.pack();
-                frame.setVisible(true);
-                frame.repaint();
             });
 
             GridBagConstraints constraints = new GridBagConstraints();

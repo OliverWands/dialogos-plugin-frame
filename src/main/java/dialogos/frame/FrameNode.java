@@ -10,10 +10,12 @@ import com.clt.diamant.graph.nodes.OwnerNode;
 import com.clt.diamant.gui.NodePropertiesDialog;
 import com.clt.xml.XMLWriter;
 import dialogos.frame.nodes.FrameNodeMenu;
-import dialogos.frame.nodes.FrameNodeUI;
+import dialogos.frame.utils.FrameTokenizer;
+import dialogos.frame.utils.TagIO;
+import dialogos.frame.utils.Tagger;
+import dialogos.frame.utils.TokenList;
 
 import javax.swing.*;
-import java.awt.Frame;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
@@ -23,10 +25,12 @@ import java.util.Map;
 public class FrameNode extends OwnerNode
 {
     public static final String SLOT = "frameSlot";
-    private Frame frame;
+    private final FrameStruct frame = null;
 
-    private static final Map<String, String> definedMap = new HashMap<>();
-    private static final Map<String, String> regexMap = new HashMap<>();
+    private File globalTags = null;
+    private Map<String, String> definedMap = new HashMap<>();
+    private Map<String, String> regexMap = new HashMap<>();
+
 
     public FrameNode()
     {
@@ -106,13 +110,15 @@ public class FrameNode extends OwnerNode
     public JComponent createEditorComponent(Map<String, Object> properties)
     {
         Plugin.FramePluginSettings settings = (Plugin.FramePluginSettings) this.getPluginSettings(Plugin.class);
-        File globalTags = settings.getGlobalTagFile();
-        if (globalTags != null)
-        {
-            System.out.println(globalTags);
-        }
-        return new FrameNodeMenu(properties, this, globalTags);
-        // return FrameNodeUI.getFrameComponent();
+
+        globalTags = settings.getGlobalTagFile();
+        definedMap = settings.getDefinedMap();
+        regexMap = settings.getRegexMap();
+
+        System.out.println(definedMap.size());
+        System.out.println(regexMap.size());
+
+        return new FrameNodeMenu(properties, this);
     }
 
     @Override
@@ -145,5 +151,30 @@ public class FrameNode extends OwnerNode
         {
             return false;
         }
+    }
+
+
+    private void frameTest()
+    {
+        FrameStruct frame = new FrameStruct("HVV");
+        SlotStruct startOrt = new SlotStruct("Start");
+        startOrt.setMatchedTags(new String[]{"haltestelle"});
+
+        SlotStruct zielOrt = new SlotStruct("Ziel");
+        zielOrt.setMatchedTags(new String[]{"haltestelle"});
+
+        SlotStruct zeitpunkt = new SlotStruct("Zeit");
+        zeitpunkt.setMatchedTags(new String[]{"zeit"});
+
+        frame.addSlot(startOrt);
+        frame.addSlot(zielOrt);
+        frame.addSlot(zeitpunkt);
+
+        TagIO.jsonToTags(new File("/Users/oliverwandschneider/develop/tagging.json"), definedMap, regexMap);
+
+        FrameTokenizer tokenizer = new FrameTokenizer(2);
+        Tagger tagger = new Tagger(definedMap, regexMap);
+        TokenList testList = tokenizer.tokenize("Ich will von Stade bis Hauptbahnhof");
+        tagger.tagTokenList(testList);
     }
 }
