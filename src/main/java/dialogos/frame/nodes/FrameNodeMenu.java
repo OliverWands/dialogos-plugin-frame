@@ -15,11 +15,10 @@ import java.util.Map;
 
 public class FrameNodeMenu extends JPanel
 {
-    private final Frame frame = new Frame();
     private File chosenFile;
     private final FrameNode frameNode;
 
-    public FrameNodeMenu(Map<String, Object> properties, FrameNode frameNode, File global)
+    public FrameNodeMenu(Map<String, Object> properties, FrameNode frameNode)
     {
         super(new BorderLayout());
         this.frameNode = frameNode;
@@ -50,15 +49,16 @@ public class FrameNodeMenu extends JPanel
         createButton.addActionListener(e ->
         {
             JFrame frame = new JFrame();
-            frame.setLayout(new BorderLayout());
 
-            frame.setAlwaysOnTop(true);
-            frame.setLocationByPlatform(true);
-            frame.add(createNewFrame(), BorderLayout.CENTER);
+            JDialog dialog = new JDialog(frame, "Create Frame", Dialog.ModalityType.APPLICATION_MODAL);
+            dialog.setLayout(new BorderLayout());
+            dialog.add(createNewFrame(), BorderLayout.CENTER);
+            dialog.pack();
+            dialog.setLocation(200, 200);
+            dialog.setVisible(true);
+
             frame.pack();
             frame.setVisible(true);
-            frame.setFocusable(true);
-            frame.requestFocus();
         });
 
         constraints.gridx = 1;
@@ -124,6 +124,17 @@ public class FrameNodeMenu extends JPanel
         constraints.anchor = GridBagConstraints.LINE_END;
         constraints.fill = GridBagConstraints.HORIZONTAL;
         inputPanel.add(loadTags, constraints);
+
+        // TODO for testing purposes
+        JButton showGraph = new JButton("Show Graph");
+        showGraph.addActionListener(e -> showGraph());
+
+        constraints.gridx = 1;
+        constraints.gridy = 5;
+        constraints.gridwidth = 3;
+        constraints.anchor = GridBagConstraints.LINE_END;
+        constraints.fill = GridBagConstraints.HORIZONTAL;
+        inputPanel.add(showGraph, constraints);
 
         add(inputPanel, BorderLayout.CENTER);
     }
@@ -192,10 +203,15 @@ public class FrameNodeMenu extends JPanel
         {
             JFrame frame = new JFrame();
 
-            frame.add(createNewSlot());
+            JDialog dialog = new JDialog(frame, "Create Slot", Dialog.ModalityType.APPLICATION_MODAL);
+            dialog.setLayout(new BorderLayout());
+            dialog.add(createNewSlot(), BorderLayout.CENTER);
+            dialog.pack();
+            dialog.setLocation(250, 250);
+            dialog.setVisible(true);
+
             frame.pack();
             frame.setVisible(true);
-            frame.toFront();
         });
 
         constraints.gridx = 0;
