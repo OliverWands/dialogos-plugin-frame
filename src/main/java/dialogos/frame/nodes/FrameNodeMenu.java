@@ -9,18 +9,18 @@ import dialogos.frame.utils.FrameGraph;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
-import java.io.File;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.util.Collection;
-import java.util.Map;
 
 public class FrameNodeMenu extends JPanel
 {
-    private File chosenFile;
-    private final FrameNode frameNode;
+    FrameNode frameNode;
 
-    public FrameNodeMenu(Map<String, Object> properties, FrameNode frameNode)
+    public FrameNodeMenu(FrameNode frameNode)
     {
         super(new BorderLayout());
+
         this.frameNode = frameNode;
 
         setBorder(new EmptyBorder(0, 5, 20, 5));
@@ -49,13 +49,51 @@ public class FrameNodeMenu extends JPanel
         createButton.addActionListener(e ->
         {
             JFrame frame = new JFrame();
+            NewFrameDialog frameDialog = new NewFrameDialog(frame, "Create Frame");
+            frameDialog.addWindowListener(new WindowListener()
+            {
+                @Override
+                public void windowOpened(WindowEvent e)
+                {
 
-            JDialog dialog = new JDialog(frame, "Create Frame", Dialog.ModalityType.APPLICATION_MODAL);
-            dialog.setLayout(new BorderLayout());
-            dialog.add(createNewFrame(), BorderLayout.CENTER);
-            dialog.pack();
-            dialog.setLocation(200, 200);
-            dialog.setVisible(true);
+                }
+
+                @Override
+                public void windowClosing(WindowEvent e)
+                {
+
+                }
+
+                @Override
+                public void windowClosed(WindowEvent e)
+                {
+                    frameNode.frameStruct = frameDialog.getFrameStruct();
+                }
+
+                @Override
+                public void windowIconified(WindowEvent e)
+                {
+
+                }
+
+                @Override
+                public void windowDeiconified(WindowEvent e)
+                {
+
+                }
+
+                @Override
+                public void windowActivated(WindowEvent e)
+                {
+
+                }
+
+                @Override
+                public void windowDeactivated(WindowEvent e)
+                {
+
+                }
+            });
 
             frame.pack();
             frame.setVisible(true);
@@ -125,7 +163,9 @@ public class FrameNodeMenu extends JPanel
         constraints.fill = GridBagConstraints.HORIZONTAL;
         inputPanel.add(loadTags, constraints);
 
+        //
         // TODO for testing purposes
+        //
         JButton showGraph = new JButton("Show Graph");
         showGraph.addActionListener(e -> showGraph());
 
@@ -137,276 +177,6 @@ public class FrameNodeMenu extends JPanel
         inputPanel.add(showGraph, constraints);
 
         add(inputPanel, BorderLayout.CENTER);
-    }
-
-    private JPanel createNewFrame()
-    {
-        JPanel panel = new JPanel(new BorderLayout());
-        panel.setBorder(new EmptyBorder(0, 5, 20, 5));
-
-        JPanel topRowPanel = new JPanel(new GridBagLayout());
-        GridBagConstraints constraints = new GridBagConstraints();
-
-        topRowPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
-
-        JLabel title = new JLabel("Create new Frame");
-        title.setFont(new Font(title.getFont().getName(), Font.BOLD, 18));
-
-        constraints.gridx = 0;
-        constraints.gridy = 0;
-        constraints.anchor = GridBagConstraints.LINE_START;
-        topRowPanel.add(title, constraints);
-
-        JLabel enter = new JLabel("Enter a FrameID:");
-
-        constraints.gridx = 0;
-        constraints.gridy = 1;
-        constraints.weightx = 0.0;
-        constraints.gridwidth = 1;
-        constraints.anchor = GridBagConstraints.LINE_START;
-        constraints.fill = GridBagConstraints.HORIZONTAL;
-        topRowPanel.add(enter, constraints);
-
-        JTextField frameIDText = new JTextField();
-        frameIDText.setColumns(30);
-
-        constraints.gridx = 1;
-        constraints.gridy = 1;
-        constraints.weightx = 0.0;
-        constraints.gridwidth = 3;
-        constraints.anchor = GridBagConstraints.LINE_END;
-        constraints.fill = GridBagConstraints.HORIZONTAL;
-        topRowPanel.add(frameIDText, constraints);
-
-        panel.add(topRowPanel, BorderLayout.NORTH);
-
-        JPanel frameTablePanel = new JPanel(new GridBagLayout());
-        constraints = new GridBagConstraints();
-
-        frameTablePanel.setBorder(new EmptyBorder(10, 0, 10, 0));
-
-        String[] columnNames = {"SlotName", "Tags", "Nullable?", "Query String", ""};
-        String[][] data = {{"-", "-", "-", "-", "EDIT"}};
-        JTable table = new JTable(data, columnNames);
-        JScrollPane scrollPane = new JScrollPane(table);
-
-        //JScrollPane scrollPane = new JScrollPane(JButtonTable.getTable());
-
-        constraints.gridx = 0;
-        constraints.gridy = 0;
-        constraints.anchor = GridBagConstraints.LINE_START;
-        frameTablePanel.add(scrollPane, constraints);
-
-        JButton newSlot = new JButton();
-        newSlot.setText("Add Slot");
-        newSlot.addActionListener(e ->
-        {
-            JFrame frame = new JFrame();
-
-            JDialog dialog = new JDialog(frame, "Create Slot", Dialog.ModalityType.APPLICATION_MODAL);
-            dialog.setLayout(new BorderLayout());
-            dialog.add(createNewSlot(), BorderLayout.CENTER);
-            dialog.pack();
-            dialog.setLocation(250, 250);
-            dialog.setVisible(true);
-
-            frame.pack();
-            frame.setVisible(true);
-        });
-
-        constraints.gridx = 0;
-        constraints.gridy = 1;
-        constraints.weightx = 0.0;
-        constraints.gridwidth = 2;
-        constraints.fill = GridBagConstraints.NONE;
-        constraints.anchor = GridBagConstraints.CENTER;
-        frameTablePanel.add(newSlot, constraints);
-
-        JLabel helpLabel = new JLabel("Information when the user asks for help:");
-
-        constraints.gridx = 0;
-        constraints.gridy = 2;
-        constraints.weightx = 0.0;
-        constraints.gridwidth = 1;
-        constraints.anchor = GridBagConstraints.LINE_START;
-        constraints.fill = GridBagConstraints.HORIZONTAL;
-        frameTablePanel.add(helpLabel, constraints);
-
-        JTextArea textArea = new JTextArea();
-        textArea.setBorder(new EmptyBorder(10, 10, 10, 10));
-        textArea.setColumns(20);
-        textArea.setRows(3);
-
-        constraints.gridx = 0;
-        constraints.gridy = 3;
-        constraints.weightx = 0.0;
-        constraints.gridwidth = 1;
-        constraints.anchor = GridBagConstraints.LINE_START;
-        constraints.fill = GridBagConstraints.HORIZONTAL;
-        frameTablePanel.add(textArea, constraints);
-
-        constraints.gridx = 0;
-        constraints.gridy = 4;
-        constraints.weightx = 0.0;
-        constraints.gridwidth = 1;
-        constraints.anchor = GridBagConstraints.LINE_START;
-        constraints.fill = GridBagConstraints.HORIZONTAL;
-        JLabel selectHint = new JLabel("Please choose a custom tag file:");
-        selectHint.setFont(new Font(selectHint.getFont().getName(), Font.BOLD, 14));
-        selectHint.setBorder(new EmptyBorder(20, 0, 10, 0));
-        frameTablePanel.add(selectHint, constraints);
-
-        constraints.gridx = 0;
-        constraints.gridy = 5;
-        constraints.weightx = 0.0;
-        constraints.gridwidth = 1;
-        constraints.anchor = GridBagConstraints.LINE_START;
-        constraints.fill = GridBagConstraints.HORIZONTAL;
-        JLabel path = new JLabel("filePath");
-        frameTablePanel.add(path, constraints);
-
-        constraints.gridx = 0;
-        constraints.gridy = 6;
-        constraints.weightx = 0.0;
-        constraints.gridwidth = 1;
-        constraints.anchor = GridBagConstraints.LINE_START;
-        constraints.fill = GridBagConstraints.HORIZONTAL;
-        JButton button = new JButton("OpenFile");
-        frameTablePanel.add(button, constraints);
-
-        panel.add(frameTablePanel, BorderLayout.SOUTH);
-
-        return panel;
-    }
-
-    private JPanel createNewSlot()
-    {
-        JPanel topPanel = new JPanel(new BorderLayout());
-        topPanel.setBorder(new EmptyBorder(20, 10, 20, 10));
-
-        //
-        // The panel that contain the input components
-        //
-        JPanel inputPanel = new JPanel(new GridBagLayout());
-        inputPanel.setBorder(new EmptyBorder(5, 10, 5, 10));
-        GridBagConstraints constraints = new GridBagConstraints();
-
-        JLabel title = new JLabel("Create new Slot");
-        title.setFont(new Font(title.getFont().getName(), Font.BOLD, 14));
-
-        constraints.gridx = 0;
-        constraints.gridy = 0;
-        constraints.anchor = GridBagConstraints.LINE_START;
-        inputPanel.add(title, constraints);
-
-        JLabel name = new JLabel("Name:");
-
-        constraints.gridx = 0;
-        constraints.gridy = 1;
-        constraints.gridwidth = 1;
-        constraints.anchor = GridBagConstraints.LINE_START;
-        constraints.fill = GridBagConstraints.HORIZONTAL;
-        inputPanel.add(name, constraints);
-
-        JTextField nameText = new JTextField();
-        nameText.setColumns(20);
-
-        constraints.gridx = 1;
-        constraints.gridy = 1;
-        constraints.gridwidth = 3;
-        constraints.anchor = GridBagConstraints.LINE_END;
-        constraints.fill = GridBagConstraints.HORIZONTAL;
-        inputPanel.add(nameText, constraints);
-
-        JLabel tags = new JLabel("Tags:");
-
-        constraints.gridx = 0;
-        constraints.gridy = 2;
-        constraints.weightx = 0.0;
-        constraints.gridwidth = 1;
-        constraints.anchor = GridBagConstraints.LINE_START;
-        constraints.fill = GridBagConstraints.HORIZONTAL;
-        inputPanel.add(tags, constraints);
-
-        JTextField tagsText = new JTextField();
-        tagsText.setColumns(20);
-
-        constraints.gridx = 1;
-        constraints.gridy = 2;
-        constraints.gridwidth = 3;
-        constraints.anchor = GridBagConstraints.LINE_END;
-        constraints.fill = GridBagConstraints.HORIZONTAL;
-        inputPanel.add(tagsText, constraints);
-
-        JLabel isAdditional = new JLabel("Is additional?");
-
-        constraints.gridx = 0;
-        constraints.gridy = 3;
-        constraints.gridwidth = 1;
-        constraints.anchor = GridBagConstraints.LINE_START;
-        constraints.fill = GridBagConstraints.HORIZONTAL;
-        inputPanel.add(isAdditional, constraints);
-
-        JTextField isAdditionalText = new JTextField();
-        isAdditionalText.setColumns(20);
-        JCheckBox additionalCheck = new JCheckBox();
-
-        constraints.gridx = 1;
-        constraints.gridy = 3;
-        constraints.gridwidth = 3;
-        constraints.anchor = GridBagConstraints.LINE_END;
-        constraints.fill = GridBagConstraints.HORIZONTAL;
-        inputPanel.add(additionalCheck, constraints);
-
-        JLabel queryString = new JLabel("Enter query phrase:");
-
-        constraints.gridx = 0;
-        constraints.gridy = 4;
-        constraints.gridwidth = 1;
-        constraints.anchor = GridBagConstraints.LINE_START;
-        constraints.fill = GridBagConstraints.HORIZONTAL;
-        inputPanel.add(queryString, constraints);
-
-        JTextField queryText = new JTextField();
-        queryText.setColumns(20);
-
-        constraints.gridx = 1;
-        constraints.gridy = 4;
-        constraints.gridwidth = 3;
-        constraints.anchor = GridBagConstraints.LINE_END;
-        constraints.fill = GridBagConstraints.HORIZONTAL;
-        inputPanel.add(queryText, constraints);
-
-        JPanel buttonPanel = new JPanel(new GridBagLayout());
-        buttonPanel.setBorder(new EmptyBorder(20, 0, 0, 0));
-
-        //
-        // Panel with Apply and Cancel button
-        //
-        JButton cancel = new JButton("Cancel");
-
-        constraints.gridx = 0;
-        constraints.gridy = 0;
-        constraints.gridwidth = 1;
-        constraints.anchor = GridBagConstraints.LINE_START;
-        constraints.fill = GridBagConstraints.NONE;
-        buttonPanel.add(cancel, constraints);
-
-        JButton apply = new JButton("Apply");
-
-        constraints.gridx = 1;
-        constraints.gridy = 0;
-        constraints.gridwidth = 1;
-        constraints.anchor = GridBagConstraints.LINE_START;
-        buttonPanel.add(apply, constraints);
-
-        //
-        // Assemble the final panel
-        //
-        topPanel.add(inputPanel, BorderLayout.NORTH);
-        topPanel.add(buttonPanel, BorderLayout.SOUTH);
-
-        return topPanel;
     }
 
     private void showGraph()
@@ -424,4 +194,3 @@ public class FrameNodeMenu extends JPanel
         }
     }
 }
-
