@@ -107,7 +107,14 @@ public class Plugin implements com.clt.dialogos.plugin.Plugin
             //
             // TODO Handle path input
             //
-            textField.addActionListener(e -> System.out.println(textField.getText()));
+            textField.addActionListener(e ->
+            {
+                File fileIn = new File(textField.getText());
+                if (fileIn.exists())
+                {
+                    globalTags = fileIn;
+                }
+            });
 
             JLabel instruction = new JLabel();
             instruction.setText("Select the plugin-wide available tags:");

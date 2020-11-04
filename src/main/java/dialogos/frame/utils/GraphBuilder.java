@@ -167,7 +167,6 @@ public class GraphBuilder
         node.setLocation(getMiddle(relativeTo) - getHalvedWidth(node), (int) Math.floor(relativeTo.getY() - baseHeight * Y_UNIT));
     }
 
-
     /**
      * Change the position of the node to be top right of relativeTo
      *

@@ -30,7 +30,6 @@ public class FrameNode extends OwnerNode
     private Map<String, String> definedMap = new HashMap<>();
     private Map<String, String> regexMap = new HashMap<>();
 
-
     public FrameNode()
     {
         this(new SubGraph(null));
@@ -148,7 +147,6 @@ public class FrameNode extends OwnerNode
             return false;
         }
     }
-
 
     private void frameTest()
     {
