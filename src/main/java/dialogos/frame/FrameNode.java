@@ -24,8 +24,7 @@ import java.util.Map;
 
 public class FrameNode extends OwnerNode
 {
-    public static final String SLOT = "frameSlot";
-    private final FrameStruct frame = null;
+    public FrameStruct frameStruct = null;
 
     private File globalTags = null;
     private Map<String, String> definedMap = new HashMap<>();
@@ -40,7 +39,7 @@ public class FrameNode extends OwnerNode
     public FrameNode(SubGraph ownedGraph)
     {
         super(ownedGraph);
-        this.setProperty(SLOT, "");
+        this.setProperty(Globals.FRAMESTRUCTURE, frameStruct);
 
         for (EndNode n : this.getEndNodes())
         {
@@ -115,10 +114,7 @@ public class FrameNode extends OwnerNode
         definedMap = settings.getDefinedMap();
         regexMap = settings.getRegexMap();
 
-        System.out.println(definedMap.size());
-        System.out.println(regexMap.size());
-
-        return new FrameNodeMenu(properties, this);
+        return new FrameNodeMenu(this);
     }
 
     @Override

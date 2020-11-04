@@ -64,12 +64,6 @@ public class Plugin implements com.clt.dialogos.plugin.Plugin
         public Map<String, String> definedMap = new HashMap<>();
         public Map<String, String> regexMap = new HashMap<>();
         private File globalTags = null;
-        private String test = "HELLO TEST";
-
-        public String getTest()
-        {
-            return test;
-        }
 
         // TODO decide if necessary
         public File getGlobalTagFile()
