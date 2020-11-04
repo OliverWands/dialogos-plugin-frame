@@ -7,16 +7,48 @@ import java.util.List;
 
 public class SlotStruct
 {
-    private final String name;
+    private String name;
     private String value;
     private String query;
     private List<String> matchedTags;
     private boolean isAdditional;
     private boolean isFilled;
 
+    public SlotStruct()
+    {
+
+    }
+
     public SlotStruct(String name)
     {
         this.name = name;
+    }
+
+    public void removeValue()
+    {
+        value = null;
+        isFilled = false;
+    }
+
+    public SlotStruct setIsAdditional(boolean additional)
+    {
+        isAdditional = additional;
+        return this;
+    }
+
+    public String getName()
+    {
+        return name;
+    }
+
+    public void setName(String name)
+    {
+        this.name = name;
+    }
+
+    public String getValue()
+    {
+        return value;
     }
 
     public SlotStruct setValue(Token token)
@@ -34,16 +66,20 @@ public class SlotStruct
         return this;
     }
 
-    public void removeValue()
+    public String getQuery()
     {
-        value = null;
-        isFilled = false;
+        return query;
     }
 
     public SlotStruct setQuery(String query)
     {
         this.query = query;
         return this;
+    }
+
+    public List<String> getMatchedTags()
+    {
+        return matchedTags;
     }
 
     public SlotStruct setMatchedTags(String[] matchedTags)
@@ -56,32 +92,6 @@ public class SlotStruct
     {
         this.matchedTags = matchedTags;
         return this;
-    }
-
-    public SlotStruct setIsAdditional(boolean additional)
-    {
-        isAdditional = additional;
-        return this;
-    }
-
-    public String getName()
-    {
-        return name;
-    }
-
-    public String getValue()
-    {
-        return value;
-    }
-
-    public String getQuery()
-    {
-        return query;
-    }
-
-    public List<String> getMatchedTags()
-    {
-        return matchedTags;
     }
 
     public boolean isAdditional()
@@ -97,5 +107,10 @@ public class SlotStruct
     public boolean isComplete()
     {
         return isFilled || isAdditional;
+    }
+
+    public String[] getContent()
+    {
+        return new String[]{name, "TAGS", isAdditional ? "Yes" : "No", query};
     }
 }

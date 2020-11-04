@@ -8,6 +8,11 @@ public class FrameStruct
     private String ID;
     private final List<SlotStruct> slotList;
 
+    public FrameStruct()
+    {
+        slotList = new ArrayList<>();
+    }
+
     public FrameStruct(String ID)
     {
         this.ID = ID;
@@ -18,6 +23,11 @@ public class FrameStruct
     {
         this.ID = ID;
         this.slotList = slotList;
+    }
+
+    public void setID(String ID)
+    {
+        this.ID = ID;
     }
 
     public String getID()
@@ -52,6 +62,11 @@ public class FrameStruct
         }
 
         return true;
+    }
+
+    public void removeSlot(int index)
+    {
+        slotList.remove(index);
     }
 
     //
