@@ -1,4 +1,4 @@
-package dialogos.frame.nodes;
+package dialogos.frame.gui;
 
 import dialogos.frame.SlotStruct;
 

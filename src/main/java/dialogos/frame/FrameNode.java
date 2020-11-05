@@ -9,11 +9,11 @@ import com.clt.diamant.graph.nodes.EndNode;
 import com.clt.diamant.graph.nodes.OwnerNode;
 import com.clt.diamant.gui.NodePropertiesDialog;
 import com.clt.xml.XMLWriter;
-import dialogos.frame.nodes.FrameNodeMenu;
-import dialogos.frame.utils.FrameTokenizer;
-import dialogos.frame.utils.TagIO;
-import dialogos.frame.utils.Tagger;
-import dialogos.frame.utils.TokenList;
+import dialogos.frame.gui.FrameNodeMenu;
+import dialogos.frame.utils.tokens.FrameTokenizer;
+import dialogos.frame.utils.tags.TagIO;
+import dialogos.frame.utils.tags.Tagger;
+import dialogos.frame.utils.tokens.TokenList;
 
 import javax.swing.*;
 import java.awt.*;

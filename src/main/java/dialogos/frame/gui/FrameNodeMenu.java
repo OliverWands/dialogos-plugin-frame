@@ -1,10 +1,10 @@
-package dialogos.frame.nodes;
+package dialogos.frame.gui;
 
 import com.clt.diamant.graph.Node;
 import com.clt.diamant.gui.GraphEditorFactory;
 import com.clt.gui.Images;
 import dialogos.frame.FrameNode;
-import dialogos.frame.utils.FrameGraph;
+import dialogos.frame.FrameGraph;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;

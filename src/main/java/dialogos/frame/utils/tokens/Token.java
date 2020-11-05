@@ -1,4 +1,4 @@
-package dialogos.frame.utils;
+package dialogos.frame.utils.tokens;
 
 import org.json.JSONObject;
 

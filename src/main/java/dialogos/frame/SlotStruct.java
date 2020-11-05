@@ -1,6 +1,6 @@
 package dialogos.frame;
 
-import dialogos.frame.utils.Token;
+import dialogos.frame.utils.tokens.Token;
 
 import java.util.Arrays;
 import java.util.List;

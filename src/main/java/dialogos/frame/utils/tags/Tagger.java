@@ -1,4 +1,8 @@
-package dialogos.frame.utils;
+package dialogos.frame.utils.tags;
+
+import dialogos.frame.utils.tokens.FrameTokenizer;
+import dialogos.frame.utils.tokens.Token;
+import dialogos.frame.utils.tokens.TokenList;
 
 import java.util.Map;
 

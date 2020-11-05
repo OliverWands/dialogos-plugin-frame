@@ -1,4 +1,4 @@
-package dialogos.frame.nodes;
+package dialogos.frame.gui;
 
 import com.clt.gui.Images;
 import dialogos.frame.FrameStruct;

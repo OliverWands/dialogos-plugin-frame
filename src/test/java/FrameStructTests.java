@@ -1,6 +1,6 @@
 import dialogos.frame.FrameStruct;
 import dialogos.frame.SlotStruct;
-import dialogos.frame.utils.Token;
+import dialogos.frame.utils.tokens.Token;
 import org.junit.Test;
 
 import java.util.ArrayList;

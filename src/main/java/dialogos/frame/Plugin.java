@@ -7,7 +7,7 @@ import com.clt.diamant.graph.Node;
 import com.clt.gui.Images;
 import com.clt.xml.XMLReader;
 import com.clt.xml.XMLWriter;
-import dialogos.frame.utils.TagIO;
+import dialogos.frame.utils.tags.TagIO;
 import org.xml.sax.SAXException;
 
 import javax.swing.*;

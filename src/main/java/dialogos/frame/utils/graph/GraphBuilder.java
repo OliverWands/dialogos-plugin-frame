@@ -1,4 +1,4 @@
-package dialogos.frame.utils;
+package dialogos.frame.utils.graph;
 
 import com.clt.diamant.graph.Node;
 
