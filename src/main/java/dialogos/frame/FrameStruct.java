@@ -1,22 +1,28 @@
 package dialogos.frame;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class FrameStruct
 {
     private String ID;
-    private final List<SlotStruct> slotList;
+    private List<SlotStruct> slotList = new ArrayList<>();
+
+    private HashMap<String, String> globalDefinedTags = new HashMap<>();
+    private HashMap<String, String> globalRegexTags = new HashMap<>();
+
+    private HashMap<String, String> definedTags = new HashMap<>();
+    private HashMap<String, String> regexTags = new HashMap<>();
 
     public FrameStruct()
     {
-        slotList = new ArrayList<>();
+        this(null);
     }
 
     public FrameStruct(String ID)
     {
         this.ID = ID;
-        slotList = new ArrayList<>();
     }
 
     public FrameStruct(String ID, List<SlotStruct> slotList)

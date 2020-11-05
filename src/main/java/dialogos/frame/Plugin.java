@@ -104,9 +104,6 @@ public class Plugin implements com.clt.dialogos.plugin.Plugin
             JPanel gridPanel = new JPanel(new GridBagLayout());
             JTextField textField = new JTextField();
 
-            //
-            // TODO Handle path input
-            //
             textField.addActionListener(e ->
             {
                 File fileIn = new File(textField.getText());
