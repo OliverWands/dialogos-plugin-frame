@@ -1,27 +1,27 @@
 import dialogos.frame.FrameStruct;
 import dialogos.frame.SlotStruct;
 import dialogos.frame.utils.tokens.Token;
+import org.json.JSONObject;
 import org.junit.Test;
 
+import java.io.File;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
 public class FrameStructTests
 {
-    @Test
-    public void testCreateById()
-    {
-        String id = "Test_ID";
-        FrameStruct frame = new FrameStruct(id);
-        assert frame.isEmpty();
-        assert frame.getID().equals(id);
-        assert !frame.getID().equals("not id");
-        assert !frame.isFilled();
-    }
+    FrameStruct frame;
 
-    @Test
-    public void testCreateByIdAndList()
+    public FrameStructTests()
     {
+        ClassLoader classLoader = getClass().getClassLoader();
+        URL tagFile = classLoader.getResource("tagging.json");
+        assert tagFile != null;
+
+        File file = new File(tagFile.getFile());
+        System.out.println(file.getAbsolutePath());
+
         List<SlotStruct> slots = new ArrayList<>();
         slots.add(new SlotStruct("Slot1")
                 .setMatchedTags(new String[]{"tag1", "tag2"})
@@ -37,16 +37,48 @@ public class FrameStructTests
                 .setQuery("Please enter Slot3"));
 
         String id = "Test_ID";
-        FrameStruct frame = new FrameStruct(id, slots);
-        assert frame.size() == 3;
+        frame = new FrameStruct(id, slots);
+        frame.setTagsFromFile(file);
+    }
+
+    @Test
+    public void testCreateById()
+    {
+        String id = "Test_ID";
+        FrameStruct frame = new FrameStruct(id);
+        assert frame.isEmpty();
+        assert frame.getID().equals(id);
+        assert !frame.getID().equals("not id");
         assert !frame.isFilled();
-        assert frame.getSlot(0).getName().equals("Slot1");
+    }
 
-        frame.getSlot(0).setValue(new Token("Token1", 0, 1));
-        frame.getSlot(1).setValue(new Token("Token2", 2, 3));
-        frame.getSlot(2).setValue(new Token("Token3", 4, 5));
+    @Test
+    public void testCreateByIdAndList()
+    {
+        FrameStruct createdFrame = frame;
+        assert createdFrame.size() == 3;
+        assert !createdFrame.isFilled();
+        assert createdFrame.getSlot(0).getName().equals("Slot1");
 
-        // TODO Testing with matchTags necessary!
-        // assert frame.isFilled();
+        createdFrame.getSlot(0).setValue(new Token("Token1", 0, 1));
+        createdFrame.getSlot(1).setValue(new Token("Token2", 2, 3));
+        createdFrame.getSlot(2).setValue(new Token("Token3", 4, 5));
+
+        //assert frame.isFilled();
+    }
+
+    @Test
+    public void testMarshalling()
+    {
+        FrameStruct newFrame = new FrameStruct();
+
+        JSONObject original = frame.marshal();
+
+        boolean unmarshal = newFrame.unmarshal(original);
+        assert unmarshal;
+
+        JSONObject copy = newFrame.marshal();
+
+        assert copy.toString().equals(original.toString());
     }
 }
