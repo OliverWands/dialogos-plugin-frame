@@ -134,10 +134,18 @@ public class NewSlotDialog extends JDialog
         JButton apply = new JButton("Apply");
         apply.addActionListener(e ->
         {
-            slot = new SlotStruct();
-            slot.setName(nameText.getText());
-            slot.setIsAdditional(additionalCheck.isSelected());
-            slot.setQuery(queryText.getText());
+            String id = nameText.getText();
+            String[] tagArray = new String[]{tagsText.getText()};
+
+            if (!id.isEmpty() && !id.matches(" +"))
+            {
+                slot = new SlotStruct();
+                slot.setName(id);
+                slot.setMatchedTags(tagArray);
+                slot.setIsAdditional(additionalCheck.isSelected());
+                slot.setQuery(queryText.getText());
+            }
+
             dispose();
         });
 

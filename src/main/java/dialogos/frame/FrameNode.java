@@ -7,28 +7,23 @@ import com.clt.diamant.WozInterface;
 import com.clt.diamant.graph.*;
 import com.clt.diamant.graph.nodes.EndNode;
 import com.clt.diamant.graph.nodes.OwnerNode;
+import com.clt.diamant.gui.GraphEditorFactory;
 import com.clt.diamant.gui.NodePropertiesDialog;
 import com.clt.xml.XMLWriter;
 import dialogos.frame.gui.FrameNodeMenu;
-import dialogos.frame.utils.tokens.FrameTokenizer;
-import dialogos.frame.utils.tags.TagIO;
-import dialogos.frame.utils.tags.Tagger;
-import dialogos.frame.utils.tokens.TokenList;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
+import java.util.Collection;
 import java.util.Map;
+import java.util.UUID;
 
 public class FrameNode extends OwnerNode
 {
-    public FrameStruct frameStruct = null;
-
-    private File globalTags = null;
-    private Map<String, String> definedMap = new HashMap<>();
-    private Map<String, String> regexMap = new HashMap<>();
+    public FrameStruct frameStruct = new FrameStruct();
+    // To be used to decide the instance and the corresponding tags in the cache
+    private final String FRAME_UUID = UUID.randomUUID().toString().replace("-", "");
 
     public FrameNode()
     {
@@ -38,8 +33,6 @@ public class FrameNode extends OwnerNode
     public FrameNode(SubGraph ownedGraph)
     {
         super(ownedGraph);
-        this.setProperty(Globals.FRAMESTRUCTURE, frameStruct);
-
         for (EndNode n : this.getEndNodes())
         {
             this.addEdge(n.getTitle());
@@ -73,17 +66,17 @@ public class FrameNode extends OwnerNode
     }
 
     @Override
-    public Node execute(WozInterface comm, InputCenter input, ExecutionLogger logger)
+    public Node execute(WozInterface wozInterface, InputCenter input, ExecutionLogger logger)
     {
         logNode(logger);
         Node target;
         try
         {
-            comm.subgraph(this, true);
-            target = this.getOwnedGraph().execute(comm, input, logger);
+            wozInterface.subgraph(this, true);
+            target = this.getOwnedGraph().execute(wozInterface, input, logger);
         } finally
         {
-            comm.subgraph(this, false);
+            wozInterface.subgraph(this, false);
             this.setActive(false);
         }
 
@@ -91,7 +84,7 @@ public class FrameNode extends OwnerNode
         if (index >= 0)
         {
             target = this.getEdge(index).getTarget();
-            comm.transition(this, target, index, null);
+            wozInterface.transition(this, target, index, null);
         }
 
         return target;
@@ -107,12 +100,6 @@ public class FrameNode extends OwnerNode
     @Override
     public JComponent createEditorComponent(Map<String, Object> properties)
     {
-        Plugin.FramePluginSettings settings = (Plugin.FramePluginSettings) this.getPluginSettings(Plugin.class);
-
-        globalTags = settings.getGlobalTagFile();
-        definedMap = settings.getDefinedMap();
-        regexMap = settings.getRegexMap();
-
         return new FrameNodeMenu(this);
     }
 
@@ -128,6 +115,19 @@ public class FrameNode extends OwnerNode
         this.setProperty(NodePropertiesDialog.LAST_SIZE, props.get(NodePropertiesDialog.LAST_SIZE));
         this.setProperty(NodePropertiesDialog.LAST_POSITION, props.get(NodePropertiesDialog.LAST_POSITION));
 
+        if (frameStruct == null)
+        {
+            frameStruct = new FrameStruct();
+        }
+
+        Plugin.FramePluginSettings settings = (Plugin.FramePluginSettings) this.getPluginSettings(Plugin.class);
+
+        // Pass the global tags to the framestruct when it will be executed.
+        if (settings != null)
+        {
+            frameStruct.setFromSettings(settings);
+        }
+
         if (dialog.approved())
         {
             for (String key : props.keySet())
@@ -140,6 +140,21 @@ public class FrameNode extends OwnerNode
 
             this.properties.keySet().removeIf(key -> !props.containsKey(key));
 
+            if (!frameStruct.isEmpty())
+            {
+                GraphEditorFactory.show(this);
+                Collection<Node> mainGraphNodes = this.getGraph().getNodes();
+                for (Node node : mainGraphNodes)
+                {
+                    if (node.getClassName().equals(FrameNode.class.getName()))
+                    {
+                        FrameNode fNode = (FrameNode) node;
+                        FrameGraph frameGraphBuilder = new FrameGraph(fNode);
+                        frameGraphBuilder.buildGraph();
+                    }
+                }
+            }
+
             return true;
         }
         else
@@ -148,27 +163,29 @@ public class FrameNode extends OwnerNode
         }
     }
 
-    private void frameTest()
-    {
-        FrameStruct frame = new FrameStruct("HVV");
-        SlotStruct startOrt = new SlotStruct("Start");
-        startOrt.setMatchedTags(new String[]{"haltestelle"});
-
-        SlotStruct zielOrt = new SlotStruct("Ziel");
-        zielOrt.setMatchedTags(new String[]{"haltestelle"});
-
-        SlotStruct zeitpunkt = new SlotStruct("Zeit");
-        zeitpunkt.setMatchedTags(new String[]{"zeit"});
-
-        frame.addSlot(startOrt);
-        frame.addSlot(zielOrt);
-        frame.addSlot(zeitpunkt);
-
-        TagIO.jsonToTags(new File("/Users/oliverwandschneider/develop/tagging.json"), definedMap, regexMap);
-
-        FrameTokenizer tokenizer = new FrameTokenizer(2);
-        Tagger tagger = new Tagger(definedMap, regexMap);
-        TokenList testList = tokenizer.tokenize("Ich will von Stade bis Hauptbahnhof");
-        tagger.tagTokenList(testList);
-    }
+//    private void frameTest()
+//    {
+//        FrameStruct frame = new FrameStruct("HVV");
+//        SlotStruct startOrt = new SlotStruct("Start");
+//        startOrt.setMatchedTags(new String[]{"haltestelle"});
+//
+//        SlotStruct zielOrt = new SlotStruct("Ziel");
+//        zielOrt.setMatchedTags(new String[]{"haltestelle"});
+//
+//        SlotStruct zeitpunkt = new SlotStruct("Zeit");
+//        zeitpunkt.setMatchedTags(new String[]{"zeit"});
+//
+//        frame.addSlot(startOrt);
+//        frame.addSlot(zielOrt);
+//        frame.addSlot(zeitpunkt);
+//
+//        TagIO.jsonToTags(new File("/Users/oliverwandschneider/develop/tagging.json"),
+//                frameStruct.getAllDefinedTags(),
+//                frameStruct.getAllRegexTags());
+//
+//        FrameTokenizer tokenizer = new FrameTokenizer(2);
+//        Tagger tagger = new Tagger(frameStruct.getAllDefinedTags(), frameStruct.getAllRegexTags());
+//        TokenList testList = tokenizer.tokenize("Ich will von Stade bis Hauptbahnhof");
+//        tagger.tagTokenList(testList);
+//    }
 }

@@ -16,7 +16,6 @@ import java.awt.*;
 import java.io.File;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.Set;
 
 public class Plugin implements com.clt.dialogos.plugin.Plugin
@@ -61,25 +60,9 @@ public class Plugin implements com.clt.dialogos.plugin.Plugin
 
     static class FramePluginSettings extends PluginSettings
     {
-        public Map<String, String> definedMap = new HashMap<>();
-        public Map<String, String> regexMap = new HashMap<>();
-        private File globalTags = null;
-
-        // TODO decide if necessary
-        public File getGlobalTagFile()
-        {
-            return globalTags;
-        }
-
-        public Map<String, String> getDefinedMap()
-        {
-            return definedMap;
-        }
-
-        public Map<String, String> getRegexMap()
-        {
-            return regexMap;
-        }
+        public HashMap<String, String> definedMap = new HashMap<>();
+        public HashMap<String, String> regexMap = new HashMap<>();
+        public File globalTags = null;
 
         @Override
         public void writeAttributes(XMLWriter xmlWriter, IdMap idMap)
@@ -102,16 +85,6 @@ public class Plugin implements com.clt.dialogos.plugin.Plugin
         {
             JPanel panel = new JPanel(new BorderLayout());
             JPanel gridPanel = new JPanel(new GridBagLayout());
-            JTextField textField = new JTextField();
-
-            textField.addActionListener(e ->
-            {
-                File fileIn = new File(textField.getText());
-                if (fileIn.exists())
-                {
-                    globalTags = fileIn;
-                }
-            });
 
             JLabel instruction = new JLabel();
             instruction.setText("Select the plugin-wide available tags:");
@@ -122,6 +95,17 @@ public class Plugin implements com.clt.dialogos.plugin.Plugin
 
             JLabel tagInfo = new JLabel();
             tagInfo.setFont(new Font(tagInfo.getFont().getName(), Font.PLAIN, 14));
+
+            JTextField textField = new JTextField();
+            textField.addActionListener(e ->
+            {
+                File fileIn = new File(textField.getText());
+                if (fileIn.exists())
+                {
+                    globalTags = fileIn;
+                    tagInfo.setText(TagIO.fileToTagMaps(globalTags, definedMap, regexMap));
+                }
+            });
 
             JFrame fileChooserFrame = new JFrame();
             JFileChooser fileChooser = new JFileChooser();
@@ -136,13 +120,7 @@ public class Plugin implements com.clt.dialogos.plugin.Plugin
                 if (val == JFileChooser.APPROVE_OPTION)
                 {
                     globalTags = fileChooser.getSelectedFile();
-                    textField.setText(globalTags.getAbsolutePath());
-
-                    TagIO.jsonToTags(globalTags, definedMap, regexMap);
-                    int counts = TagIO.countTags(definedMap, regexMap);
-
-                    tagInfo.setText(String.format("Contains %d tags,\n%d words and %d regex patterns.",
-                            counts, definedMap.size(), regexMap.size()));
+                    tagInfo.setText(TagIO.fileToTagMaps(globalTags, definedMap, regexMap));
                 }
             });
 

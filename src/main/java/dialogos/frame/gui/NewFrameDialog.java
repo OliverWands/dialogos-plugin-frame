@@ -16,12 +16,14 @@ public class NewFrameDialog extends JDialog
 {
     private final JTable table;
     private final DefaultTableModel model;
-    private FrameStruct frameStruct = null;
+    private final FrameStruct frameStruct;
 
-    public NewFrameDialog(Window window, String title)
+    public NewFrameDialog(FrameStruct frameStruct, Window window, String title)
     {
         super(window, title, Dialog.ModalityType.APPLICATION_MODAL);
         setLayout(new BorderLayout());
+
+        this.frameStruct = frameStruct;
 
         JPanel panel = new JPanel(new BorderLayout());
         panel.setBorder(new EmptyBorder(0, 5, 20, 5));
@@ -137,14 +139,42 @@ public class NewFrameDialog extends JDialog
         constraints.gridwidth = 1;
         constraints.anchor = GridBagConstraints.LINE_START;
         constraints.fill = GridBagConstraints.HORIZONTAL;
-        JButton button = new JButton();
-        button.setIcon(Images.load("OpenFile.png"));
-        button.addActionListener(e ->
+        JButton openFileButton = new JButton();
+        openFileButton.setIcon(Images.load("OpenFile.png"));
+        openFileButton.addActionListener(e ->
         {
             getFileChooser();
         });
 
-        frameTablePanel.add(button, constraints);
+        frameTablePanel.add(openFileButton, constraints);
+
+        JPanel buttonPanel = new JPanel(new GridBagLayout());
+        buttonPanel.setBorder(new EmptyBorder(5, 0, 0, 0));
+
+        JButton applyButton = new JButton();
+        applyButton.setText("Apply");
+        applyButton.addActionListener(e ->
+        {
+            dispose();
+        });
+
+        JButton cancelButton = new JButton();
+        cancelButton.setText("Cancel");
+        cancelButton.addActionListener(e ->
+        {
+            dispose();
+        });
+
+        constraints.gridx = 0;
+        constraints.gridy = 0;
+        constraints.anchor = GridBagConstraints.LINE_START;
+        constraints.fill = GridBagConstraints.NONE;
+        buttonPanel.add(cancelButton, constraints);
+
+        constraints.gridx = 1;
+        constraints.gridy = 0;
+        constraints.anchor = GridBagConstraints.LINE_START;
+        buttonPanel.add(applyButton, constraints);
 
         constraints.gridx = 0;
         constraints.gridy = 7;
@@ -152,7 +182,7 @@ public class NewFrameDialog extends JDialog
         constraints.gridwidth = 1;
         constraints.anchor = GridBagConstraints.LINE_START;
         constraints.fill = GridBagConstraints.HORIZONTAL;
-        frameTablePanel.add(getButtons(), constraints);
+        frameTablePanel.add(buttonPanel, constraints);
 
         panel.add(frameTablePanel, BorderLayout.SOUTH);
 
@@ -250,46 +280,6 @@ public class NewFrameDialog extends JDialog
         return buttonPanel;
     }
 
-    public JPanel getButtons()
-    {
-        JPanel buttonPanel = new JPanel(new GridBagLayout());
-        GridBagConstraints constraints = new GridBagConstraints();
-
-        buttonPanel.setBorder(new EmptyBorder(5, 0, 0, 0));
-
-        JButton newSlot = new JButton();
-        newSlot.setText("Apply");
-        newSlot.addActionListener(e ->
-        {
-            dispose();
-        });
-
-        JButton deleteSlot = new JButton();
-        deleteSlot.setText("Cancel");
-        deleteSlot.addActionListener(e ->
-        {
-            frameStruct = null;
-            dispose();
-        });
-
-        constraints.gridx = 0;
-        constraints.gridy = 0;
-        constraints.anchor = GridBagConstraints.LINE_START;
-        constraints.fill = GridBagConstraints.NONE;
-        buttonPanel.add(deleteSlot, constraints);
-
-        constraints.gridx = 1;
-        constraints.gridy = 0;
-        constraints.anchor = GridBagConstraints.LINE_START;
-        buttonPanel.add(newSlot, constraints);
-        return buttonPanel;
-    }
-
-    FrameStruct getFrameStruct()
-    {
-        return frameStruct;
-    }
-
     //TODO
     // Tag files (global and chosen) into the FrameStruct
     private void getFileChooser()
@@ -307,7 +297,7 @@ public class NewFrameDialog extends JDialog
         {
             if (e.getActionCommand().equals(JFileChooser.APPROVE_SELECTION))
             {
-                //filePath = fileChooser.getSelectedFile().getPath();
+                frameStruct.setTagsFromFile(fileChooser.getSelectedFile());
             }
             if (e.getActionCommand().equals(JFileChooser.CANCEL_SELECTION))
             {
