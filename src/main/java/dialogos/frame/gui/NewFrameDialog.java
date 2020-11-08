@@ -280,8 +280,6 @@ public class NewFrameDialog extends JDialog
         return buttonPanel;
     }
 
-    //TODO
-    // Tag files (global and chosen) into the FrameStruct
     private void getFileChooser()
     {
         JFrame frame = new JFrame();
