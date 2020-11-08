@@ -1,5 +1,10 @@
 package dialogos.frame;
 
+import dialogos.frame.utils.tags.TagIO;
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -9,15 +14,16 @@ public class FrameStruct
     private String ID;
     private List<SlotStruct> slotList = new ArrayList<>();
 
-    private HashMap<String, String> globalDefinedTags = new HashMap<>();
-    private HashMap<String, String> globalRegexTags = new HashMap<>();
+    private File globalTags = null;
+    private HashMap<String, String> globalDefinedTags = null;
+    private HashMap<String, String> globalRegexTags = null;
 
+    private File tags = null;
     private HashMap<String, String> definedTags = new HashMap<>();
     private HashMap<String, String> regexTags = new HashMap<>();
 
     public FrameStruct()
     {
-        this(null);
     }
 
     public FrameStruct(String ID)
@@ -29,6 +35,25 @@ public class FrameStruct
     {
         this.ID = ID;
         this.slotList = slotList;
+    }
+
+    public void setFromSettings(Plugin.FramePluginSettings settings)
+    {
+        globalTags = settings.globalTags;
+        globalDefinedTags = settings.definedMap;
+        globalRegexTags = settings.regexMap;
+    }
+
+    public void setTagsFromFile(File tagFile)
+    {
+        tags = tagFile;
+        TagIO.fileToTagMaps(tags, definedTags, regexTags);
+    }
+
+    public void setGlobalTagsFromFile(File tagFile)
+    {
+        globalTags = tagFile;
+        TagIO.fileToTagMaps(globalTags, definedTags, regexTags);
     }
 
     public void setID(String ID)
@@ -75,6 +100,93 @@ public class FrameStruct
         slotList.remove(index);
     }
 
+    public HashMap<String, String> getAllDefinedTags()
+    {
+        HashMap<String, String> combined = new HashMap<>(definedTags);
+        if (globalDefinedTags != null)
+        {
+            combined.putAll(globalDefinedTags);
+        }
+        return combined;
+    }
+
+    public HashMap<String, String> getAllRegexTags()
+    {
+        HashMap<String, String> combined = new HashMap<>(regexTags);
+        if (globalRegexTags != null)
+        {
+            combined.putAll(globalRegexTags);
+        }
+        return combined;
+    }
+
+    public int size()
+    {
+        return slotList.size();
+    }
+
+    public boolean isEmpty()
+    {
+        return slotList.isEmpty();
+    }
+
+    public boolean unmarshal(JSONObject jsonObject)
+    {
+        for (String key : new String[]{"ID", "TAG_FILE", "DEFINED_TAGS", "REGEX_TAGS", "SLOT_LIST"})
+        {
+            if (!jsonObject.has(key))
+            {
+                return false;
+            }
+        }
+
+        ID = jsonObject.getString("ID");
+        tags = new File(jsonObject.getString("TAG_FILE"));
+        definedTags = new HashMap<>();
+        for (String key : jsonObject.getJSONObject("DEFINED_TAGS").keySet())
+        {
+            definedTags.put(key, jsonObject.getJSONObject("DEFINED_TAGS").getString(key));
+        }
+
+        regexTags = new HashMap<>();
+        for (String key : jsonObject.getJSONObject("REGEX_TAGS").keySet())
+        {
+            regexTags.put(key, jsonObject.getJSONObject("REGEX_TAGS").getString(key));
+        }
+
+        slotList = new ArrayList<>();
+        for (int inx = 0; inx < jsonObject.getJSONArray("SLOT_LIST").length(); inx++)
+        {
+            SlotStruct slot = new SlotStruct();
+            if (!slot.unmarshal(jsonObject.getJSONArray("SLOT_LIST").getJSONObject(inx)))
+            {
+                return false;
+            }
+            slotList.add(inx, slot);
+        }
+
+        return true;
+    }
+
+    public JSONObject marshal()
+    {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("ID", ID);
+
+        jsonObject.put("TAG_FILE", tags.getAbsolutePath());
+        jsonObject.put("DEFINED_TAGS", new JSONObject(definedTags));
+        jsonObject.put("REGEX_TAGS", new JSONObject(regexTags));
+
+        JSONArray slotArray = new JSONArray();
+        for (SlotStruct slot : slotList)
+        {
+            slotArray.put(slot.marshal());
+        }
+        jsonObject.put("SLOT_LIST", slotArray);
+
+        return jsonObject;
+    }
+
     //
     // TODO implement collection of sorting methods. That retains the original order.
     //
@@ -93,13 +205,4 @@ public class FrameStruct
 
     }
 
-    public int size()
-    {
-        return slotList.size();
-    }
-
-    public boolean isEmpty()
-    {
-        return slotList.isEmpty();
-    }
 }

@@ -1,7 +1,10 @@
 package dialogos.frame;
 
 import dialogos.frame.utils.tokens.Token;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -16,7 +19,6 @@ public class SlotStruct
 
     public SlotStruct()
     {
-
     }
 
     public SlotStruct(String name)
@@ -111,6 +113,46 @@ public class SlotStruct
 
     public String[] getContent()
     {
-        return new String[]{name, "TAGS", isAdditional ? "Yes" : "No", query};
+        StringBuilder builder = new StringBuilder();
+        for (String tag : matchedTags)
+        {
+            builder.append(tag);
+            builder.append(", ");
+        }
+        return new String[]{name, builder.toString(), isAdditional ? "Yes" : "No", query};
+    }
+
+    public JSONObject marshal()
+    {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("NAME", name);
+        jsonObject.put("QUERY", query);
+        jsonObject.put("IS_ADDITIONAL", isAdditional);
+        jsonObject.put("MATCHED_TAGS", new JSONArray(matchedTags));
+
+        return jsonObject;
+    }
+
+    public boolean unmarshal(JSONObject jsonObject)
+    {
+        for (String key : new String[]{"NAME", "QUERY", "IS_ADDITIONAL", "MATCHED_TAGS"})
+        {
+            if (!jsonObject.has(key))
+            {
+                return false;
+            }
+        }
+
+        name = jsonObject.getString("NAME");
+        query = jsonObject.getString("QUERY");
+        isAdditional = jsonObject.getBoolean("IS_ADDITIONAL");
+        JSONArray jsonArray = jsonObject.getJSONArray("MATCHED_TAGS");
+        matchedTags = new ArrayList<>();
+        for (int inx = 0; inx < jsonArray.length(); inx++)
+        {
+            matchedTags.add(inx, jsonArray.getString(inx));
+        }
+
+        return true;
     }
 }
