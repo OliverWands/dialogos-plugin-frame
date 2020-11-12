@@ -29,21 +29,24 @@ public class Token
         tags = new ArrayList<>();
     }
 
-    public void setIndices(int startIndex, int endIndex)
+    public Token setIndices(int startIndex, int endIndex)
     {
         this.startIndex = startIndex;
         this.endIndex = endIndex;
         length = endIndex - startIndex;
+        return this;
     }
 
-    public void setTag(String tag)
+    public Token setTag(String tag)
     {
         tags.add(tag);
+        return this;
     }
 
-    public void setTags(List<String> tags)
+    public Token setTags(List<String> tags)
     {
         this.tags = tags;
+        return this;
     }
 
     // TODO remove tags methods

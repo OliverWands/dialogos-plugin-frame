@@ -6,10 +6,11 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 
-public class FrameStruct
+public class FrameStruct implements Marshalling
 {
     private String ID;
     private List<SlotStruct> slotList = new ArrayList<>();
@@ -21,6 +22,9 @@ public class FrameStruct
     private File tags = null;
     private HashMap<String, String> definedTags = new HashMap<>();
     private HashMap<String, String> regexTags = new HashMap<>();
+
+    private final Comparator<SlotStruct> slotComparator =
+            (o1, o2) -> Boolean.compare(o1.isNotFilled(), o2.isNotFilled());
 
     public FrameStruct()
     {
@@ -130,7 +134,51 @@ public class FrameStruct
         return slotList.isEmpty();
     }
 
+    /**
+     * Sort the Slot list of the frame, by whether or not the slot is filled.
+     * Unfilled slots come first.
+     */
+    public List<SlotStruct> sortFilled()
+    {
+        List<SlotStruct> temp = new ArrayList<>(slotList);
+        temp.sort(slotComparator.reversed());
+        return temp;
+    }
+
+    @Override
+    public JSONObject marshal()
+    {
+        return null;
+    }
+
+    @Override
     public boolean unmarshal(JSONObject jsonObject)
+    {
+        return false;
+    }
+
+    @Override
+    public JSONObject marshalStruct()
+    {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("ID", ID);
+
+        jsonObject.put("TAG_FILE", tags.getAbsolutePath());
+        jsonObject.put("DEFINED_TAGS", new JSONObject(definedTags));
+        jsonObject.put("REGEX_TAGS", new JSONObject(regexTags));
+
+        JSONArray slotArray = new JSONArray();
+        for (SlotStruct slot : slotList)
+        {
+            slotArray.put(slot.marshal());
+        }
+        jsonObject.put("SLOT_LIST", slotArray);
+
+        return jsonObject;
+    }
+
+    @Override
+    public boolean unmarshalStruct(JSONObject jsonObject)
     {
         for (String key : new String[]{"ID", "TAG_FILE", "DEFINED_TAGS", "REGEX_TAGS", "SLOT_LIST"})
         {
@@ -158,7 +206,7 @@ public class FrameStruct
         for (int inx = 0; inx < jsonObject.getJSONArray("SLOT_LIST").length(); inx++)
         {
             SlotStruct slot = new SlotStruct();
-            if (!slot.unmarshal(jsonObject.getJSONArray("SLOT_LIST").getJSONObject(inx)))
+            if (!slot.unmarshalStruct(jsonObject.getJSONArray("SLOT_LIST").getJSONObject(inx)))
             {
                 return false;
             }
@@ -167,42 +215,4 @@ public class FrameStruct
 
         return true;
     }
-
-    public JSONObject marshal()
-    {
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("ID", ID);
-
-        jsonObject.put("TAG_FILE", tags.getAbsolutePath());
-        jsonObject.put("DEFINED_TAGS", new JSONObject(definedTags));
-        jsonObject.put("REGEX_TAGS", new JSONObject(regexTags));
-
-        JSONArray slotArray = new JSONArray();
-        for (SlotStruct slot : slotList)
-        {
-            slotArray.put(slot.marshal());
-        }
-        jsonObject.put("SLOT_LIST", slotArray);
-
-        return jsonObject;
-    }
-
-    //
-    // TODO implement collection of sorting methods. That retains the original order.
-    //
-    public void sortBy()
-    {
-
-    }
-
-    public void sortByName()
-    {
-
-    }
-
-    public void sortByFilled()
-    {
-
-    }
-
 }

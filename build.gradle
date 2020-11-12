@@ -3,6 +3,7 @@ plugins {
     id 'maven'
     id 'application'
 }
+
 repositories {
     mavenLocal()
     jcenter()
@@ -10,7 +11,6 @@ repositories {
 }
 
 def version = '1.0'
-def group = 'com.github.OliverWands'
 project.version = version
 
 dependencies {
@@ -22,16 +22,16 @@ dependencies {
 
 mainClassName = 'com.clt.dialogos.DialogOS'
 
-apply plugin: 'maven-publish'
+//apply plugin: 'maven-publish'
 // to provide "gradlew publishToMavenLocal"
 // configuration for maven-publish plugin
-publishing {
-    publications {
-        maven(MavenPublication) {
-            groupId = 'com.github.OliverWands'
-            artifactId = 'dialogos-plugin-frame'
-            version = version
-            from components.java
-        }
-    }
-}
+//publishing {
+//    publications {
+//        maven(MavenPublication) {
+//            groupId = 'com.github.OliverWands'
+//            artifactId = 'dialogos-plugin-frame'
+//            version = version
+//            from components.java
+//        }
+//    }
+//}

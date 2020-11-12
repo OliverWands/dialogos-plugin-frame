@@ -1,0 +1,35 @@
+{
+  "zeit": {
+    "defined": [
+      "mittags",
+      "abends",
+      "morgens",
+      "jetzt",
+      "nachts"
+    ],
+    "regex": [
+      "\\d{1,2}:\\d{1,2}"
+    ]
+  },
+  "verbindung": {
+    "defined": [
+      "bis",
+      "nach"
+    ],
+    "regex": []
+  },
+  "haltestelle": {
+    "defined": [
+      "Stade",
+      "Landungsbrücken",
+      "Hauptbahnhof",
+      "Osterstraße",
+      "Informatikum",
+      "Hagenbecks Tierpark",
+      "Schlump",
+      "Sternschanze",
+      "Elbphilharmonie"
+    ],
+    "regex": []
+  }
+}
