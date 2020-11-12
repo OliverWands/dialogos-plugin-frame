@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class SlotStruct
+public class SlotStruct implements Marshalling
 {
     private String name;
     private String value;
@@ -57,14 +57,14 @@ public class SlotStruct
     {
         for (String tag : matchedTags)
         {
-            if (!token.getTags().contains(tag))
+            if (token.getTags().contains(tag))
             {
-                isFilled = false;
+                value = token.getLower();
+                isFilled = true;
                 return this;
             }
         }
-        value = token.getLower();
-        isFilled = true;
+        isFilled = false;
         return this;
     }
 
@@ -106,6 +106,11 @@ public class SlotStruct
         return isFilled;
     }
 
+    public boolean isNotFilled()
+    {
+        return !isFilled;
+    }
+
     public boolean isComplete()
     {
         return isFilled || isAdditional;
@@ -122,7 +127,24 @@ public class SlotStruct
         return new String[]{name, builder.toString(), isAdditional ? "Yes" : "No", query};
     }
 
+    @Override
     public JSONObject marshal()
+    {
+        JSONObject jsonObject = marshalStruct();
+        jsonObject.put("VALUE", value);
+        jsonObject.put("IS_FILLED", isFilled);
+
+        return jsonObject;
+    }
+
+    @Override
+    public boolean unmarshal(JSONObject jsonObject)
+    {
+        return false;
+    }
+
+    @Override
+    public JSONObject marshalStruct()
     {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("NAME", name);
@@ -133,7 +155,8 @@ public class SlotStruct
         return jsonObject;
     }
 
-    public boolean unmarshal(JSONObject jsonObject)
+    @Override
+    public boolean unmarshalStruct(JSONObject jsonObject)
     {
         for (String key : new String[]{"NAME", "QUERY", "IS_ADDITIONAL", "MATCHED_TAGS"})
         {
