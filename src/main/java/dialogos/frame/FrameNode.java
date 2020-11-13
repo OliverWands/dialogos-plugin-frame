@@ -1,23 +1,20 @@
 package dialogos.frame;
 
-import com.clt.diamant.ExecutionLogger;
-import com.clt.diamant.IdMap;
-import com.clt.diamant.InputCenter;
-import com.clt.diamant.WozInterface;
+import com.clt.diamant.*;
 import com.clt.diamant.graph.*;
 import com.clt.diamant.graph.nodes.EndNode;
 import com.clt.diamant.graph.nodes.OwnerNode;
 import com.clt.diamant.gui.GraphEditorFactory;
 import com.clt.diamant.gui.NodePropertiesDialog;
+import com.clt.script.exp.Type;
 import com.clt.xml.XMLWriter;
 import dialogos.frame.gui.FrameNodeMenu;
 
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
-import java.util.Collection;
-import java.util.Map;
-import java.util.UUID;
+import java.util.List;
+import java.util.*;
 
 public class FrameNode extends OwnerNode
 {
@@ -122,7 +119,7 @@ public class FrameNode extends OwnerNode
 
         Plugin.FramePluginSettings settings = (Plugin.FramePluginSettings) this.getPluginSettings(Plugin.class);
 
-        // Pass the global tags to the framestruct when it will be executed.
+        // Pass the global tags to the frame struct when it will be executed.
         if (settings != null)
         {
             frameStruct.setFromSettings(settings);
@@ -140,7 +137,10 @@ public class FrameNode extends OwnerNode
 
             this.properties.keySet().removeIf(key -> !props.containsKey(key));
 
-            if (!frameStruct.isEmpty())
+            //
+            // Open a view that shows the corresponding graph
+            // TODO
+            if (!frameStruct.isEmpty() || true)
             {
                 GraphEditorFactory.show(this);
                 Collection<Node> mainGraphNodes = this.getGraph().getNodes();
@@ -148,8 +148,7 @@ public class FrameNode extends OwnerNode
                 {
                     if (node.getClassName().equals(FrameNode.class.getName()))
                     {
-                        FrameNode fNode = (FrameNode) node;
-                        FrameGraph frameGraphBuilder = new FrameGraph(fNode);
+                        FrameGraph frameGraphBuilder = new FrameGraph(this);
                         frameGraphBuilder.buildGraph();
                     }
                 }
@@ -163,29 +162,50 @@ public class FrameNode extends OwnerNode
         }
     }
 
-//    private void frameTest()
-//    {
-//        FrameStruct frame = new FrameStruct("HVV");
-//        SlotStruct startOrt = new SlotStruct("Start");
-//        startOrt.setMatchedTags(new String[]{"haltestelle"});
-//
-//        SlotStruct zielOrt = new SlotStruct("Ziel");
-//        zielOrt.setMatchedTags(new String[]{"haltestelle"});
-//
-//        SlotStruct zeitpunkt = new SlotStruct("Zeit");
-//        zeitpunkt.setMatchedTags(new String[]{"zeit"});
-//
-//        frame.addSlot(startOrt);
-//        frame.addSlot(zielOrt);
-//        frame.addSlot(zeitpunkt);
-//
-//        TagIO.jsonToTags(new File("/Users/oliverwandschneider/develop/tagging.json"),
-//                frameStruct.getAllDefinedTags(),
-//                frameStruct.getAllRegexTags());
-//
-//        FrameTokenizer tokenizer = new FrameTokenizer(2);
-//        Tagger tagger = new Tagger(frameStruct.getAllDefinedTags(), frameStruct.getAllRegexTags());
-//        TokenList testList = tokenizer.tokenize("Ich will von Stade bis Hauptbahnhof");
-//        tagger.tagTokenList(testList);
-//    }
+    public void add(Node node)
+    {
+        getOwnedGraph().add(node);
+    }
+
+    public void add(Node[] nodes)
+    {
+        for (Node node : nodes)
+        {
+            getOwnedGraph().add(node);
+        }
+    }
+
+    /**
+     * Creates a slot with the given configuration and adds it to the graph of the FrameNode.
+     *
+     * @param name      The name of the variable.
+     * @param type      The type of the variable.
+     * @param initValue The initial value of the variable.
+     */
+    public void addVariable(String id, String name, Type type, String initValue)
+    {
+        Slot slot = new Slot();
+        slot.setId(id);
+        slot.setName(name);
+        slot.setType(type);
+        slot.setInitValue(initValue);
+        addVariable(slot);
+    }
+
+    /**
+     * Used to add a new variable to the graph of the FrameNode.
+     *
+     * @param variable The variable that will be added.
+     */
+    public void addVariable(Slot variable)
+    {
+        List<Slot> variables = getOwnedGraph().getVariables();
+
+        if (variables == null)
+        {
+            variables = new ArrayList<>();
+        }
+
+        variables.add(variable);
+    }
 }
