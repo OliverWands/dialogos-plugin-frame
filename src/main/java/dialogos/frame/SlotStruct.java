@@ -26,21 +26,22 @@ public class SlotStruct implements Marshalling
         this.name = name;
     }
 
-    public void removeValue()
-    {
-        value = null;
-        isFilled = false;
-    }
-
     public SlotStruct setIsAdditional(boolean additional)
     {
         isAdditional = additional;
         return this;
     }
 
-    public String getName()
+    public SlotStruct setMatchedTags(List<String> matchedTags)
     {
-        return name;
+        this.matchedTags = matchedTags;
+        return this;
+    }
+
+    public SlotStruct setMatchedTags(String[] matchedTags)
+    {
+        this.matchedTags = Arrays.asList(matchedTags);
+        return this;
     }
 
     public void setName(String name)
@@ -48,9 +49,10 @@ public class SlotStruct implements Marshalling
         this.name = name;
     }
 
-    public String getValue()
+    public SlotStruct setQuery(String query)
     {
-        return value;
+        this.query = query;
+        return this;
     }
 
     public SlotStruct setValue(Token token)
@@ -68,15 +70,15 @@ public class SlotStruct implements Marshalling
         return this;
     }
 
-    public String getQuery()
+    public String[] getContent()
     {
-        return query;
-    }
-
-    public SlotStruct setQuery(String query)
-    {
-        this.query = query;
-        return this;
+        StringBuilder builder = new StringBuilder();
+        for (String tag : matchedTags)
+        {
+            builder.append(tag);
+            builder.append(", ");
+        }
+        return new String[]{name, builder.toString(), isAdditional ? "Yes" : "No", query};
     }
 
     public List<String> getMatchedTags()
@@ -84,16 +86,19 @@ public class SlotStruct implements Marshalling
         return matchedTags;
     }
 
-    public SlotStruct setMatchedTags(String[] matchedTags)
+    public String getName()
     {
-        this.matchedTags = Arrays.asList(matchedTags);
-        return this;
+        return name;
     }
 
-    public SlotStruct setMatchedTags(List<String> matchedTags)
+    public String getQuery()
     {
-        this.matchedTags = matchedTags;
-        return this;
+        return query;
+    }
+
+    public String getValue()
+    {
+        return value;
     }
 
     public boolean isAdditional()
@@ -116,15 +121,10 @@ public class SlotStruct implements Marshalling
         return isFilled || isAdditional;
     }
 
-    public String[] getContent()
+    public void removeValue()
     {
-        StringBuilder builder = new StringBuilder();
-        for (String tag : matchedTags)
-        {
-            builder.append(tag);
-            builder.append(", ");
-        }
-        return new String[]{name, builder.toString(), isAdditional ? "Yes" : "No", query};
+        value = null;
+        isFilled = false;
     }
 
     @Override
