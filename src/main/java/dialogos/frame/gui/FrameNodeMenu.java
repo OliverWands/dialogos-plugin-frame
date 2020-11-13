@@ -46,50 +46,6 @@ public class FrameNodeMenu extends JPanel
         {
             JFrame frame = new JFrame();
             new NewFrameDialog(frameNode.frameStruct, frame, "Create Frame");
-//            frameDialog.addWindowListener(new WindowListener()
-//            {
-//                @Override
-//                public void windowOpened(WindowEvent e)
-//                {
-//
-//                }
-//
-//                @Override
-//                public void windowClosing(WindowEvent e)
-//                {
-//
-//                }
-//
-//                @Override
-//                public void windowClosed(WindowEvent e)
-//                {
-//                    frameNode.frameStruct = frameDialog.getFrameStruct();
-//                }
-//
-//                @Override
-//                public void windowIconified(WindowEvent e)
-//                {
-//
-//                }
-//
-//                @Override
-//                public void windowDeiconified(WindowEvent e)
-//                {
-//
-//                }
-//
-//                @Override
-//                public void windowActivated(WindowEvent e)
-//                {
-//
-//                }
-//
-//                @Override
-//                public void windowDeactivated(WindowEvent e)
-//                {
-//
-//                }
-//            });
             frame.pack();
             frame.setVisible(true);
         });
@@ -143,7 +99,7 @@ public class FrameNodeMenu extends JPanel
                 try (Writer writer = new BufferedWriter(
                         new OutputStreamWriter(new FileOutputStream(file), StandardCharsets.UTF_8)))
                 {
-                    writer.write(frameNode.frameStruct.marshal().toString(4));
+                    writer.write(frameNode.frameStruct.marshalStruct().toString(4));
                 } catch (IOException exp)
                 {
                     exp.printStackTrace();
