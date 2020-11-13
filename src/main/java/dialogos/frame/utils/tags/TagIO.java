@@ -17,17 +17,17 @@ import java.util.stream.Collectors;
 public class TagIO
 {
     private static final String DEFINED = "defined";
-    private static final String REGEX = "regex";
+    private static final String GRAMMAR = "grammar";
 
     /**
-     * Extracts the regex and defined tags from a JSON-File into maps that contain the string value as key and the
+     * Extracts the grammar and defined tags from a JSON-File into maps that contain the string value as key and the
      * tag as value.
      *
      * @param file        The json file that contains the tags.
      * @param definedTags This map will be filled with the defined tags.
-     * @param regexTags   This map will be filled with the regex tags.
+     * @param grammarMap   This map will be filled with the grammar.
      */
-    public static void jsonToTags(File file, Map<String, String> definedTags, Map<String, String> regexTags)
+    public static void jsonToTags(File file, Map<String, String> definedTags, Map<String, String> grammarMap)
     {
         String content = null;
         try
@@ -44,7 +44,7 @@ public class TagIO
         if (content == null)
         {
             definedTags = null;
-            regexTags = null;
+            grammarMap = null;
             return;
         }
 
@@ -52,7 +52,7 @@ public class TagIO
         for (String key : jsonObject.keySet())
         {
             JSONObject current = jsonObject.getJSONObject(key);
-            for (String arrKey : new String[]{DEFINED, REGEX})
+            for (String arrKey : new String[]{DEFINED, GRAMMAR})
             {
                 JSONArray values = current.getJSONArray(arrKey);
                 for (int inx = 0; inx < values.length(); inx++)
@@ -61,9 +61,9 @@ public class TagIO
                     {
                         definedTags.put(values.getString(inx), key);
                     }
-                    else if (arrKey.equals(REGEX))
+                    else if (arrKey.equals(GRAMMAR))
                     {
-                        regexTags.put(values.getString(inx), key);
+                        grammarMap.put(values.getString(inx), key);
                     }
                 }
             }
@@ -107,16 +107,16 @@ public class TagIO
         TagIO.jsonToTags(tagFile, tags1, tags2);
         int counts = TagIO.countTags(tags1, tags2);
 
-        return String.format("Contains %d tags,\n%d words and %d regex patterns.",
+        return String.format("Contains %d tags,\n%d words and %d grammars.",
                 counts, tags1.size(), tags2.size());
     }
 
     /**
      * @param tokenList
      * @param definedMap
-     * @param regexMap
+     * @param grammarMap
      */
-    public static void tagTokenList(TokenList tokenList, Map<String, String> definedMap, Map<String, String> regexMap)
+    public static void tagTokenList(TokenList tokenList, Map<String, String> definedMap, Map<String, String> grammarMap)
     {
         for (Token token : tokenList)
         {
@@ -126,11 +126,11 @@ public class TagIO
                 token.setTag(tag);
             }
 
-            for (String pattern : regexMap.keySet())
+            for (String pattern : grammarMap.keySet())
             {
                 if (token.getLower().matches(pattern))
                 {
-                    token.setTag(regexMap.get(pattern));
+                    token.setTag(grammarMap.get(pattern));
                 }
             }
         }
