@@ -7,7 +7,7 @@
       "jetzt",
       "nachts"
     ],
-    "regex": [
+    "grammar": [
       "\\d{1,2}:\\d{1,2}"
     ]
   },
@@ -16,7 +16,7 @@
       "bis",
       "nach"
     ],
-    "regex": []
+    "grammar": []
   },
   "haltestelle": {
     "defined": [
@@ -30,6 +30,6 @@
       "Sternschanze",
       "Elbphilharmonie"
     ],
-    "regex": []
+    "grammar": []
   }
 }

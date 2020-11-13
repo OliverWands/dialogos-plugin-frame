@@ -35,6 +35,21 @@ public class GraphBuilder
     }
 
     /**
+     * Create edges between the nodes.
+     * A edge is set between every two nodes.
+     * E.g nodes[0] -> nodes[1], nodes[1] -> nodes[2]...
+     *
+     * @param nodes The nodes that will be connected.
+     */
+    public static void connectNodes(Node[] nodes)
+    {
+        for (int inx = 0; inx < nodes.length - 1; inx++)
+        {
+            setEdge(nodes[inx], nodes[inx + 1]);
+        }
+    }
+
+    /**
      * Create a new edge from the startNode to the targetNode
      *
      * @param startNode  The edge will start from this node.
