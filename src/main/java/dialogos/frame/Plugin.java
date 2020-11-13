@@ -61,7 +61,7 @@ public class Plugin implements com.clt.dialogos.plugin.Plugin
     static class FramePluginSettings extends PluginSettings
     {
         public HashMap<String, String> definedMap = new HashMap<>();
-        public HashMap<String, String> regexMap = new HashMap<>();
+        public HashMap<String, String> grammarMap = new HashMap<>();
         public File globalTags = null;
 
         @Override
@@ -103,7 +103,7 @@ public class Plugin implements com.clt.dialogos.plugin.Plugin
                 if (fileIn.exists())
                 {
                     globalTags = fileIn;
-                    tagInfo.setText(TagIO.fileToTagMaps(globalTags, definedMap, regexMap));
+                    tagInfo.setText(TagIO.fileToTagMaps(globalTags, definedMap, grammarMap));
                 }
             });
 
@@ -120,7 +120,7 @@ public class Plugin implements com.clt.dialogos.plugin.Plugin
                 if (val == JFileChooser.APPROVE_OPTION)
                 {
                     globalTags = fileChooser.getSelectedFile();
-                    tagInfo.setText(TagIO.fileToTagMaps(globalTags, definedMap, regexMap));
+                    tagInfo.setText(TagIO.fileToTagMaps(globalTags, definedMap, grammarMap));
                 }
             });
 

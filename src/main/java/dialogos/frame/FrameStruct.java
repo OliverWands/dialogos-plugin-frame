@@ -17,11 +17,11 @@ public class FrameStruct implements Marshalling
 
     private File globalTags = null;
     private HashMap<String, String> globalDefinedTags = null;
-    private HashMap<String, String> globalRegexTags = null;
+    private HashMap<String, String> globalGrammerTags = null;
 
     private File tags = null;
     private HashMap<String, String> definedTags = new HashMap<>();
-    private HashMap<String, String> regexTags = new HashMap<>();
+    private HashMap<String, String> grammarTags = new HashMap<>();
 
     private final Comparator<SlotStruct> slotComparator =
             (o1, o2) -> Boolean.compare(o1.isNotFilled(), o2.isNotFilled());
@@ -45,19 +45,19 @@ public class FrameStruct implements Marshalling
     {
         globalTags = settings.globalTags;
         globalDefinedTags = settings.definedMap;
-        globalRegexTags = settings.regexMap;
+        globalGrammerTags = settings.grammarMap;
     }
 
     public void setTagsFromFile(File tagFile)
     {
         tags = tagFile;
-        TagIO.fileToTagMaps(tags, definedTags, regexTags);
+        TagIO.fileToTagMaps(tags, definedTags, grammarTags);
     }
 
     public void setGlobalTagsFromFile(File tagFile)
     {
         globalTags = tagFile;
-        TagIO.fileToTagMaps(globalTags, definedTags, regexTags);
+        TagIO.fileToTagMaps(globalTags, definedTags, grammarTags);
     }
 
     public void setID(String ID)
@@ -114,12 +114,12 @@ public class FrameStruct implements Marshalling
         return combined;
     }
 
-    public HashMap<String, String> getAllRegexTags()
+    public HashMap<String, String> getAllGrammars()
     {
-        HashMap<String, String> combined = new HashMap<>(regexTags);
-        if (globalRegexTags != null)
+        HashMap<String, String> combined = new HashMap<>(grammarTags);
+        if (globalGrammerTags != null)
         {
-            combined.putAll(globalRegexTags);
+            combined.putAll(globalGrammerTags);
         }
         return combined;
     }
@@ -165,7 +165,7 @@ public class FrameStruct implements Marshalling
 
         jsonObject.put("TAG_FILE", tags.getAbsolutePath());
         jsonObject.put("DEFINED_TAGS", new JSONObject(definedTags));
-        jsonObject.put("REGEX_TAGS", new JSONObject(regexTags));
+        jsonObject.put("GRAMMAR_TAGS", new JSONObject(grammarTags));
 
         JSONArray slotArray = new JSONArray();
         for (SlotStruct slot : slotList)
@@ -180,7 +180,7 @@ public class FrameStruct implements Marshalling
     @Override
     public boolean unmarshalStruct(JSONObject jsonObject)
     {
-        for (String key : new String[]{"ID", "TAG_FILE", "DEFINED_TAGS", "REGEX_TAGS", "SLOT_LIST"})
+        for (String key : new String[]{"ID", "TAG_FILE", "DEFINED_TAGS", "GRAMMAR_TAGS", "SLOT_LIST"})
         {
             if (!jsonObject.has(key))
             {
@@ -196,10 +196,10 @@ public class FrameStruct implements Marshalling
             definedTags.put(key, jsonObject.getJSONObject("DEFINED_TAGS").getString(key));
         }
 
-        regexTags = new HashMap<>();
-        for (String key : jsonObject.getJSONObject("REGEX_TAGS").keySet())
+        grammarTags = new HashMap<>();
+        for (String key : jsonObject.getJSONObject("GRAMMAR_TAGS").keySet())
         {
-            regexTags.put(key, jsonObject.getJSONObject("REGEX_TAGS").getString(key));
+            grammarTags.put(key, jsonObject.getJSONObject("GRAMMAR_TAGS").getString(key));
         }
 
         slotList = new ArrayList<>();
