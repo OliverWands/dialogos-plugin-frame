@@ -1,6 +1,7 @@
 package dialogos.frame.utils.graph;
 
 import com.clt.diamant.graph.Node;
+import com.clt.diamant.graph.nodes.ConditionalNode;
 
 /**
  * Class to be used for the programmatic modification of dialog graphs.
@@ -99,6 +100,28 @@ public class GraphBuilder
         {
             setEdge(startNode, targetNode);
         }
+    }
+
+    /**
+     * @param node
+     * @param exprTrue
+     * @param exprFalse
+     */
+    public static void setConditionalEdges(ConditionalNode node, Node exprTrue, Node exprFalse)
+    {
+        setEdge(node, exprTrue, 0);
+        setEdge(node, exprFalse, 1);
+    }
+
+    /**
+     * @param node
+     * @param exprTrue
+     * @param exprFalse
+     */
+    public static void placeConditional(ConditionalNode node, Node exprTrue, Node exprFalse)
+    {
+        placeBottomLeft(node, exprTrue);
+        placeBottomRight(node, exprFalse);
     }
 
     /**

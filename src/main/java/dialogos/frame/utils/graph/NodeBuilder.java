@@ -2,8 +2,10 @@ package dialogos.frame.utils.graph;
 
 import com.clt.diamant.Slot;
 import com.clt.diamant.graph.Graph;
+import com.clt.diamant.graph.nodes.ConditionalNode;
 import com.clt.diamant.graph.nodes.SetVariableNode;
 import de.saar.coli.dialogos.marytts.plugin.TTSNode;
+import edu.cmu.lti.dialogos.sphinx.plugin.SphinxNode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +22,11 @@ public class NodeBuilder
         this.ownedGraph = ownedGraph;
     }
 
+    /**
+     * @param node
+     * @param varID
+     * @param assingVal
+     */
     public void assignSetVariableNode(SetVariableNode node, String varID, String assingVal)
     {
         if (node == null)
@@ -58,6 +65,11 @@ public class NodeBuilder
         variableNode.setProperty(SetVariableNode.ASSIGNMENTS, assignments);
     }
 
+    /**
+     * @param node
+     * @param title
+     * @param prompt
+     */
     public void assignTTSNode(TTSNode node, String title, String prompt)
     {
         if (node == null)
@@ -68,5 +80,47 @@ public class NodeBuilder
         TTSNode ttsNode = node;
         ttsNode.setTitle(title);
         ttsNode.setProperty("prompt", prompt);
+    }
+
+    public void assignSphinxNode(SphinxNode node, String expression)
+    {
+        node.setProperty("grammarExpression", "grammar");
+        addEdgeCondition(node, "123");
+    }
+
+    public void assignTagRecognition()
+    {
+
+    }
+
+    public Integer addEdgeCondition(SphinxNode node, String condition)
+    {
+        node.addEdge(condition);
+        for (int inx = 0; inx < node.getOutEdges().size(); inx++)
+        {
+            if (node.getOutEdges().get(inx).getCondition().equals(condition))
+            {
+                return inx;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * @param node
+     * @param title
+     * @param expression
+     */
+    public void assignConditionalNode(ConditionalNode node, String title, String expression)
+    {
+        if (node == null)
+        {
+            node = new ConditionalNode();
+        }
+
+        ConditionalNode conditionalNode = node;
+        conditionalNode.setTitle(title);
+
+        conditionalNode.setProperty(ConditionalNode.EXPRESSION, expression);
     }
 }
