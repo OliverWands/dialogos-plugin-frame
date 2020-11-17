@@ -9,6 +9,7 @@ import com.clt.diamant.gui.NodePropertiesDialog;
 import com.clt.script.exp.Type;
 import com.clt.xml.XMLWriter;
 import dialogos.frame.gui.FrameNodeMenu;
+import dialogos.frame.utils.graph.FrameGraph;
 
 import javax.swing.*;
 import java.awt.*;
@@ -176,7 +177,7 @@ public class FrameNode extends OwnerNode
     }
 
     /**
-     * Creates a slot with the given configuration and adds it to the graph of the FrameNode.
+     * Creates a slot/variable with the given configuration and adds it to the graph of the FrameNode.
      *
      * @param name      The name of the variable.
      * @param type      The type of the variable.
