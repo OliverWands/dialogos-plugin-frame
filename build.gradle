@@ -21,17 +21,3 @@ dependencies {
 }
 
 mainClassName = 'com.clt.dialogos.DialogOS'
-
-//apply plugin: 'maven-publish'
-// to provide "gradlew publishToMavenLocal"
-// configuration for maven-publish plugin
-//publishing {
-//    publications {
-//        maven(MavenPublication) {
-//            groupId = 'com.github.OliverWands'
-//            artifactId = 'dialogos-plugin-frame'
-//            version = version
-//            from components.java
-//        }
-//    }
-//}
