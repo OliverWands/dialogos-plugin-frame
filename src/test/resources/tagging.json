@@ -1,35 +1,5 @@
 {
-  "zeit": {
-    "defined": [
-      "mittags",
-      "abends",
-      "morgens",
-      "jetzt",
-      "nachts"
-    ],
-    "grammar": [
-      "\\d{1,2}:\\d{1,2}"
-    ]
-  },
-  "verbindung": {
-    "defined": [
-      "bis",
-      "nach"
-    ],
-    "grammar": []
-  },
-  "haltestelle": {
-    "defined": [
-      "Stade",
-      "Landungsbrücken",
-      "Hauptbahnhof",
-      "Osterstraße",
-      "Informatikum",
-      "Hagenbecks Tierpark",
-      "Schlump",
-      "Sternschanze",
-      "Elbphilharmonie"
-    ],
-    "grammar": []
-  }
+  "zeit": "root $Input;\n$Input = mittag | abends | morgens | jetzt | nachts;",
+  "verbindung": "root $Input;$Input = bis | nach;",
+  "haltestelle": "root $Input;$Input = stade | landungsbrücken | hauptbahnhof | osterstraße | informatikum | hagenbecks tierpark | schlump | sternschanze | elphilharmonie;"
 }

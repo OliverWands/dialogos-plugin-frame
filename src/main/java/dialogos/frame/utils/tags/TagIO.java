@@ -25,7 +25,7 @@ public class TagIO
      *
      * @param file        The json file that contains the tags.
      * @param definedTags This map will be filled with the defined tags.
-     * @param grammarMap   This map will be filled with the grammar.
+     * @param grammarMap  This map will be filled with the grammar.
      */
     public static void jsonToTags(File file, Map<String, String> definedTags, Map<String, String> grammarMap)
     {
@@ -43,8 +43,6 @@ public class TagIO
 
         if (content == null)
         {
-            definedTags = null;
-            grammarMap = null;
             return;
         }
 
@@ -52,26 +50,40 @@ public class TagIO
         for (String key : jsonObject.keySet())
         {
             JSONObject current = jsonObject.getJSONObject(key);
-            for (String arrKey : new String[]{DEFINED, GRAMMAR})
+            if (current.has(DEFINED))
             {
-                JSONArray values = current.getJSONArray(arrKey);
+                JSONArray values = current.getJSONArray(DEFINED);
                 for (int inx = 0; inx < values.length(); inx++)
                 {
-                    if (arrKey.equals(DEFINED))
-                    {
-                        definedTags.put(values.getString(inx), key);
-                    }
-                    else if (arrKey.equals(GRAMMAR))
-                    {
-                        grammarMap.put(values.getString(inx), key);
-                    }
+                    definedTags.put(values.getString(inx), key);
                 }
+
+                System.out.println(buildGrammarVariable(key, values));
+            }
+
+            if (current.has(GRAMMAR))
+            {
+                String grammar = current.getString(GRAMMAR);
+                grammarMap.put(key, grammar);
             }
         }
     }
 
+    private static String buildGrammarVariable(String key, JSONArray array)
+    {
+        String grammarVar = "$" + key + " = ";
+        for (int inx = 0; inx < array.length(); inx++)
+        {
+            grammarVar += array.getString(inx) + " | ";
+        }
+        grammarVar = grammarVar.substring(0, grammarVar.length() - 3);
+        grammarVar += ";";
+
+        return grammarVar;
+    }
+
     /**
-     * Creates a map that has he tag as key and the number of occurences of this tag as value
+     * Creates a map that has he tag as key and the number of occurrences of this tag as value
      *
      * @param tags The map containing the tags
      * @return A map of tags and longs
@@ -82,11 +94,11 @@ public class TagIO
     }
 
     /**
-     * Caclulates the total amount of individual (duplicates will not be counted) tags in two maps.
+     * Calculates the total amount of individual (duplicates will not be counted) tags in two maps.
      *
      * @param tags1 The first map.
      * @param tags2 The second map.
-     * @return The number of indivudual tags.
+     * @return The number of individual tags.
      */
     public static int countTags(Map<String, String> tags1, Map<String, String> tags2)
     {
