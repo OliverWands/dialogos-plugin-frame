@@ -31,14 +31,13 @@ public class FrameGraph
         }
 
         nodeBuilder = new NodeBuilder(this.frameNode.getOwnedGraph());
-
-//        frameNode.setGraphName(frameNode.frameStruct.getID());
     }
 
     public void setVariables()
     {
         frameNode.addVariable("FRAMESIZE", "Size", Type.Int, Integer.toString(frameNode.frameStruct.size()));
         frameNode.addVariable("GRAMMAR", "grammar", Type.String, "root $Input;\n$Input = hello;\n");
+//        frameNode.addGrammar("grammar", "root $Input;\n$Input = hello | test;\n");
     }
 
     public void buildGraph()
