@@ -19,12 +19,22 @@ public class TokenList extends ArrayList<Token>
     @Override
     public String toString()
     {
+        return toJSONArray().toString();
+    }
+
+    public String toPretty()
+    {
+        return toJSONArray().toString(4);
+    }
+
+    private JSONArray toJSONArray()
+    {
         JSONArray jsonArray = new JSONArray();
         for (Token token : this)
         {
             jsonArray.put(new JSONObject(token));
         }
 
-        return jsonArray.toString(4);
+        return jsonArray;
     }
 }

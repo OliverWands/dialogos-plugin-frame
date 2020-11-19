@@ -2,20 +2,13 @@ package dialogos.frame.utils.tokens;
 
 public class FrameTokenizer
 {
-    private final int maxMatchLength;
-
-    public FrameTokenizer(int maxMatchLength)
-    {
-        this.maxMatchLength = maxMatchLength;
-    }
-
-    public TokenList tokenize(String input)
+    public static TokenList tokenize(String input)
     {
         input = input.replaceAll("\\p{Punct}", "");
         String[] tokens = input.split(" ");
         TokenList tokenList = new TokenList();
 
-        for (int inx = 1; inx <= maxMatchLength; inx++)
+        for (int inx = 1; inx <= input.length(); inx++)
         {
             for (int jnx = 0; jnx < tokens.length; jnx++)
             {

@@ -87,7 +87,14 @@ public class Token
         return tags;
     }
 
+    @Override
     public String toString()
+    {
+        JSONObject jsonObject = new JSONObject(this);
+        return jsonObject.toString();
+    }
+
+    public String toPretty()
     {
         JSONObject jsonObject = new JSONObject(this);
         return jsonObject.toString(4);

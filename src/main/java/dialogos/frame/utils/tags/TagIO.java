@@ -1,7 +1,5 @@
 package dialogos.frame.utils.tags;
 
-import dialogos.frame.utils.tokens.Token;
-import dialogos.frame.utils.tokens.TokenList;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -9,25 +7,19 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
-import java.util.HashSet;
+import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 public class TagIO
 {
-    private static final String DEFINED = "defined";
-    private static final String GRAMMAR = "grammar";
-
     /**
      * Extracts the grammar and defined tags from a JSON-File into maps that contain the string value as key and the
      * tag as value.
      *
-     * @param file        The json file that contains the tags.
-     * @param definedTags This map will be filled with the defined tags.
-     * @param grammarMap  This map will be filled with the grammar.
+     * @param file       The json file that contains the tags.
+     * @param grammarMap This map will be filled with the grammars for each tag.
      */
-    public static void jsonToTags(File file, Map<String, String> definedTags, Map<String, String> grammarMap)
+    public static boolean jsonToTags(File file, Map<String, String> grammarMap)
     {
         String content = null;
         try
@@ -43,108 +35,57 @@ public class TagIO
 
         if (content == null)
         {
-            return;
+            return false;
         }
 
         JSONObject jsonObject = new JSONObject(content);
         for (String key : jsonObject.keySet())
         {
-            JSONObject current = jsonObject.getJSONObject(key);
-            if (current.has(DEFINED))
+            Object value = jsonObject.get(key);
+            if (value instanceof String)
             {
-                JSONArray values = current.getJSONArray(DEFINED);
-                for (int inx = 0; inx < values.length(); inx++)
-                {
-                    definedTags.put(values.getString(inx), key);
-                }
-
-                System.out.println(buildGrammarVariable(key, values));
+                String grammarString = jsonObject.getString(key);
+                grammarMap.put(key, grammarString);
+                continue;
             }
 
-            if (current.has(GRAMMAR))
+            //
+            // Generates a simple grammar from alternatives given as a JSONArray
+            //
+            if (value instanceof JSONArray)
             {
-                String grammar = current.getString(GRAMMAR);
-                grammarMap.put(key, grammar);
+                JSONArray array = jsonObject.getJSONArray(key);
+                grammarMap.put(key, buildGrammarVariable(key, array));
             }
         }
+
+        return true;
     }
 
     private static String buildGrammarVariable(String key, JSONArray array)
     {
-        String grammarVar = "$" + key + " = ";
-        for (int inx = 0; inx < array.length(); inx++)
+        StringBuilder builder = new StringBuilder(String.format("root $%s;$%s = ", key, key));
+        for (int inx = 1; inx < array.length() - 1; inx++)
         {
-            grammarVar += array.getString(inx) + " | ";
+            builder.append(array.getString(inx));
+            builder.append(" | ");
         }
-        grammarVar = grammarVar.substring(0, grammarVar.length() - 3);
-        grammarVar += ";";
-
-        return grammarVar;
+        builder.append(array.getString(array.length() - 1).toLowerCase());
+        builder.append(";");
+        return builder.toString();
     }
 
     /**
-     * Creates a map that has he tag as key and the number of occurrences of this tag as value
-     *
-     * @param tags The map containing the tags
-     * @return A map of tags and longs
-     */
-    public static Map<String, Long> tagSetCount(Map<String, String> tags)
-    {
-        return tags.values().stream().collect(Collectors.groupingBy(e -> e, Collectors.counting()));
-    }
-
-    /**
-     * Calculates the total amount of individual (duplicates will not be counted) tags in two maps.
-     *
-     * @param tags1 The first map.
-     * @param tags2 The second map.
-     * @return The number of individual tags.
-     */
-    public static int countTags(Map<String, String> tags1, Map<String, String> tags2)
-    {
-        Set<String> count = new HashSet<>();
-        count.addAll(tags1.values());
-        count.addAll(tags2.values());
-        return count.size();
-    }
-
-    /**
-     * Collect information about the tags
+     * Get formatted string that gives information about the grammars.
      *
      * @param tagFile File that contains the tags
      * @return Formatted string that gives information about the composition of the tags in the file.
      */
-    public static String fileToTagMaps(File tagFile, Map<String, String> tags1, Map<String, String> tags2)
+    public static String fileToTagMaps(File tagFile)
     {
-        TagIO.jsonToTags(tagFile, tags1, tags2);
-        int counts = TagIO.countTags(tags1, tags2);
+        HashMap<String, String> tags = new HashMap<>();
+        TagIO.jsonToTags(tagFile, tags);
 
-        return String.format("Contains %d tags,\n%d words and %d grammars.",
-                counts, tags1.size(), tags2.size());
-    }
-
-    /**
-     * @param tokenList
-     * @param definedMap
-     * @param grammarMap
-     */
-    public static void tagTokenList(TokenList tokenList, Map<String, String> definedMap, Map<String, String> grammarMap)
-    {
-        for (Token token : tokenList)
-        {
-            String tag = definedMap.getOrDefault(token.getLower(), null);
-            if (tag != null)
-            {
-                token.setTag(tag);
-            }
-
-            for (String pattern : grammarMap.keySet())
-            {
-                if (token.getLower().matches(pattern))
-                {
-                    token.setTag(grammarMap.get(pattern));
-                }
-            }
-        }
+        return String.format("Contains %d grammars.", tags.size());
     }
 }

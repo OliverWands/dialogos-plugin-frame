@@ -1,5 +1,16 @@
 {
-  "zeit": "root $Input;\n$Input = mittag | abends | morgens | jetzt | nachts;",
+  "zeit": "root $Input;$Input = mittag | abends | morgens | jetzt | nachts;",
   "verbindung": "root $Input;$Input = bis | nach;",
-  "haltestelle": "root $Input;$Input = stade | landungsbrücken | hauptbahnhof | osterstraße | informatikum | hagenbecks tierpark | schlump | sternschanze | elphilharmonie;"
+  "haltestelleString": "root $Input;$Input = stade | landungsbrücken | hauptbahnhof | osterstraße | informatikum | hagenbecks tierpark | schlump | sternschanze | elphilharmonie;",
+  "haltestelleArray":  [
+    "Stade",
+    "Landungsbrücken",
+    "Hauptbahnhof",
+    "Osterstraße",
+    "Informatikum",
+    "Hagenbecks Tierpark",
+    "Schlump",
+    "Sternschanze",
+    "Elbphilharmonie"
+  ]
 }
