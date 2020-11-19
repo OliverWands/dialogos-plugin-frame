@@ -140,7 +140,7 @@ public class FrameNode extends OwnerNode
 
             //
             // Open a view that shows the corresponding graph
-            // TODO
+            // TODO Remove
             if (!frameStruct.isEmpty() || true)
             {
                 GraphEditorFactory.show(this);
@@ -208,5 +208,17 @@ public class FrameNode extends OwnerNode
         }
 
         variables.add(variable);
+    }
+
+    /**
+     * Add a grammar to the graph of the FrameNode.
+     * @param name The name of the grammar.
+     * @param grammarString The content of the grammar.
+     */
+    public void addGrammar(String name, String grammarString)
+    {
+        List<Grammar> grammars = getOwnedGraph().getGrammars();
+        Grammar grammar = new Grammar(name, grammarString);
+        grammars.add(grammar);
     }
 }
