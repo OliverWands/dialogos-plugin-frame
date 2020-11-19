@@ -20,8 +20,6 @@ import java.util.*;
 public class FrameNode extends OwnerNode
 {
     public FrameStruct frameStruct = new FrameStruct();
-    // To be used to decide the instance and the corresponding tags in the cache
-    private final String FRAME_UUID = UUID.randomUUID().toString().replace("-", "");
 
     public FrameNode()
     {
@@ -215,10 +213,11 @@ public class FrameNode extends OwnerNode
      * @param name The name of the grammar.
      * @param grammarString The content of the grammar.
      */
-    public void addGrammar(String name, String grammarString)
+    public String addGrammar(String name, String grammarString)
     {
         List<Grammar> grammars = getOwnedGraph().getGrammars();
         Grammar grammar = new Grammar(name, grammarString);
         grammars.add(grammar);
+        return grammar.getId();
     }
 }
