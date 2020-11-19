@@ -16,11 +16,9 @@ public class FrameStruct implements Marshalling
     private List<SlotStruct> slotList = new ArrayList<>();
 
     private File globalTags = null;
-    private HashMap<String, String> globalDefinedTags = null;
     private HashMap<String, String> globalGrammerTags = null;
 
     private File tags = null;
-    private HashMap<String, String> definedTags = new HashMap<>();
     private HashMap<String, String> grammarTags = new HashMap<>();
 
     private final Comparator<SlotStruct> slotComparator =
@@ -44,20 +42,19 @@ public class FrameStruct implements Marshalling
     public void setFromSettings(Plugin.FramePluginSettings settings)
     {
         globalTags = settings.globalTags;
-        globalDefinedTags = settings.definedMap;
         globalGrammerTags = settings.grammarMap;
     }
 
     public void setTagsFromFile(File tagFile)
     {
         tags = tagFile;
-        TagIO.fileToTagMaps(tags, definedTags, grammarTags);
+        TagIO.jsonToTags(tags, grammarTags);
     }
 
     public void setGlobalTagsFromFile(File tagFile)
     {
         globalTags = tagFile;
-        TagIO.fileToTagMaps(globalTags, definedTags, grammarTags);
+        TagIO.jsonToTags(globalTags, grammarTags);
     }
 
     public void setID(String ID)
@@ -102,16 +99,6 @@ public class FrameStruct implements Marshalling
     public void removeSlot(int index)
     {
         slotList.remove(index);
-    }
-
-    public HashMap<String, String> getAllDefinedTags()
-    {
-        HashMap<String, String> combined = new HashMap<>(definedTags);
-        if (globalDefinedTags != null)
-        {
-            combined.putAll(globalDefinedTags);
-        }
-        return combined;
     }
 
     public HashMap<String, String> getAllGrammars()
@@ -164,7 +151,6 @@ public class FrameStruct implements Marshalling
         jsonObject.put("ID", ID);
 
         jsonObject.put("TAG_FILE", tags.getAbsolutePath());
-        jsonObject.put("DEFINED_TAGS", new JSONObject(definedTags));
         jsonObject.put("GRAMMAR_TAGS", new JSONObject(grammarTags));
 
         JSONArray slotArray = new JSONArray();
@@ -190,11 +176,6 @@ public class FrameStruct implements Marshalling
 
         ID = jsonObject.getString("ID");
         tags = new File(jsonObject.getString("TAG_FILE"));
-        definedTags = new HashMap<>();
-        for (String key : jsonObject.getJSONObject("DEFINED_TAGS").keySet())
-        {
-            definedTags.put(key, jsonObject.getJSONObject("DEFINED_TAGS").getString(key));
-        }
 
         grammarTags = new HashMap<>();
         for (String key : jsonObject.getJSONObject("GRAMMAR_TAGS").keySet())
