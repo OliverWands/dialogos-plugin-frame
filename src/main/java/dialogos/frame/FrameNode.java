@@ -24,6 +24,7 @@ public class FrameNode extends OwnerNode
     public FrameNode()
     {
         this(new SubGraph(null));
+        setId(UUID.randomUUID().toString());
     }
 
     public FrameNode(SubGraph ownedGraph)
@@ -210,14 +211,27 @@ public class FrameNode extends OwnerNode
 
     /**
      * Add a grammar to the graph of the FrameNode.
-     * @param name The name of the grammar.
+     *
+     * @param name          The name of the grammar.
      * @param grammarString The content of the grammar.
+     *
+     * @return The id of the newly created grammar.
      */
     public String addGrammar(String name, String grammarString)
     {
         List<Grammar> grammars = getOwnedGraph().getGrammars();
         Grammar grammar = new Grammar(name, grammarString);
+        grammar.setId(UUID.randomUUID().toString());
         grammars.add(grammar);
+
         return grammar.getId();
+    }
+
+    public void addGrammar(String id, String name, String grammarString)
+    {
+        List<Grammar> grammars = getOwnedGraph().getGrammars();
+        Grammar grammar = new Grammar(name, grammarString);
+        grammar.setId(id);
+        grammars.add(grammar);
     }
 }
