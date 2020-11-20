@@ -16,7 +16,7 @@ public class FrameStruct implements Marshalling
     private List<SlotStruct> slotList = new ArrayList<>();
 
     private File globalTags = null;
-    private HashMap<String, String> globalGrammerTags = null;
+    private HashMap<String, String> globalGrammarTags = null;
 
     private File tags = null;
     private HashMap<String, String> grammarTags = new HashMap<>();
@@ -42,7 +42,7 @@ public class FrameStruct implements Marshalling
     public void setFromSettings(Plugin.FramePluginSettings settings)
     {
         globalTags = settings.globalTags;
-        globalGrammerTags = settings.grammarMap;
+        globalGrammarTags = settings.grammarMap;
     }
 
     public void setTagsFromFile(File tagFile)
@@ -104,9 +104,9 @@ public class FrameStruct implements Marshalling
     public HashMap<String, String> getAllGrammars()
     {
         HashMap<String, String> combined = new HashMap<>(grammarTags);
-        if (globalGrammerTags != null)
+        if (globalGrammarTags != null)
         {
-            combined.putAll(globalGrammerTags);
+            combined.putAll(globalGrammarTags);
         }
         return combined;
     }
