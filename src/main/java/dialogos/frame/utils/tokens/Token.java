@@ -37,7 +37,7 @@ public class Token
         return this;
     }
 
-    public Token setTag(String tag)
+    public Token addTag(String tag)
     {
         tags.add(tag);
         return this;
