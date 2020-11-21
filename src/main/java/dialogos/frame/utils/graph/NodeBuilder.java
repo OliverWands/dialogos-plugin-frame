@@ -1,6 +1,8 @@
 package dialogos.frame.utils.graph;
 
+import com.clt.diamant.Grammar;
 import com.clt.diamant.Slot;
+import com.clt.diamant.graph.Edge;
 import com.clt.diamant.graph.Graph;
 import com.clt.diamant.graph.nodes.ConditionalNode;
 import com.clt.diamant.graph.nodes.SetVariableNode;
@@ -82,28 +84,29 @@ public class NodeBuilder
         ttsNode.setProperty("prompt", prompt);
     }
 
-    public void assignSphinxNode(SphinxNode node, String expression)
+    public void assignSphinxNode(SphinxNode node, String id)
     {
-        node.setProperty("grammarExpression", "grammar");
-        addEdgeCondition(node, "123");
-    }
+        List<Grammar> grammars = ownedGraph.getGrammars();
 
-    public void assignTagRecognition()
-    {
+        if (grammars != null)
+        {
+            for (Grammar grammar : grammars)
+            {
+                if (grammar.getId() != null && grammar.getId().equals(id))
+                {
+                    node.setProperty("grammar", grammar);
+                    break;
+                }
+            }
+        }
 
+        addEdgeCondition(node, "\"hello\"");
     }
 
     public Integer addEdgeCondition(SphinxNode node, String condition)
     {
-        node.addEdge(condition);
-        for (int inx = 0; inx < node.getOutEdges().size(); inx++)
-        {
-            if (node.getOutEdges().get(inx).getCondition().equals(condition))
-            {
-                return inx;
-            }
-        }
-        return null;
+        Edge edge = node.addEdge(condition);
+        return node.getOutEdges().indexOf(edge);
     }
 
     /**

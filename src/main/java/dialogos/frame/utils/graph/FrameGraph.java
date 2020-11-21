@@ -1,16 +1,16 @@
 package dialogos.frame.utils.graph;
 
+import com.clt.diamant.Slot;
+import com.clt.diamant.graph.Comment;
 import com.clt.diamant.graph.Node;
-import com.clt.diamant.graph.nodes.ConditionalNode;
-import com.clt.diamant.graph.nodes.ReturnNode;
-import com.clt.diamant.graph.nodes.SetVariableNode;
-import com.clt.diamant.graph.nodes.StartNode;
+import com.clt.diamant.graph.nodes.*;
 import com.clt.script.exp.Type;
 import de.saar.coli.dialogos.marytts.plugin.TTSNode;
 import dialogos.frame.FrameNode;
 import edu.cmu.lti.dialogos.sphinx.plugin.SphinxNode;
 
 import java.awt.*;
+import java.util.HashMap;
 
 public class FrameGraph
 {
@@ -36,8 +36,17 @@ public class FrameGraph
     public void setVariables()
     {
         frameNode.addVariable("FRAMESIZE", "Size", Type.Int, Integer.toString(frameNode.frameStruct.size()));
-        frameNode.addVariable("GRAMMAR", "grammar", Type.String, "root $Input;\n$Input = hello;\n");
-//        frameNode.addGrammar("grammar", "root $Input;\n$Input = hello | test;\n");
+        //frameNode.addVariable("GRAMMAR", "grammar", Type.String, "root $Input;\n$Input = hello;\n");
+
+        HashMap<String, String> grammarMap = frameNode.frameStruct.getAllGrammars();
+        if (grammarMap != null && !grammarMap.isEmpty())
+        {
+            for (String key : grammarMap.keySet())
+            {
+                frameNode.addGrammar(key, key, grammarMap.get(key));
+            }
+            // Calculate color out of key for the recognizer node.
+        }
     }
 
     public void buildGraph()
@@ -49,8 +58,33 @@ public class FrameGraph
             // ONLY ASSIGN WHEN IT EXISTS
             nodeBuilder.assignSetVariableNode(variableNode, "FRAMESIZE", "111");
 
+            frameNode.addGrammar("firstGrammar", "grammar", "root $Input;\n$Input = hello | test;\n");
+
+            ProcNode procedure = new ProcNode();
+            procedure.setId("xyz");
+
+
+            for (Slot slot : frameNode.getOwnedGraph().getVariables())
+            {
+                if (slot.getId().equals("FRAMESIZE"))
+                {
+                    procedure.getReturnVariables().add(slot);
+                }
+            }
+
+            CallNode callNode = new CallNode();
+            callNode.setProperty("procedure", procedure);
+
+            frameNode.getMainOwner().getOwnedGraph().add(procedure);
+            frameNode.getMainOwner().getOwnedGraph().add(callNode);
+
+            Comment comment = new Comment();
+            comment.setComment("This is a comment!");
+
+            frameNode.getOwnedGraph().addComment(comment);
+
             SphinxNode sphinxNode = new SphinxNode();
-            nodeBuilder.assignSphinxNode(sphinxNode, "grammar");
+            nodeBuilder.assignSphinxNode(sphinxNode, "firstGrammar");
 
             TTSNode speechSynthesis0 = new TTSNode();
             nodeBuilder.assignTTSNode(speechSynthesis0, "TTS 0", "null");
