@@ -24,12 +24,14 @@ public class FrameNode extends OwnerNode
     public FrameNode()
     {
         this(new SubGraph(null));
-        setId(UUID.randomUUID().toString());
     }
 
     public FrameNode(SubGraph ownedGraph)
     {
         super(ownedGraph);
+
+        setId(UUID.randomUUID().toString());
+
         for (EndNode n : this.getEndNodes())
         {
             this.addEdge(n.getTitle());
