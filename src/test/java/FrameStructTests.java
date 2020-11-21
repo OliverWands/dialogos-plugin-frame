@@ -2,7 +2,6 @@ import dialogos.frame.FrameStruct;
 import dialogos.frame.SlotStruct;
 import dialogos.frame.utils.tokens.Token;
 import org.json.JSONObject;
-import org.junit.Before;
 import org.junit.Test;
 
 import java.io.File;
@@ -35,8 +34,8 @@ public class FrameStructTests
         assert !createdFrame.isFilled();
         assert createdFrame.getSlot(0).getName().equals("Slot0");
 
-        Token token1 = new Token("Token1", 0, 1).setTag("tag1");
-        Token token2 = new Token("Token2", 2, 3).setTag("tag4");
+        Token token1 = new Token("Token1", 0, 1).addTag("tag1");
+        Token token2 = new Token("Token2", 2, 3).addTag("tag4");
         createdFrame.getSlot(0).setValue(token1);
         createdFrame.getSlot(1).setValue(token2);
 
@@ -53,7 +52,7 @@ public class FrameStructTests
                 .setIsAdditional(false)
                 .setQuery("Please enter Slot2"));
 
-        Token token3 = new Token("Token3", 4, 5).setTag("tag6");
+        Token token3 = new Token("Token3", 4, 5).addTag("tag6");
         createdFrame.getSlot(2).setValue(token3);
 
         assert createdFrame.isFilled();
@@ -63,8 +62,8 @@ public class FrameStructTests
     public void testSorting()
     {
         FrameStruct createdFrame = createFrame();
-        Token token1 = new Token("Token1", 0, 1).setTag("tag1");
-        Token token3 = new Token("Token3", 4, 5).setTag("tag6");
+        Token token1 = new Token("Token1", 0, 1).addTag("tag1");
+        Token token3 = new Token("Token3", 4, 5).addTag("tag6");
         createdFrame.getSlot(0).setValue(token1);
         createdFrame.getSlot(1);
         createdFrame.getSlot(2).setValue(token3);

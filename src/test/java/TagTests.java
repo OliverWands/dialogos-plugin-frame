@@ -1,3 +1,4 @@
+import com.clt.diamant.Grammar;
 import dialogos.frame.utils.tags.TagIO;
 import dialogos.frame.utils.tokens.FrameTokenizer;
 import dialogos.frame.utils.tokens.TokenList;
@@ -35,5 +36,43 @@ public class TagTests
         int length = phrase.split(" ").length;
 
         assert tokenList.size() == ((length * length + length) / 2);
+    }
+
+    @Test
+    public void testGrammar()
+    {
+        Grammar grammar = new Grammar("Test", "root $Input;\n$Input = yes+;\n");
+        try
+        {
+            com.clt.srgf.Grammar testGrammar = com.clt.srgf.Grammar.create(grammar.getGrammar());
+
+            assert testGrammar.match("yes yes", null) != null;
+
+            if (testGrammar.match("yes yes", null) != null)
+            {
+                System.out.println(testGrammar.match("yes yes", null));
+            }
+
+        } catch (Exception exp)
+        {
+            exp.printStackTrace();
+        }
+    }
+
+    @Test
+    public void testGrammarTagging()
+    {
+        ClassLoader classLoader = getClass().getClassLoader();
+        URL tagFile = classLoader.getResource("tagging.json");
+        assert tagFile != null;
+
+        File file = new File(tagFile.getFile());
+        HashMap<String, String> grammarTags = new HashMap<>();
+
+        assert TagIO.jsonToTags(file, grammarTags);
+
+        TokenList tokens = TagIO.tagTokenList("Stade ist das denn für eine tolle methode die das hier berechnet", grammarTags);
+
+        System.out.println(tokens.toPretty());
     }
 }
