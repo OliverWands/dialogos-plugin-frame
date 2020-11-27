@@ -1,9 +1,5 @@
 package dialogos.frame.utils.tags;
 
-import com.clt.diamant.Grammar;
-import dialogos.frame.utils.tokens.FrameTokenizer;
-import dialogos.frame.utils.tokens.Token;
-import dialogos.frame.utils.tokens.TokenList;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -93,29 +89,29 @@ public class TagIO
         return String.format("Contains %d grammars.", tags.size());
     }
 
-    public static TokenList tagTokenList(String input, HashMap<String, String> grammarMap)
-    {
-        TokenList tokenList = FrameTokenizer.tokenize(input);
-        for (String key : grammarMap.keySet())
-        {
-            Grammar grammar = new Grammar(key, grammarMap.get(key));
-            try
-            {
-                com.clt.srgf.Grammar testGrammar = com.clt.srgf.Grammar.create(grammar.getGrammar());
-
-                for (Token token : tokenList)
-                {
-                    if (testGrammar.match(token.getLower(), null) != null)
-                    {
-                        token.addTag(key);
-                    }
-                }
-            } catch (Exception exp)
-            {
-                exp.printStackTrace();
-            }
-        }
-
-        return tokenList;
-    }
+//    public static TokenList tagTokenList(String input, HashMap<String, String> grammarMap)
+//    {
+//        TokenList tokenList = FrameTokenizer.tokenize(input);
+//        for (String key : grammarMap.keySet())
+//        {
+//            Grammar grammar = new Grammar(key, grammarMap.get(key));
+//            try
+//            {
+//                com.clt.srgf.Grammar testGrammar = com.clt.srgf.Grammar.create(grammar.getGrammar());
+//
+//                for (Token token : tokenList)
+//                {
+//                    if (testGrammar.match(token.getLower(), null) != null)
+//                    {
+//                        token.addTag(key);
+//                    }
+//                }
+//            } catch (Exception exp)
+//            {
+//                exp.printStackTrace();
+//            }
+//        }
+//
+//        return tokenList;
+//    }
 }
