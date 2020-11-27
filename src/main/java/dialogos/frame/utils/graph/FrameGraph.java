@@ -64,6 +64,8 @@ public class FrameGraph
             GraphBuilder.placeBottom(startNode, inputVariable);
             GraphBuilder.placeBottom(inputVariable, fillerNode);
 
+            GraphBuilder.connectNodes(new Node[]{startNode, inputVariable, fillerNode});
+
             buildBottomUp(frameNode.frameStruct.getSlots(), fillerNode, returnNode);
         }
     }
@@ -77,7 +79,7 @@ public class FrameGraph
         {
             SlotStruct slot = frameNode.frameStruct.getSlot(inx);
             frameNode.addVariable("FILLED" + slot.ID, "FILLED" + slot.ID, Type.Bool, "false");
-            frameNode.addVariable("INPUT" + slot.ID, slot.ID + "INPUT", Type.String, "");
+            frameNode.addVariable("INPUT" + slot.ID, "INPUT" + slot.ID, Type.String, "");
         }
     }
 
@@ -128,7 +130,7 @@ public class FrameGraph
             GraphBuilder.placeLeft(checkEmpty, comment);
 
             GraphBuilder.setConditionalEdges(checkEmpty, end, queryNode);
-            GraphBuilder.connectNodes(new Node[]{queryNode, recogniser, filler, setNotEmpty});
+            GraphBuilder.connectNodes(new Node[]{queryNode, recogniser, filler, setNotEmpty, end});
 
             end = checkEmpty;
         }
