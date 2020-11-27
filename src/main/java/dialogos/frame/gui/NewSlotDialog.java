@@ -135,13 +135,13 @@ public class NewSlotDialog extends JDialog
         apply.addActionListener(e ->
         {
             String id = nameText.getText();
-            String[] tagArray = new String[]{tagsText.getText()};
+            String tag = tagsText.getText();
 
             if (!id.isEmpty() && !id.matches(" +"))
             {
                 slot = new SlotStruct();
                 slot.setName(id);
-                slot.setMatchedTags(tagArray);
+                slot.setGrammarName(tag);
                 slot.setIsAdditional(additionalCheck.isSelected());
                 slot.setQuery(queryText.getText());
             }

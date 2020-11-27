@@ -1,19 +1,17 @@
 package dialogos.frame;
 
 import dialogos.frame.utils.tokens.Token;
-import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.UUID;
 
 public class SlotStruct implements Marshalling
 {
+    public final String ID = UUID.randomUUID().toString();
     private String name;
     private String value;
     private String query;
-    private List<String> matchedTags;
+    private String grammarName;
     private boolean isAdditional;
     private boolean isFilled;
 
@@ -32,15 +30,14 @@ public class SlotStruct implements Marshalling
         return this;
     }
 
-    public SlotStruct setMatchedTags(List<String> matchedTags)
+    public String getGrammarName()
     {
-        this.matchedTags = matchedTags;
-        return this;
+        return grammarName;
     }
 
-    public SlotStruct setMatchedTags(String[] matchedTags)
+    public SlotStruct setGrammarName(String grammarName)
     {
-        this.matchedTags = Arrays.asList(matchedTags);
+        this.grammarName = grammarName;
         return this;
     }
 
@@ -57,14 +54,11 @@ public class SlotStruct implements Marshalling
 
     public SlotStruct setValue(Token token)
     {
-        for (String tag : matchedTags)
+        if (token.getTags().contains(grammarName))
         {
-            if (token.getTags().contains(tag))
-            {
-                value = token.getLower();
-                isFilled = true;
-                return this;
-            }
+            value = token.getLower();
+            isFilled = true;
+            return this;
         }
         isFilled = false;
         return this;
@@ -72,18 +66,7 @@ public class SlotStruct implements Marshalling
 
     public String[] getContent()
     {
-        StringBuilder builder = new StringBuilder();
-        for (String tag : matchedTags)
-        {
-            builder.append(tag);
-            builder.append(", ");
-        }
-        return new String[]{name, builder.toString(), isAdditional ? "Yes" : "No", query};
-    }
-
-    public List<String> getMatchedTags()
-    {
-        return matchedTags;
+        return new String[]{name, grammarName, isAdditional ? "Yes" : "No", query};
     }
 
     public String getName()
@@ -150,7 +133,7 @@ public class SlotStruct implements Marshalling
         jsonObject.put("NAME", name);
         jsonObject.put("QUERY", query);
         jsonObject.put("IS_ADDITIONAL", isAdditional);
-        jsonObject.put("MATCHED_TAGS", new JSONArray(matchedTags));
+        jsonObject.put("GRAMMAR_NAME", grammarName);
 
         return jsonObject;
     }
@@ -158,7 +141,7 @@ public class SlotStruct implements Marshalling
     @Override
     public boolean unmarshalStruct(JSONObject jsonObject)
     {
-        for (String key : new String[]{"NAME", "QUERY", "IS_ADDITIONAL", "MATCHED_TAGS"})
+        for (String key : new String[]{"NAME", "QUERY", "IS_ADDITIONAL", "GRAMMAR_NAME"})
         {
             if (!jsonObject.has(key))
             {
@@ -169,12 +152,7 @@ public class SlotStruct implements Marshalling
         name = jsonObject.getString("NAME");
         query = jsonObject.getString("QUERY");
         isAdditional = jsonObject.getBoolean("IS_ADDITIONAL");
-        JSONArray jsonArray = jsonObject.getJSONArray("MATCHED_TAGS");
-        matchedTags = new ArrayList<>();
-        for (int inx = 0; inx < jsonArray.length(); inx++)
-        {
-            matchedTags.add(inx, jsonArray.getString(inx));
-        }
+        grammarName = jsonObject.getString("GRAMMAR_NAME");
 
         return true;
     }
