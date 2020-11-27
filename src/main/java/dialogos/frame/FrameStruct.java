@@ -78,6 +78,11 @@ public class FrameStruct implements Marshalling
         return slotList.get(index);
     }
 
+    public List<SlotStruct> getSlots()
+    {
+        return slotList;
+    }
+
     public boolean isFilled()
     {
         if (isEmpty())
@@ -166,7 +171,7 @@ public class FrameStruct implements Marshalling
     @Override
     public boolean unmarshalStruct(JSONObject jsonObject)
     {
-        for (String key : new String[]{"ID", "TAG_FILE", "DEFINED_TAGS", "GRAMMAR_TAGS", "SLOT_LIST"})
+        for (String key : new String[]{"ID", "TAG_FILE", "GRAMMAR_TAGS", "SLOT_LIST"})
         {
             if (!jsonObject.has(key))
             {
