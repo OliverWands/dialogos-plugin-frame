@@ -4,11 +4,13 @@ import com.clt.diamant.Grammar;
 import com.clt.diamant.Slot;
 import com.clt.diamant.graph.Edge;
 import com.clt.diamant.graph.Graph;
+import com.clt.diamant.graph.Node;
 import com.clt.diamant.graph.nodes.ConditionalNode;
 import com.clt.diamant.graph.nodes.SetVariableNode;
 import de.saar.coli.dialogos.marytts.plugin.TTSNode;
 import edu.cmu.lti.dialogos.sphinx.plugin.SphinxNode;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,6 +24,17 @@ public class NodeBuilder
     public NodeBuilder(Graph ownedGraph)
     {
         this.ownedGraph = ownedGraph;
+    }
+
+    /**
+     * Calculates a color for the node, using the hash of its title.
+     *
+     * @param node The node whose color will be changed.
+     */
+    public void changeColor(Node node)
+    {
+        node.setColor(new Color(Math.abs(
+                (int) Math.floor((((double) node.getTitle().hashCode() * (double) 0xFFFFFF) / (double) Integer.MAX_VALUE)))));
     }
 
     /**
@@ -84,7 +97,7 @@ public class NodeBuilder
         ttsNode.setProperty("prompt", prompt);
     }
 
-    public void assignSphinxNode(SphinxNode node, String id)
+    public void assignSphinxNode(SphinxNode node, String grammarID)
     {
         List<Grammar> grammars = ownedGraph.getGrammars();
 
@@ -92,15 +105,21 @@ public class NodeBuilder
         {
             for (Grammar grammar : grammars)
             {
-                if (grammar.getId() != null && grammar.getId().equals(id))
+                if (grammar.getId() != null && grammar.getId().equals(grammarID))
                 {
                     node.setProperty("grammar", grammar);
                     break;
                 }
             }
         }
+    }
 
-        addEdgeCondition(node, "\"hello\"");
+    public void assignSlotSphinx(SphinxNode node, Grammar grammar, String edgeCondition)
+    {
+        node.setTitle(grammar.getName());
+        changeColor(node);
+        node.setProperty("grammar", grammar);
+        addEdgeCondition(node, edgeCondition);
     }
 
     public Integer addEdgeCondition(SphinxNode node, String condition)

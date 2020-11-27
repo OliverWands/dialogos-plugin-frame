@@ -1,8 +1,8 @@
 {
-  "zeit": "root $Input;$Input = mittag | abends | morgens | jetzt | nachts;",
-  "verbindung": "root $Input;$Input = bis | nach;",
-  "haltestelleString": "root $Input;$Input = stade | landungsbrücken | hauptbahnhof | osterstraße | informatikum | hagenbecks tierpark | schlump | sternschanze | elphilharmonie;",
-  "haltestelleArray":  [
+  "tag1": "root $Input;$Input = mittag | abends | morgens | jetzt | nachts;",
+  "tag2": "root $Input;$Input = bis | nach;",
+  "tag3": "root $Input;$Input = stade | landungsbrücken | hauptbahnhof | osterstraße | informatikum | hagenbecks tierpark | schlump | sternschanze | elphilharmonie;",
+  "tag4": [
     "Stade",
     "Landungsbrücken",
     "Hauptbahnhof",

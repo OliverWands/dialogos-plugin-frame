@@ -60,19 +60,40 @@ public class TagTests
     }
 
     @Test
-    public void testGrammarTagging()
+    public void testGrammar2()
     {
-        ClassLoader classLoader = getClass().getClassLoader();
-        URL tagFile = classLoader.getResource("tagging.json");
-        assert tagFile != null;
+        Grammar grammar = new Grammar("Test", "root $Input;\n$Input = $base+;\n$base = $test1 | $test2 | $test3;\n$test1 = was | ist | denn;\n$test2 = ergibt | wo | welche;\n$test3 = daher | denn;");
+        try
+        {
+            com.clt.srgf.Grammar testGrammar = com.clt.srgf.Grammar.create(grammar.getGrammar());
+            String input = "was ist daher";
+            assert testGrammar.match(input, null) != null;
 
-        File file = new File(tagFile.getFile());
-        HashMap<String, String> grammarTags = new HashMap<>();
+            if (testGrammar.match(input, null) != null)
+            {
+                System.out.println(testGrammar.match(input, null));
+            }
 
-        assert TagIO.jsonToTags(file, grammarTags);
-
-        TokenList tokens = TagIO.tagTokenList("Stade ist das denn für eine tolle methode die das hier berechnet", grammarTags);
-
-        System.out.println(tokens.toPretty());
+        } catch (Exception exp)
+        {
+            exp.printStackTrace();
+        }
     }
+
+//    @Test
+//    public void testGrammarTagging()
+//    {
+//        ClassLoader classLoader = getClass().getClassLoader();
+//        URL tagFile = classLoader.getResource("tagging.json");
+//        assert tagFile != null;
+//
+//        File file = new File(tagFile.getFile());
+//        HashMap<String, String> grammarTags = new HashMap<>();
+//
+//        assert TagIO.jsonToTags(file, grammarTags);
+//
+//        TokenList tokens = TagIO.tagTokenList("Stade ist das denn für eine tolle methode die das hier berechnet", grammarTags);
+//
+//        System.out.println(tokens.toPretty());
+//    }
 }
