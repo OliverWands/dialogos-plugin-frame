@@ -1,62 +1,38 @@
 package dialogos.frame;
 
 import com.clt.diamant.*;
-import com.clt.diamant.graph.*;
-import com.clt.diamant.graph.nodes.EndNode;
-import com.clt.diamant.graph.nodes.OwnerNode;
+import com.clt.diamant.graph.Comment;
+import com.clt.diamant.graph.Graph;
+import com.clt.diamant.graph.Node;
+import com.clt.diamant.graph.nodes.CallNode;
+import com.clt.diamant.graph.nodes.ProcNode;
 import com.clt.diamant.gui.GraphEditorFactory;
 import com.clt.diamant.gui.NodePropertiesDialog;
 import com.clt.script.exp.Type;
 import com.clt.xml.XMLWriter;
 import dialogos.frame.gui.FrameNodeMenu;
 import dialogos.frame.utils.graph.FrameGraph;
+import dialogos.frame.utils.graph.GraphBuilder;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.*;
+import java.util.Map;
+import java.util.UUID;
 
-public class FrameNode extends OwnerNode
+public class FrameNode extends CallNode
 {
+    public final static String INPUT_VAR_NAME = "INPUT_VAR";
+    public final static String INPUT_VAR_ID = "INPUT_VAR_ID";
+
     public FrameStruct frameStruct = new FrameStruct();
+    private final ProcNode procNode = new ProcNode();
 
     public FrameNode()
     {
-        this(new SubGraph(null));
-    }
-
-    public FrameNode(SubGraph ownedGraph)
-    {
-        super(ownedGraph);
-
-        setId(UUID.randomUUID().toString());
-
-        for (EndNode n : this.getEndNodes())
-        {
-            this.addEdge(n.getTitle());
-        }
-
-        this.addEdgeListener(new EdgeListener()
-        {
-            public void edgeAdded(EdgeEvent e)
-            {
-                final Node node = FrameNode.this.getEndNode(e.getIndex());
-                FrameNode.this.addEdge(node.getTitle());
-            }
-
-            public void edgeRemoved(EdgeEvent e)
-            {
-                FrameNode.this.removeEdge(e.getIndex());
-            }
-
-            public void edgeUpdated(EdgeEvent e)
-            {
-                Edge edge = FrameNode.this.getEdge(e.getIndex());
-                edge.setCondition(FrameNode.this.getPortName(e.getIndex()));
-                edge.setColor(FrameNode.this.getPortColor(e.getIndex()));
-            }
-        });
     }
 
     public static Color getDefaultColor()
@@ -67,38 +43,26 @@ public class FrameNode extends OwnerNode
     @Override
     public Node execute(WozInterface wozInterface, InputCenter input, ExecutionLogger logger)
     {
-        logNode(logger);
-        Node target;
-        try
-        {
-            wozInterface.subgraph(this, true);
-            target = this.getOwnedGraph().execute(wozInterface, input, logger);
-        } finally
-        {
-            wozInterface.subgraph(this, false);
-            this.setActive(false);
-        }
-
-        int index = this.getEndNodeIndex(target);
-        if (index >= 0)
-        {
-            target = this.getEdge(index).getTarget();
-            wozInterface.transition(this, target, index, null);
-        }
-
-        return target;
+        return super.execute(wozInterface, input, logger);
     }
 
     @Override
-    public void writeVoiceXML(XMLWriter w, IdMap uid_map) throws IOException
+    public void writeVoiceXML(XMLWriter w, IdMap uid_map)
     {
-        w.printElement("subdialog", new String[]{"name"}, new String[]{"graph" + uid_map.graphs.put(this.getOwnedGraph())});
-        this.getOwnedGraph().exportVoiceXML(w, uid_map);
+        try
+        {
+            w.printElement("subdialog", new String[]{"name"}, new String[]{"graph" + uid_map.graphs.put(getOwnedGraph())});
+            getOwnedGraph().exportVoiceXML(w, uid_map);
+        } catch (IOException exp)
+        {
+            exp.printStackTrace();
+        }
     }
 
     @Override
     public JComponent createEditorComponent(Map<String, Object> properties)
     {
+//        return super.createEditorComponent(properties);
         return new FrameNodeMenu(this);
     }
 
@@ -144,16 +108,50 @@ public class FrameNode extends OwnerNode
             // TODO Remove
             if (!frameStruct.isEmpty() || true)
             {
-                GraphEditorFactory.show(this);
-                Collection<Node> mainGraphNodes = this.getGraph().getNodes();
-                for (Node node : mainGraphNodes)
+                procNode.setTitle("Frame");
+                procNode.setId("FRAMEPROCEDURE");
+                super.setProperty("procedure", procNode);
+
+                getMainOwner().getOwnedGraph().add(procNode);
+                GraphBuilder.placeLeft(this, procNode);
+
+                GraphBuilder.setGraphSize(getOwnedGraph(), 2, 2);
+
+                frameStruct.setTagsFromFile(new File("/Users/oliverwandschneider/develop/IdeaProjects/dialogos-plugin-frame/src/test/resources/tagging.json"));
+
+                //
+                // Add all grammars from the tag file to the graph.
+                //
+                List<Grammar> grammars = getOwnedGraph().getGrammars();
+                for (String key : frameStruct.getAllGrammars().keySet())
                 {
-                    if (node.getClassName().equals(FrameNode.class.getName()))
-                    {
-                        FrameGraph frameGraphBuilder = new FrameGraph(this);
-                        frameGraphBuilder.buildGraph();
-                    }
+                    grammars.add(new Grammar(key, frameStruct.getAllGrammars().get(key)));
                 }
+
+                GraphEditorFactory.show(procNode);
+
+                FrameGraph frameGraphBuilder = new FrameGraph(this);
+//                frameGraphBuilder.buildGraph();
+
+
+                List<SlotStruct> slots = new ArrayList<>();
+                slots.add(new SlotStruct("Slot0")
+                        .setGrammarName("tag1")
+                        .setIsAdditional(false)
+                        .setQuery("Please enter Slot0"));
+                slots.add(new SlotStruct("Slot1")
+                        .setGrammarName("tag2")
+                        .setIsAdditional(false)
+                        .setQuery("Please enter Slot1"));
+                slots.add(new SlotStruct("Slot2")
+                        .setGrammarName("tag3")
+                        .setIsAdditional(false)
+                        .setQuery("Please enter Slot2"));
+
+                String id = "Test_ID";
+                frameStruct = new FrameStruct(id, slots);
+
+                frameGraphBuilder.buildFrameInterpretationAlgo();
             }
 
             return true;
@@ -176,6 +174,13 @@ public class FrameNode extends OwnerNode
             getOwnedGraph().add(node);
         }
     }
+
+    public void addComment(Comment comment)
+    {
+        getOwnedGraph().addComment(comment);
+    }
+
+    // TODO Keep track of all added variables, grammars etc. to delete all of them once the node gets removed
 
     /**
      * Creates a slot/variable with the given configuration and adds it to the graph of the FrameNode.
@@ -216,7 +221,6 @@ public class FrameNode extends OwnerNode
      *
      * @param name          The name of the grammar.
      * @param grammarString The content of the grammar.
-     *
      * @return The id of the newly created grammar.
      */
     public String addGrammar(String name, String grammarString)
@@ -235,5 +239,29 @@ public class FrameNode extends OwnerNode
         Grammar grammar = new Grammar(name, grammarString);
         grammar.setId(id);
         grammars.add(grammar);
+    }
+
+    public Grammar getGrammar(String name)
+    {
+        List<Grammar> grammars = getOwnedGraph().getGrammars();
+        for (Grammar grammar : grammars)
+        {
+            if (grammar.getName().equals(name))
+            {
+                return grammar;
+            }
+        }
+
+        return null;
+    }
+
+    public Graph getOwnedGraph()
+    {
+        return procNode.getOwnedGraph();
+    }
+
+    public void setOwnedGraph(Graph graph)
+    {
+        procNode.setGraph(graph);
     }
 }
