@@ -9,7 +9,7 @@ public class Token
 {
     private String content;
     private String lower;
-    private int length;
+    private int size;
     private int startIndex;
     private int endIndex;
     private List<String> tags;
@@ -25,7 +25,7 @@ public class Token
         this.lower = content.toLowerCase();
         this.startIndex = startIndex;
         this.endIndex = endIndex;
-        this.length = endIndex - startIndex;
+        this.size = endIndex - startIndex;
         tags = new ArrayList<>();
     }
 
@@ -33,7 +33,7 @@ public class Token
     {
         this.startIndex = startIndex;
         this.endIndex = endIndex;
-        length = endIndex - startIndex;
+        size = endIndex - startIndex;
         return this;
     }
 
@@ -56,9 +56,9 @@ public class Token
         return endIndex;
     }
 
-    public int getLength()
+    public int size()
     {
-        return length;
+        return size;
     }
 
     public int getStartIndex()
@@ -98,6 +98,18 @@ public class Token
     {
         JSONObject jsonObject = new JSONObject(this);
         return jsonObject.toString(4);
+    }
+
+    public boolean containsSomeTags(Token token)
+    {
+        for (String tag : this.tags)
+        {
+            if (token.getTags().contains(tag))
+            {
+                return true;
+            }
+        }
+        return false;
     }
 }
 

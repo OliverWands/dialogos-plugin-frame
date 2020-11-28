@@ -1,5 +1,9 @@
 package dialogos.frame.utils.tags;
 
+import com.clt.diamant.Grammar;
+import dialogos.frame.utils.tokens.FrameTokenizer;
+import dialogos.frame.utils.tokens.Token;
+import dialogos.frame.utils.tokens.TokenList;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -8,6 +12,7 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class TagIO
@@ -62,6 +67,14 @@ public class TagIO
         return true;
     }
 
+    /**
+     * To be used when the JSON-Tag-File contains a json array of alternatives.
+     * This method will format them to be an OR-separated grammar.
+     *
+     * @param key   The name of the non-terminal.
+     * @param array The Json-Array that contains the alternatives.
+     * @return A properly formatted OR-separated grammar.
+     */
     private static String buildGrammarVariable(String key, JSONArray array)
     {
         StringBuilder builder = new StringBuilder(String.format("root $%s;$%s = ", key, key));
@@ -89,29 +102,69 @@ public class TagIO
         return String.format("Contains %d grammars.", tags.size());
     }
 
-//    public static TokenList tagTokenList(String input, HashMap<String, String> grammarMap)
-//    {
-//        TokenList tokenList = FrameTokenizer.tokenize(input);
-//        for (String key : grammarMap.keySet())
-//        {
-//            Grammar grammar = new Grammar(key, grammarMap.get(key));
-//            try
-//            {
-//                com.clt.srgf.Grammar testGrammar = com.clt.srgf.Grammar.create(grammar.getGrammar());
-//
-//                for (Token token : tokenList)
-//                {
-//                    if (testGrammar.match(token.getLower(), null) != null)
-//                    {
-//                        token.addTag(key);
-//                    }
-//                }
-//            } catch (Exception exp)
-//            {
-//                exp.printStackTrace();
-//            }
-//        }
-//
-//        return tokenList;
-//    }
+    public TokenList tagTokenList(List<Grammar> grammars, String input)
+    {
+        TokenList tokenList = FrameTokenizer.tokenize(input);
+        for (Grammar grammar : grammars)
+        {
+            try
+            {
+                com.clt.srgf.Grammar testGrammar = com.clt.srgf.Grammar.create(grammar.getGrammar());
+
+                for (Token token : tokenList)
+                {
+                    if (testGrammar.match(token.getLower(), null) != null)
+                    {
+                        token.addTag(grammar.getName());
+                    }
+                }
+            } catch (Exception exp)
+            {
+                exp.printStackTrace();
+            }
+        }
+
+        return tokenList;
+    }
+
+    public TokenList cleanupTokens(TokenList tokens)
+    {
+        TokenList cleaned = new TokenList();
+        tokens.removeIf(token -> token.getTags().isEmpty());
+
+        for (int inx = 0; inx < tokens.size(); inx++)
+        {
+            Token token = tokens.get(inx);
+            for (int jnx = 0; jnx < token.size(); jnx++)
+            {
+                if (inx == jnx)
+                {
+                    continue;
+                }
+                Token compareTkn = tokens.get(jnx);
+
+                if (token.getStartIndex() == compareTkn.getStartIndex())
+                {
+                    if (token.containsSomeTags(compareTkn))
+                    {
+                        if (token.size() == compareTkn.size())
+                        {
+                            cleaned.add(token);
+                            cleaned.add(compareTkn);
+                        }
+                        else if (token.size() > compareTkn.size())
+                        {
+                            cleaned.add(token);
+                        }
+                        else
+                        {
+                            cleaned.add(compareTkn);
+                        }
+                    }
+                }
+            }
+        }
+
+        return cleaned;
+    }
 }

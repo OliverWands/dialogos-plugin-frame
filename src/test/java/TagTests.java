@@ -1,6 +1,7 @@
 import com.clt.diamant.Grammar;
 import dialogos.frame.utils.tags.TagIO;
 import dialogos.frame.utils.tokens.FrameTokenizer;
+import dialogos.frame.utils.tokens.Token;
 import dialogos.frame.utils.tokens.TokenList;
 import org.json.JSONObject;
 import org.junit.Test;
@@ -36,6 +37,11 @@ public class TagTests
         int length = phrase.split(" ").length;
 
         assert tokenList.size() == ((length * length + length) / 2);
+
+//        for (Token token : tokenList)
+//        {
+//            System.out.println(token.getStartIndex() + ", " + token.getLower() + ", " + token.getEndIndex());
+//        }
     }
 
     @Test
