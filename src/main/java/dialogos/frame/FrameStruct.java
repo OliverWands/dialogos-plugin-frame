@@ -22,7 +22,7 @@ public class FrameStruct implements Marshalling
     private HashMap<String, String> grammarTags = new HashMap<>();
 
     private final Comparator<SlotStruct> slotComparator =
-            (o1, o2) -> Boolean.compare(o1.isNotFilled(), o2.isNotFilled());
+            (o1, o2) -> Boolean.compare(!o1.isFilled(), !o2.isFilled());
 
     public FrameStruct()
     {
@@ -69,7 +69,6 @@ public class FrameStruct implements Marshalling
 
     public void addSlot(SlotStruct slot)
     {
-
         slotList.add(slot);
     }
 
@@ -83,6 +82,11 @@ public class FrameStruct implements Marshalling
         return slotList;
     }
 
+    public int getIndex(SlotStruct slotStruct)
+    {
+        return slotList.indexOf(slotStruct);
+    }
+
     public boolean isFilled()
     {
         if (isEmpty())
@@ -92,7 +96,7 @@ public class FrameStruct implements Marshalling
 
         for (SlotStruct slot : slotList)
         {
-            if (!slot.isComplete())
+            if (!slot.isFilled())
             {
                 return false;
             }

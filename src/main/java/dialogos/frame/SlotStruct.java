@@ -12,7 +12,6 @@ public class SlotStruct implements Marshalling
     private String value;
     private String query;
     private String grammarName;
-    private boolean isAdditional;
     private boolean isFilled;
 
     public SlotStruct()
@@ -22,12 +21,6 @@ public class SlotStruct implements Marshalling
     public SlotStruct(String name)
     {
         this.name = name;
-    }
-
-    public SlotStruct setIsAdditional(boolean additional)
-    {
-        isAdditional = additional;
-        return this;
     }
 
     public String getGrammarName()
@@ -52,7 +45,15 @@ public class SlotStruct implements Marshalling
         return this;
     }
 
-    public SlotStruct setValue(Token token)
+    public SlotStruct setValue(String value)
+    {
+        this.value = value;
+        isFilled = !this.value.equals("");
+        return this;
+    }
+
+    @Deprecated
+    public SlotStruct setTokenValue(Token token)
     {
         if (token.getTags().contains(grammarName))
         {
@@ -66,7 +67,7 @@ public class SlotStruct implements Marshalling
 
     public String[] getContent()
     {
-        return new String[]{name, grammarName, isAdditional ? "Yes" : "No", query};
+        return new String[]{name, grammarName, query};
     }
 
     public String getName()
@@ -84,30 +85,17 @@ public class SlotStruct implements Marshalling
         return value;
     }
 
-    public boolean isAdditional()
-    {
-        return isAdditional;
-    }
-
     public boolean isFilled()
     {
         return isFilled;
     }
 
-    public boolean isNotFilled()
+    public String removeValue()
     {
-        return !isFilled;
-    }
-
-    public boolean isComplete()
-    {
-        return isFilled || isAdditional;
-    }
-
-    public void removeValue()
-    {
+        String val = value;
         value = null;
         isFilled = false;
+        return val;
     }
 
     @Override
@@ -132,7 +120,6 @@ public class SlotStruct implements Marshalling
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("NAME", name);
         jsonObject.put("QUERY", query);
-        jsonObject.put("IS_ADDITIONAL", isAdditional);
         jsonObject.put("GRAMMAR_NAME", grammarName);
 
         return jsonObject;
@@ -141,7 +128,7 @@ public class SlotStruct implements Marshalling
     @Override
     public boolean unmarshalStruct(JSONObject jsonObject)
     {
-        for (String key : new String[]{"NAME", "QUERY", "IS_ADDITIONAL", "GRAMMAR_NAME"})
+        for (String key : new String[]{"NAME", "QUERY", "GRAMMAR_NAME"})
         {
             if (!jsonObject.has(key))
             {
@@ -151,7 +138,6 @@ public class SlotStruct implements Marshalling
 
         name = jsonObject.getString("NAME");
         query = jsonObject.getString("QUERY");
-        isAdditional = jsonObject.getBoolean("IS_ADDITIONAL");
         grammarName = jsonObject.getString("GRAMMAR_NAME");
 
         return true;
