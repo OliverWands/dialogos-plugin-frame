@@ -1,16 +1,21 @@
 package dialogos.frame.gui;
 
+import com.clt.diamant.Grammar;
+import com.clt.diamant.gui.NodePropertiesDialog;
 import dialogos.frame.SlotStruct;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class NewSlotDialog extends JDialog
 {
     private SlotStruct slot;
 
-    public NewSlotDialog(Window window, String title)
+    public NewSlotDialog(Map<String, Object> properties, List<Grammar> superGrammars, Window window, String title)
     {
         super(window, title, Dialog.ModalityType.APPLICATION_MODAL);
 
@@ -63,6 +68,15 @@ public class NewSlotDialog extends JDialog
         constraints.fill = GridBagConstraints.HORIZONTAL;
         inputPanel.add(tags, constraints);
 
+        List<String> grammarList = new ArrayList<>();
+        grammarList.add("Tag1");
+        grammarList.add("Tag2");
+        grammarList.add("Tag3");
+        grammarList.add("Tag4");
+        grammarList.add("Tag5");
+
+        final JComboBox grammars = NodePropertiesDialog.createComboBox(properties, "LANGUAGE", grammarList);
+
         JTextField tagsText = new JTextField();
         tagsText.setColumns(20);
 
@@ -71,32 +85,12 @@ public class NewSlotDialog extends JDialog
         constraints.gridwidth = 3;
         constraints.anchor = GridBagConstraints.LINE_END;
         constraints.fill = GridBagConstraints.HORIZONTAL;
-        inputPanel.add(tagsText, constraints);
-
-        JLabel isAdditional = new JLabel("Is additional?");
-
-        constraints.gridx = 0;
-        constraints.gridy = 3;
-        constraints.gridwidth = 1;
-        constraints.anchor = GridBagConstraints.LINE_START;
-        constraints.fill = GridBagConstraints.HORIZONTAL;
-        inputPanel.add(isAdditional, constraints);
-
-        JTextField isAdditionalText = new JTextField();
-        isAdditionalText.setColumns(20);
-        JCheckBox additionalCheck = new JCheckBox();
-
-        constraints.gridx = 1;
-        constraints.gridy = 3;
-        constraints.gridwidth = 3;
-        constraints.anchor = GridBagConstraints.LINE_END;
-        constraints.fill = GridBagConstraints.HORIZONTAL;
-        inputPanel.add(additionalCheck, constraints);
+        inputPanel.add(grammars, constraints);
 
         JLabel queryString = new JLabel("Enter query phrase:");
 
         constraints.gridx = 0;
-        constraints.gridy = 4;
+        constraints.gridy = 3;
         constraints.gridwidth = 1;
         constraints.anchor = GridBagConstraints.LINE_START;
         constraints.fill = GridBagConstraints.HORIZONTAL;
@@ -106,7 +100,7 @@ public class NewSlotDialog extends JDialog
         queryText.setColumns(20);
 
         constraints.gridx = 1;
-        constraints.gridy = 4;
+        constraints.gridy = 3;
         constraints.gridwidth = 3;
         constraints.anchor = GridBagConstraints.LINE_END;
         constraints.fill = GridBagConstraints.HORIZONTAL;
@@ -135,14 +129,14 @@ public class NewSlotDialog extends JDialog
         apply.addActionListener(e ->
         {
             String id = nameText.getText();
-            String tag = tagsText.getText();
+            String tag = grammarList.get(grammars.getSelectedIndex());
+//            String tag = tagsText.getText();
 
             if (!id.isEmpty() && !id.matches(" +"))
             {
                 slot = new SlotStruct();
                 slot.setName(id);
                 slot.setGrammarName(tag);
-                slot.setIsAdditional(additionalCheck.isSelected());
                 slot.setQuery(queryText.getText());
             }
 

@@ -7,12 +7,13 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
+import java.util.Map;
 
 public class FrameNodeMenu extends JPanel
 {
     FrameNode frameNode;
 
-    public FrameNodeMenu(FrameNode frameNode)
+    public FrameNodeMenu(FrameNode frameNode, Map<String, Object> properties)
     {
         super(new BorderLayout());
 
@@ -45,7 +46,7 @@ public class FrameNodeMenu extends JPanel
         createButton.addActionListener(e ->
         {
             JFrame frame = new JFrame();
-            new NewFrameDialog(frameNode.frameStruct, frame, "Create Frame");
+            new NewFrameDialog(properties, frameNode, frame, "Create Frame");
             frame.pack();
             frame.setVisible(true);
         });

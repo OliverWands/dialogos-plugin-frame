@@ -1,6 +1,7 @@
 package dialogos.frame.gui;
 
 import com.clt.gui.Images;
+import dialogos.frame.FrameNode;
 import dialogos.frame.FrameStruct;
 import dialogos.frame.SlotStruct;
 
@@ -11,19 +12,24 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.util.Map;
 
 public class NewFrameDialog extends JDialog
 {
     private final JTable table;
     private final DefaultTableModel model;
+    private final FrameNode frameNode;
     private final FrameStruct frameStruct;
+    private final Map<String, Object> properties;
 
-    public NewFrameDialog(FrameStruct frameStruct, Window window, String title)
+    public NewFrameDialog(Map<String, Object> properties, FrameNode frameNode, Window window, String title)
     {
         super(window, title, Dialog.ModalityType.APPLICATION_MODAL);
-        setLayout(new BorderLayout());
 
-        this.frameStruct = frameStruct;
+        this.properties = properties;
+        this.frameNode = frameNode;
+        this.frameStruct = frameNode.frameStruct;
+        setLayout(new BorderLayout());
 
         JPanel panel = new JPanel(new BorderLayout());
         panel.setBorder(new EmptyBorder(0, 5, 20, 5));
@@ -72,7 +78,7 @@ public class NewFrameDialog extends JDialog
         model = new DefaultTableModel();
         table = new JTable(model);
 
-        for (String columnName : new String[]{"SlotName", "Tags", "Nullable?", "Query String"})
+        for (String columnName : new String[]{"SlotName", "Tags", "Query String"})
         {
             model.addColumn(columnName);
         }
@@ -90,7 +96,7 @@ public class NewFrameDialog extends JDialog
         constraints.anchor = GridBagConstraints.CENTER;
         frameTablePanel.add(getSlotButtons(), constraints);
 
-        JLabel helpLabel = new JLabel("Information when the user asks for help:");
+        JLabel helpLabel = new JLabel("Output when the user asks for help:");
 
         constraints.gridx = 0;
         constraints.gridy = 2;
@@ -119,7 +125,7 @@ public class NewFrameDialog extends JDialog
         constraints.gridwidth = 1;
         constraints.anchor = GridBagConstraints.LINE_START;
         constraints.fill = GridBagConstraints.HORIZONTAL;
-        JLabel selectLabel = new JLabel("Please choose a custom tag file:");
+        JLabel selectLabel = new JLabel("Please choose a custom grammar file:");
         selectLabel.setFont(new Font(selectLabel.getFont().getName(), Font.BOLD, 14));
         selectLabel.setBorder(new EmptyBorder(20, 0, 10, 0));
         frameTablePanel.add(selectLabel, constraints);
@@ -204,7 +210,7 @@ public class NewFrameDialog extends JDialog
         newSlot.addActionListener(e ->
         {
             JFrame frame = new JFrame();
-            NewSlotDialog slotDialog = new NewSlotDialog(frame, "Create Slot");
+            NewSlotDialog slotDialog = new NewSlotDialog(properties, frameNode.getSuperGraph().getGrammars(), frame, "Create Slot");
             slotDialog.addWindowListener(new WindowListener()
             {
                 @Override
