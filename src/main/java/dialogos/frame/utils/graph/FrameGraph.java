@@ -19,11 +19,17 @@ import java.util.List;
 
 public class FrameGraph
 {
+    public static String FILLED = "FILLED";
+    public static String INPUT = "INPUT";
     private StartNode startNode;
     private final FrameNode frameNode;
     private final NodeBuilder nodeBuilder;
-    private int scale = 1;
 
+    /**
+     * Constructor for the FrameGraph
+     *
+     * @param frameNode The FrameNode for which the graph is to be created.
+     */
     public FrameGraph(FrameNode frameNode)
     {
         this.frameNode = frameNode;
@@ -55,7 +61,7 @@ public class FrameGraph
 
             // Todo Replace with speech recognition
             SetVariableNode inputVariable = new SetVariableNode();
-            nodeBuilder.assignSetVariableNode(inputVariable, FrameNode.INPUT_VAR_ID, "Ich will von Stade nach Veddel");
+            nodeBuilder.assignSetVariableNode(inputVariable, "INPUT_VAR_ID", "\"Ich will von Stade nach Veddel\"");
             frameNode.add(inputVariable);
 
             FillerNode fillerNode = new FillerNode();
@@ -71,22 +77,33 @@ public class FrameGraph
     }
 
     /**
-     *
+     * Collection of variables that needs to be added for the graph.
      */
     private void assignAllVariables()
     {
+        frameNode.addVariable("INPUT_VAR_ID", "INPUT_VAR_ID", Type.String, null);
+
         for (int inx = 0; inx < frameNode.frameStruct.size(); inx++)
         {
             SlotStruct slot = frameNode.frameStruct.getSlot(inx);
-            frameNode.addVariable("FILLED" + slot.ID, "FILLED" + slot.ID, Type.Bool, "false");
-            frameNode.addVariable("INPUT" + slot.ID, "INPUT" + slot.ID, Type.String, "");
+            frameNode.addVariable(filledVariableID(slot), filledVariableName(slot), Type.Bool, "false");
+            frameNode.addVariable(inputVariableID(slot), inputVariableName(slot), Type.String, null);
         }
+
+//        InputHandler handler = new InputHandler(frameNode.getOwnedGraph());
+//        handler.setType(InputHandler.BEFORE_LOCAL);
+//        handler.setPattern("help");
+//        frameNode.getOwnedGraph().getHandlers().add(handler);
     }
 
     /**
-     * @param slots
-     * @param start
-     * @param end
+     * Create the graph structure that allows to fill all the slots given in the list.
+     * The graph will be created starting from the bottom "end" node and finally connect
+     * to the start node, when every slot has been built.
+     *
+     * @param slots The slots that should be filled using the graph.
+     * @param start The top node that connects the slot filling.
+     * @param end   The last node that marks the end of the slot filling.
      */
     private void buildBottomUp(List<SlotStruct> slots, Node start, Node end)
     {
@@ -97,17 +114,18 @@ public class FrameGraph
             SlotStruct slotStruct = slots.get(inx);
 
             SetVariableNode setNotEmpty = new SetVariableNode();
-            nodeBuilder.assignSetVariableNode(setNotEmpty, "FILLED" + slotStruct.ID, "true");
+            nodeBuilder.assignSetVariableNode(setNotEmpty, filledVariableID(slotStruct), "true");
             frameNode.add(setNotEmpty);
 
             // TODO
             SetVariableNode filler = new SetVariableNode();
             filler.setTitle("Filler");
+            nodeBuilder.assignSetVariableNode(filler, inputVariableID(slotStruct), "TestInput" + numbersToLetters(inx + 1));
             frameNode.add(filler);
 
             SphinxNode recogniser = new SphinxNode();
             Grammar slotGrammar0 = frameNode.getGrammar(slotStruct.getGrammarName());
-            nodeBuilder.assignSlotSphinx(recogniser, slotGrammar0, "INPUT" + slotStruct.ID);
+            nodeBuilder.assignSlotSphinx(recogniser, slotGrammar0, inputVariableName(slotStruct));
             frameNode.add(recogniser);
 
             TTSNode queryNode = new TTSNode();
@@ -119,7 +137,7 @@ public class FrameGraph
             frameNode.addComment(comment);
 
             ConditionalNode checkEmpty = new ConditionalNode();
-            nodeBuilder.assignConditionalNode(checkEmpty, "Check Empty", "FILLED" + slotStruct.ID);
+            nodeBuilder.assignConditionalNode(checkEmpty, "Check Empty " + inx + 1, filledVariableName(slotStruct));
             frameNode.add(checkEmpty);
 
             GraphBuilder.placeTopRight(end, setNotEmpty, 1, 2);
@@ -137,15 +155,81 @@ public class FrameGraph
         GraphBuilder.setEdge(start, end);
     }
 
+    private String filledVariableName(SlotStruct slot)
+    {
+        return String.format("%s%s%s",
+                numbersToLetters(frameNode.frameStruct.getIndex(slot)),
+                FILLED,
+                replaceAllDigits(slot.getName()));
+    }
+
+    private String inputVariableName(SlotStruct slot)
+    {
+        return String.format("%s%s%s",
+                numbersToLetters(frameNode.frameStruct.getIndex(slot)),
+                INPUT,
+                replaceAllDigits(slot.getName()));
+    }
+
+    private String filledVariableID(SlotStruct slot)
+    {
+        return String.format("%d_%s_%s", frameNode.frameStruct.getIndex(slot), FILLED, slot.ID);
+    }
+
+    private String inputVariableID(SlotStruct slot)
+    {
+        return String.format("%d_%s_%s", frameNode.frameStruct.getIndex(slot), INPUT, slot.ID);
+    }
+
+    private String replaceAllDigits(String input)
+    {
+        if (!input.matches(".*\\d+.*"))
+        {
+            return input;
+        }
+
+        StringBuilder builder = new StringBuilder();
+        for (char digit : input.toCharArray())
+        {
+            String digitString = String.valueOf(digit);
+            if (digitString.matches("\\d"))
+            {
+                digitString = numbersToLetters(digitString);
+            }
+            builder.append(digitString);
+        }
+
+        return builder.toString();
+    }
+
+    private String numbersToLetters(int number)
+    {
+        return numbersToLetters(Integer.toString(number));
+    }
+
+    private String numbersToLetters(String number)
+    {
+        String numberString = number;
+        String[] letters = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J"};
+
+        for (int inx = 0; inx < letters.length; inx++)
+        {
+            numberString = numberString.replaceAll(Integer.toString(inx), letters[inx]);
+        }
+
+        return numberString;
+    }
+
+    @Deprecated
     public void buildGraph()
     {
         frameNode.addVariable("FRAMESIZE", "Size", Type.Int, Integer.toString(frameNode.frameStruct.size()));
-        frameNode.addVariable(FrameNode.INPUT_VAR_ID, FrameNode.INPUT_VAR_NAME, Type.String, "");
+//        frameNode.addVariable(FrameNode.INPUT_VAR_ID, FrameNode.INPUT_VAR_NAME, Type.String, "");
 
         if (startNode != null)
         {
             SetVariableNode inputVariable = new SetVariableNode();
-            nodeBuilder.assignSetVariableNode(inputVariable, FrameNode.INPUT_VAR_ID, "Ich will von Stade nach Veddel");
+//            nodeBuilder.assignSetVariableNode(inputVariable, FrameNode.INPUT_VAR_ID, "Ich will von Stade nach Veddel");
 
             SetVariableNode variableNode = new SetVariableNode();
             nodeBuilder.assignSetVariableNode(variableNode, "FRAMESIZE", "111");
@@ -164,7 +248,7 @@ public class FrameGraph
             sphinxNode.setTitle("Haltestelle");
             nodeBuilder.changeColor(sphinxNode);
             nodeBuilder.assignSphinxNode(sphinxNode, "firstGrammar");
-            nodeBuilder.addEdgeCondition(sphinxNode, FrameNode.INPUT_VAR_NAME);
+//            nodeBuilder.addEdgeCondition(sphinxNode, FrameNode.INPUT_VAR_NAME);
 
             TTSNode speechSynthesis0 = new TTSNode();
             nodeBuilder.assignTTSNode(speechSynthesis0, "TTS 0", "null");
