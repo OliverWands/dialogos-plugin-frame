@@ -33,8 +33,8 @@ public class NodeBuilder
      */
     public void changeColor(Node node)
     {
-        node.setColor(new Color(Math.abs(
-                (int) Math.floor((((double) node.getTitle().hashCode() * (double) 0xFFFFFF) / (double) Integer.MAX_VALUE)))));
+        Color color = new Color((int) Math.floor(((double) node.getTitle().hashCode() * 16777215.0) / 2147483647.0));
+        node.setColor(color);
     }
 
     /**
