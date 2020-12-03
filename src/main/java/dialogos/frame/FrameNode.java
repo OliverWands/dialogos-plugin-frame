@@ -17,7 +17,6 @@ import dialogos.frame.utils.graph.GraphBuilder;
 import javax.swing.*;
 import java.awt.*;
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -25,11 +24,9 @@ import java.util.UUID;
 
 public class FrameNode extends CallNode
 {
-    public final static String INPUT_VAR_NAME = "INPUT_VAR";
-    public final static String INPUT_VAR_ID = "INPUT_VAR_ID";
-
     public FrameStruct frameStruct = new FrameStruct();
     private final ProcNode procNode = new ProcNode();
+    private static final Color nodeColor = new Color(255, 187, 0);
 
     public FrameNode()
     {
@@ -37,33 +34,65 @@ public class FrameNode extends CallNode
 
     public static Color getDefaultColor()
     {
-        return new Color(255, 187, 0);
+        return nodeColor;
     }
 
     @Override
     public Node execute(WozInterface wozInterface, InputCenter input, ExecutionLogger logger)
     {
-        return super.execute(wozInterface, input, logger);
+        Node node = super.execute(wozInterface, input, logger);
+
+        List<Slot> superVariables = getSuperGraph().getVariables();
+
+        for (Slot variable : getOwnedGraph().getVariables())
+        {
+            String varName = variable.getName();
+            if (!varName.matches("\\d_.+_.+"))
+            {
+                continue;
+            }
+
+            String[] varParts = variable.getName().split("_");
+            int index = Integer.getInteger(varParts[0]);
+            String type = varParts[1];
+            if (type.equals(FrameGraph.INPUT))
+            {
+                SlotStruct slotStruct = frameStruct.getSlot(index);
+                slotStruct.setValue(variable.getValue().toString());
+
+                Slot slot = new Slot();
+                slot.setName(slotStruct.getName());
+//                slot.setType(StructType.String);
+                slot.setType(Type.String);
+                slot.setValue(variable.getValue());
+
+                superVariables.add(slot);
+            }
+        }
+
+        return node;
     }
 
     @Override
     public void writeVoiceXML(XMLWriter w, IdMap uid_map)
     {
-        try
-        {
-            w.printElement("subdialog", new String[]{"name"}, new String[]{"graph" + uid_map.graphs.put(getOwnedGraph())});
-            getOwnedGraph().exportVoiceXML(w, uid_map);
-        } catch (IOException exp)
-        {
-            exp.printStackTrace();
-        }
+//        try
+//        {
+//            w.printElement("subdialog", new String[]{"name"}, new String[]{"graph" + uid_map.graphs.put(getOwnedGraph())});
+//            getOwnedGraph().exportVoiceXML(w, uid_map);
+//        } catch (IOException exp)
+//        {
+//            exp.printStackTrace();
+//        }
+
+        super.writeVoiceXML(w, uid_map);
     }
 
     @Override
     public JComponent createEditorComponent(Map<String, Object> properties)
     {
 //        return super.createEditorComponent(properties);
-        return new FrameNodeMenu(this);
+        return new FrameNodeMenu(this, properties);
     }
 
     @Override
@@ -110,13 +139,23 @@ public class FrameNode extends CallNode
             {
                 procNode.setTitle("Frame");
                 procNode.setId("FRAMEPROCEDURE");
+                procNode.setColor(nodeColor);
+
                 super.setProperty("procedure", procNode);
 
-                getMainOwner().getOwnedGraph().add(procNode);
+                getSuperGraph().add(procNode);
                 GraphBuilder.placeLeft(this, procNode);
 
                 GraphBuilder.setGraphSize(getOwnedGraph(), 2, 2);
 
+                // For testing
+                String id = "Test_ID";
+                List<SlotStruct> slots = new ArrayList<>();
+                slots.add(new SlotStruct("Slot0").setGrammarName("tag1").setQuery("Please enter Slot0"));
+                slots.add(new SlotStruct("Slot1").setGrammarName("tag2").setQuery("Please enter Slot1"));
+                slots.add(new SlotStruct("Slot2").setGrammarName("tag3").setQuery("Please enter Slot2"));
+
+                frameStruct = new FrameStruct(id, slots);
                 frameStruct.setTagsFromFile(new File("/Users/oliverwandschneider/develop/IdeaProjects/dialogos-plugin-frame/src/test/resources/tagging.json"));
 
                 //
@@ -131,26 +170,6 @@ public class FrameNode extends CallNode
                 GraphEditorFactory.show(procNode);
 
                 FrameGraph frameGraphBuilder = new FrameGraph(this);
-//                frameGraphBuilder.buildGraph();
-
-
-                List<SlotStruct> slots = new ArrayList<>();
-                slots.add(new SlotStruct("Slot0")
-                        .setGrammarName("tag1")
-                        .setIsAdditional(false)
-                        .setQuery("Please enter Slot0"));
-                slots.add(new SlotStruct("Slot1")
-                        .setGrammarName("tag2")
-                        .setIsAdditional(false)
-                        .setQuery("Please enter Slot1"));
-                slots.add(new SlotStruct("Slot2")
-                        .setGrammarName("tag3")
-                        .setIsAdditional(false)
-                        .setQuery("Please enter Slot2"));
-
-                String id = "Test_ID";
-                frameStruct = new FrameStruct(id, slots);
-
                 frameGraphBuilder.buildFrameInterpretationAlgo();
             }
 
@@ -162,11 +181,21 @@ public class FrameNode extends CallNode
         }
     }
 
+    /**
+     * Add a node to the procedures graph.
+     *
+     * @param node The node that will be added.
+     */
     public void add(Node node)
     {
         getOwnedGraph().add(node);
     }
 
+    /**
+     * Add multiple nodes to the procedures graph.
+     *
+     * @param nodes The nodes that will be added.
+     */
     public void add(Node[] nodes)
     {
         for (Node node : nodes)
@@ -175,6 +204,11 @@ public class FrameNode extends CallNode
         }
     }
 
+    /**
+     * Add a comment to the procedures graph.
+     *
+     * @param comment The comment to be added.
+     */
     public void addComment(Comment comment)
     {
         getOwnedGraph().addComment(comment);
@@ -195,7 +229,11 @@ public class FrameNode extends CallNode
         slot.setId(id);
         slot.setName(name);
         slot.setType(type);
-        slot.setInitValue(initValue);
+        if (initValue != null)
+        {
+            slot.setInitValue(initValue);
+        }
+
         addVariable(slot);
     }
 
@@ -233,14 +271,28 @@ public class FrameNode extends CallNode
         return grammar.getId();
     }
 
-    public void addGrammar(String id, String name, String grammarString)
+    /**
+     * Create a new grammar using the parameters and adding it to the graph of the procedure.
+     *
+     * @param id             The grammar id.
+     * @param name           The grammar name.
+     * @param grammarContent The grammar content.
+     */
+    public void addGrammar(String id, String name, String grammarContent)
     {
         List<Grammar> grammars = getOwnedGraph().getGrammars();
-        Grammar grammar = new Grammar(name, grammarString);
+        Grammar grammar = new Grammar(name, grammarContent);
         grammar.setId(id);
         grammars.add(grammar);
     }
 
+    /**
+     * Get a grammar from the graph of the procedure by name.
+     * Can be null if a grammar with this name doesn't exist.
+     *
+     * @param name The name of the grammar.
+     * @return The grammar or null.
+     */
     public Grammar getGrammar(String name)
     {
         List<Grammar> grammars = getOwnedGraph().getGrammars();
@@ -255,13 +307,23 @@ public class FrameNode extends CallNode
         return null;
     }
 
+    /**
+     * Get the owned graph of the procedure.
+     *
+     * @return The graph.
+     */
     public Graph getOwnedGraph()
     {
         return procNode.getOwnedGraph();
     }
 
-    public void setOwnedGraph(Graph graph)
+    /**
+     * Get the graph that contains this node.
+     *
+     * @return The graph.
+     */
+    public Graph getSuperGraph()
     {
-        procNode.setGraph(graph);
+        return getMainOwner().getOwnedGraph();
     }
 }
