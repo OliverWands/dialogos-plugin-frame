@@ -7,6 +7,6 @@ public class SlotStructTests
     public void testSlotStruct()
     {
         SlotStruct slotStruct = new SlotStruct();
-        assert slotStruct.isNotFilled();
+        assert !slotStruct.isFilled();
     }
 }

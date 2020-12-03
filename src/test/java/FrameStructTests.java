@@ -36,8 +36,8 @@ public class FrameStructTests
 
         Token token1 = new Token("Token1", 0, 1).addTag("tag1");
         Token token2 = new Token("Token2", 2, 3).addTag("tag2");
-        createdFrame.getSlot(0).setValue(token1);
-        createdFrame.getSlot(1).setValue(token2);
+        createdFrame.getSlot(0).setTokenValue(token1);
+        createdFrame.getSlot(1).setTokenValue(token2);
 
         assert !createdFrame.isFilled();
 
@@ -49,11 +49,10 @@ public class FrameStructTests
 
         createdFrame.addSlot(new SlotStruct("Slot3")
                 .setGrammarName("tag3")
-                .setIsAdditional(false)
                 .setQuery("Please enter Slot3"));
 
         Token token3 = new Token("Token3", 4, 5).addTag("tag3");
-        createdFrame.getSlot(2).setValue(token3);
+        createdFrame.getSlot(2).setTokenValue(token3);
 
         assert createdFrame.isFilled();
     }
@@ -64,9 +63,9 @@ public class FrameStructTests
         FrameStruct createdFrame = createFrame();
         Token token1 = new Token("Token1", 0, 1).addTag("tag1");
         Token token3 = new Token("Token3", 4, 5).addTag("tag2");
-        createdFrame.getSlot(0).setValue(token1);
+        createdFrame.getSlot(0).setTokenValue(token1);
         createdFrame.getSlot(1);
-        createdFrame.getSlot(2).setValue(token3);
+        createdFrame.getSlot(2).setTokenValue(token3);
 
         List<SlotStruct> sortedSlots = createdFrame.sortFilled();
 
@@ -101,15 +100,12 @@ public class FrameStructTests
         List<SlotStruct> slots = new ArrayList<>();
         slots.add(new SlotStruct("Slot0")
                 .setGrammarName("tag1")
-                .setIsAdditional(false)
                 .setQuery("Please enter Slot0"));
         slots.add(new SlotStruct("Slot1")
                 .setGrammarName("tag2")
-                .setIsAdditional(false)
                 .setQuery("Please enter Slot1"));
         slots.add(new SlotStruct("Slot2")
                 .setGrammarName("tag3")
-                .setIsAdditional(false)
                 .setQuery("Please enter Slot2"));
 
         String id = "Test_ID";
