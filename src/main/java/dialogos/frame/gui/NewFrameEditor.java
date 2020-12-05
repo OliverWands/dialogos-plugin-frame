@@ -320,29 +320,27 @@ public class NewFrameEditor extends AbstractMenuDialog
 
     private void moveSlot(int inx, boolean moveUp)
     {
-        if (inx == 0 || inx >= node.frameStruct.size())
-        {
-            return;
-        }
-
-        if (moveUp)
+        if (moveUp && inx > 0)
         {
             SlotStruct temp = node.frameStruct.getSlot(inx - 1);
             SlotStruct current = node.frameStruct.getSlot(inx);
 
             node.frameStruct.setSlot(inx - 1, current);
             node.frameStruct.setSlot(inx, temp);
+            inx--;
         }
-        else
+        else if (!moveUp && inx <= node.frameStruct.size() - 1)
         {
             SlotStruct temp = node.frameStruct.getSlot(inx + 1);
             SlotStruct current = node.frameStruct.getSlot(inx);
 
             node.frameStruct.setSlot(inx + 1, current);
             node.frameStruct.setSlot(inx, temp);
+            inx++;
         }
 
         updateFrameTable();
+        table.setRowSelectionInterval(inx, inx);
     }
 
     @Override
