@@ -1,19 +1,25 @@
 package dialogos.frame.gui;
 
 import dialogos.frame.FrameNode;
+import org.json.JSONObject;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.io.*;
+import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
-import java.util.Map;
+import java.nio.file.Files;
 
 public class FrameNodeMenu extends JPanel
 {
-    FrameNode frameNode;
+    private final FrameNode frameNode;
+    private final JButton exportButton;
+    private final JLabel createLabel;
+    private final JButton createButton;
 
-    public FrameNodeMenu(FrameNode frameNode, Map<String, Object> properties)
+    public FrameNodeMenu(FrameNode frameNode)
     {
         super(new BorderLayout());
 
@@ -33,20 +39,28 @@ public class FrameNodeMenu extends JPanel
         constraints.anchor = GridBagConstraints.LINE_START;
         inputPanel.add(title, constraints);
 
-        JLabel name = new JLabel("Create:");
+        createLabel = new JLabel("Create:");
 
         constraints.gridx = 0;
         constraints.gridy = 1;
         constraints.gridwidth = 1;
         constraints.anchor = GridBagConstraints.LINE_START;
         constraints.fill = GridBagConstraints.HORIZONTAL;
-        inputPanel.add(name, constraints);
+        inputPanel.add(createLabel, constraints);
 
-        JButton createButton = new JButton("Create Frame");
+        createButton = new JButton("Create Frame");
         createButton.addActionListener(e ->
         {
             JFrame frame = new JFrame();
-            new NewFrameDialog(properties, frameNode, frame, "Create Frame");
+            new NewFrameEditor(frame, frameNode)
+            {
+                @Override
+                public void onCloseAction()
+                {
+                    processFrameUpdate();
+                }
+            };
+
             frame.pack();
             frame.setVisible(true);
         });
@@ -69,6 +83,31 @@ public class FrameNodeMenu extends JPanel
         inputPanel.add(tags, constraints);
 
         JButton importButton = new JButton("Import Frame");
+        importButton.addActionListener(e ->
+        {
+            JFrame frame = new JFrame();
+            frame.setLayout(new BorderLayout());
+
+            JFileChooser fileChooser = new JFileChooser();
+            fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("JSON and XML files.", "json", "xml"));
+
+            frame.add(fileChooser, BorderLayout.SOUTH);
+
+            fileChooser.setEnabled(true);
+            if (fileChooser.showOpenDialog(frame) == JFileChooser.APPROVE_OPTION)
+            {
+                try
+                {
+                    String content = new String(Files.readAllBytes(fileChooser.getSelectedFile().toPath()),
+                            Charset.defaultCharset().name());
+                    frameNode.frameStruct.unmarshalStruct(new JSONObject(content));
+                    processFrameUpdate();
+                } catch (IOException exp)
+                {
+                    exp.printStackTrace();
+                }
+            }
+        });
 
         constraints.gridx = 1;
         constraints.gridy = 2;
@@ -86,7 +125,8 @@ public class FrameNodeMenu extends JPanel
         constraints.fill = GridBagConstraints.HORIZONTAL;
         inputPanel.add(export, constraints);
 
-        JButton exportButton = new JButton("Export Frame");
+        exportButton = new JButton("Export Frame");
+        exportButton.setEnabled(false);
         exportButton.addActionListener(e ->
         {
             JFrame frame = new JFrame();
@@ -115,6 +155,18 @@ public class FrameNodeMenu extends JPanel
         constraints.fill = GridBagConstraints.HORIZONTAL;
         inputPanel.add(exportButton, constraints);
 
+        processFrameUpdate();
+
         add(inputPanel, BorderLayout.CENTER);
+    }
+
+    private void processFrameUpdate()
+    {
+        if (frameNode.frameStruct.isEdited())
+        {
+            createLabel.setText("Edit:");
+            createButton.setText("Edit Frame");
+            exportButton.setEnabled(true);
+        }
     }
 }
