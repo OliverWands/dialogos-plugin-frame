@@ -94,7 +94,7 @@ public class TagIO
      * @param tagFile File that contains the tags
      * @return Formatted string that gives information about the composition of the tags in the file.
      */
-    public static String fileToTagMaps(File tagFile)
+    public static String fileToGrammarInfo(File tagFile)
     {
         HashMap<String, String> tags = new HashMap<>();
         TagIO.jsonToTags(tagFile, tags);

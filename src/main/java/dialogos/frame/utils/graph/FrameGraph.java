@@ -38,7 +38,10 @@ public class FrameGraph
             if (node.getClassName().equals(StartNode.class.getName()))
             {
                 startNode = (StartNode) node;
-                break;
+            }
+            else
+            {
+                frameNode.getOwnedGraph().getNodes().remove(node);
             }
         }
 
