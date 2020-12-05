@@ -17,8 +17,8 @@ public class FrameStructTests
         String id = "Test_ID";
         FrameStruct frame = new FrameStruct(id);
         assert frame.isEmpty();
-        assert frame.getID().equals(id);
-        assert !frame.getID().equals("not id");
+        assert frame.getName().equals(id);
+        assert !frame.getName().equals("not id");
         assert !frame.isFilled();
     }
 

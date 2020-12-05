@@ -103,7 +103,7 @@ public class Plugin implements com.clt.dialogos.plugin.Plugin
                 {
                     globalTags = fileIn;
                     TagIO.jsonToTags(globalTags, grammarMap);
-                    tagInfo.setText(TagIO.fileToTagMaps(globalTags));
+                    tagInfo.setText(TagIO.fileToGrammarInfo(globalTags));
                 }
             });
 
@@ -121,7 +121,7 @@ public class Plugin implements com.clt.dialogos.plugin.Plugin
                 {
                     globalTags = fileChooser.getSelectedFile();
                     TagIO.jsonToTags(globalTags, grammarMap);
-                    tagInfo.setText(TagIO.fileToTagMaps(globalTags));
+                    tagInfo.setText(TagIO.fileToGrammarInfo(globalTags));
                 }
             });
 

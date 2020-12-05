@@ -12,14 +12,11 @@ import java.util.List;
 
 public class FrameStruct implements Marshalling
 {
-    private String ID;
+    private String name = null;
+    private File grammarFile = null;
+    private String helpPrompt = null;
     private List<SlotStruct> slotList = new ArrayList<>();
-
-    private File globalTags = null;
-    private HashMap<String, String> globalGrammarTags = null;
-
-    private File tags = null;
-    private HashMap<String, String> grammarTags = new HashMap<>();
+    private HashMap<String, String> grammars = new HashMap<>();
 
     private final Comparator<SlotStruct> slotComparator =
             (o1, o2) -> Boolean.compare(!o1.isFilled(), !o2.isFilled());
@@ -28,48 +25,46 @@ public class FrameStruct implements Marshalling
     {
     }
 
-    public FrameStruct(String ID)
+    public FrameStruct(String name)
     {
-        this.ID = ID;
+        this.name = name;
     }
 
-    public FrameStruct(String ID, List<SlotStruct> slotList)
+    public FrameStruct(String name, List<SlotStruct> slotList)
     {
-        this.ID = ID;
+        this.name = name;
         this.slotList = slotList;
-    }
-
-    public void setFromSettings(Plugin.FramePluginSettings settings)
-    {
-        globalTags = settings.globalTags;
-        globalGrammarTags = settings.grammarMap;
     }
 
     public void setTagsFromFile(File tagFile)
     {
-        tags = tagFile;
-        TagIO.jsonToTags(tags, grammarTags);
+        grammarFile = tagFile;
+        TagIO.jsonToTags(grammarFile, grammars);
     }
 
-    public void setGlobalTagsFromFile(File tagFile)
+    public void setName(String name)
     {
-        globalTags = tagFile;
-        TagIO.jsonToTags(globalTags, grammarTags);
+        this.name = name;
     }
 
-    public void setID(String ID)
+    public String getName()
     {
-        this.ID = ID;
-    }
-
-    public String getID()
-    {
-        return ID;
+        return name;
     }
 
     public void addSlot(SlotStruct slot)
     {
         slotList.add(slot);
+    }
+
+    public void addSlot(int index, SlotStruct slot)
+    {
+        slotList.add(index, slot);
+    }
+
+    public void setSlot(int index, SlotStruct slot)
+    {
+        slotList.set(index, slot);
     }
 
     public SlotStruct getSlot(int index)
@@ -85,6 +80,21 @@ public class FrameStruct implements Marshalling
     public int getIndex(SlotStruct slotStruct)
     {
         return slotList.indexOf(slotStruct);
+    }
+
+    public void setHelpPrompt(String helpPrompt)
+    {
+        this.helpPrompt = helpPrompt;
+    }
+
+    public String getHelpPrompt()
+    {
+        return helpPrompt;
+    }
+
+    public File getGrammarFile()
+    {
+        return grammarFile;
     }
 
     public boolean isFilled()
@@ -110,14 +120,9 @@ public class FrameStruct implements Marshalling
         slotList.remove(index);
     }
 
-    public HashMap<String, String> getAllGrammars()
+    public HashMap<String, String> getGrammars()
     {
-        HashMap<String, String> combined = new HashMap<>(grammarTags);
-        if (globalGrammarTags != null)
-        {
-            combined.putAll(globalGrammarTags);
-        }
-        return combined;
+        return grammars;
     }
 
     public int size()
@@ -128,6 +133,12 @@ public class FrameStruct implements Marshalling
     public boolean isEmpty()
     {
         return slotList.isEmpty();
+    }
+
+    public boolean isEdited()
+    {
+        return !(grammarFile == null || name == null || slotList.isEmpty()
+                || grammars.isEmpty() || helpPrompt == null);
     }
 
     /**
@@ -157,16 +168,17 @@ public class FrameStruct implements Marshalling
     public JSONObject marshalStruct()
     {
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("ID", ID);
-
-        jsonObject.put("TAG_FILE", tags.getAbsolutePath());
-        jsonObject.put("GRAMMAR_TAGS", new JSONObject(grammarTags));
+        jsonObject.put("ID", name);
+        jsonObject.put("TAG_FILE", grammarFile.getAbsolutePath());
+        jsonObject.put("GRAMMAR_TAGS", new JSONObject(grammars));
+        jsonObject.put("HELP_PROMPT", helpPrompt);
 
         JSONArray slotArray = new JSONArray();
         for (SlotStruct slot : slotList)
         {
             slotArray.put(slot.marshal());
         }
+
         jsonObject.put("SLOT_LIST", slotArray);
 
         return jsonObject;
@@ -175,7 +187,7 @@ public class FrameStruct implements Marshalling
     @Override
     public boolean unmarshalStruct(JSONObject jsonObject)
     {
-        for (String key : new String[]{"ID", "TAG_FILE", "GRAMMAR_TAGS", "SLOT_LIST"})
+        for (String key : new String[]{"ID", "TAG_FILE", "GRAMMAR_TAGS", "SLOT_LIST", "HELP_PROMPT"})
         {
             if (!jsonObject.has(key))
             {
@@ -183,13 +195,14 @@ public class FrameStruct implements Marshalling
             }
         }
 
-        ID = jsonObject.getString("ID");
-        tags = new File(jsonObject.getString("TAG_FILE"));
+        name = jsonObject.getString("ID");
+        grammarFile = new File(jsonObject.getString("TAG_FILE"));
+        helpPrompt = jsonObject.getString("HELP_PROMPT");
 
-        grammarTags = new HashMap<>();
+        grammars = new HashMap<>();
         for (String key : jsonObject.getJSONObject("GRAMMAR_TAGS").keySet())
         {
-            grammarTags.put(key, jsonObject.getJSONObject("GRAMMAR_TAGS").getString(key));
+            grammars.put(key, jsonObject.getJSONObject("GRAMMAR_TAGS").getString(key));
         }
 
         slotList = new ArrayList<>();

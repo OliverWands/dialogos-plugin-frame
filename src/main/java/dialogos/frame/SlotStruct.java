@@ -34,9 +34,10 @@ public class SlotStruct implements Marshalling
         return this;
     }
 
-    public void setName(String name)
+    public SlotStruct setName(String name)
     {
         this.name = name;
+        return this;
     }
 
     public SlotStruct setQuery(String query)

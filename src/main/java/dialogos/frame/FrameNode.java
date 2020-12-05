@@ -16,7 +16,6 @@ import dialogos.frame.utils.graph.GraphBuilder;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -76,23 +75,15 @@ public class FrameNode extends CallNode
     @Override
     public void writeVoiceXML(XMLWriter w, IdMap uid_map)
     {
-//        try
-//        {
-//            w.printElement("subdialog", new String[]{"name"}, new String[]{"graph" + uid_map.graphs.put(getOwnedGraph())});
-//            getOwnedGraph().exportVoiceXML(w, uid_map);
-//        } catch (IOException exp)
-//        {
-//            exp.printStackTrace();
-//        }
-
         super.writeVoiceXML(w, uid_map);
     }
 
     @Override
     public JComponent createEditorComponent(Map<String, Object> properties)
     {
-//        return super.createEditorComponent(properties);
-        return new FrameNodeMenu(this, properties);
+        // TODO
+        //  return super.createEditorComponent(properties);
+        return new FrameNodeMenu(this);
     }
 
     @Override
@@ -115,10 +106,10 @@ public class FrameNode extends CallNode
         Plugin.FramePluginSettings settings = (Plugin.FramePluginSettings) this.getPluginSettings(Plugin.class);
 
         // Pass the global tags to the frame struct when it will be executed.
-        if (settings != null)
-        {
-            frameStruct.setFromSettings(settings);
-        }
+//        if (settings != null)
+//        {
+//            frameStruct.setFromSettings(settings);
+//        }
 
         if (dialog.approved())
         {
@@ -149,22 +140,22 @@ public class FrameNode extends CallNode
                 GraphBuilder.setGraphSize(getOwnedGraph(), 2, 2);
 
                 // For testing
-                String id = "Test_ID";
-                List<SlotStruct> slots = new ArrayList<>();
-                slots.add(new SlotStruct("Slot0").setGrammarName("tag1").setQuery("Please enter Slot0"));
-                slots.add(new SlotStruct("Slot1").setGrammarName("tag2").setQuery("Please enter Slot1"));
-                slots.add(new SlotStruct("Slot2").setGrammarName("tag3").setQuery("Please enter Slot2"));
-
-                frameStruct = new FrameStruct(id, slots);
-                frameStruct.setTagsFromFile(new File("/Users/oliverwandschneider/develop/IdeaProjects/dialogos-plugin-frame/src/test/resources/tagging.json"));
+//                String id = "Test_ID";
+//                List<SlotStruct> slots = new ArrayList<>();
+//                slots.add(new SlotStruct("Slot0").setGrammarName("tag1").setQuery("Please enter Slot0"));
+//                slots.add(new SlotStruct("Slot1").setGrammarName("tag2").setQuery("Please enter Slot1"));
+//                slots.add(new SlotStruct("Slot2").setGrammarName("tag3").setQuery("Please enter Slot2"));
+//
+//                frameStruct = new FrameStruct(id, slots);
+//                frameStruct.setTagsFromFile(new File("/Users/oliverwandschneider/develop/IdeaProjects/dialogos-plugin-frame/src/test/resources/tagging.json"));
 
                 //
                 // Add all grammars from the tag file to the graph.
                 //
                 List<Grammar> grammars = getOwnedGraph().getGrammars();
-                for (String key : frameStruct.getAllGrammars().keySet())
+                for (String key : frameStruct.getGrammars().keySet())
                 {
-                    grammars.add(new Grammar(key, frameStruct.getAllGrammars().get(key)));
+                    grammars.add(new Grammar(key, frameStruct.getGrammars().get(key)));
                 }
 
                 GraphEditorFactory.show(procNode);
