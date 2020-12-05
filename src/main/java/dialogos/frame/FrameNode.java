@@ -103,7 +103,7 @@ public class FrameNode extends CallNode
             frameStruct = new FrameStruct();
         }
 
-        Plugin.FramePluginSettings settings = (Plugin.FramePluginSettings) this.getPluginSettings(Plugin.class);
+//        Plugin.FramePluginSettings settings = (Plugin.FramePluginSettings) this.getPluginSettings(Plugin.class);
 
         // Pass the global tags to the frame struct when it will be executed.
 //        if (settings != null)

@@ -2,6 +2,7 @@ package dialogos.frame.gui;
 
 import com.clt.gui.Images;
 import dialogos.frame.FrameNode;
+import dialogos.frame.SlotStruct;
 import dialogos.frame.utils.tags.TagIO;
 
 import javax.swing.*;
@@ -199,7 +200,6 @@ public class NewFrameEditor extends AbstractMenuDialog
 
     //
     // TODO
-    //  Delete slot
     //  Move up or down
     //
     private JPanel createControlButtons()
@@ -216,7 +216,10 @@ public class NewFrameEditor extends AbstractMenuDialog
         deleteSlot.addActionListener(e -> node.frameStruct.removeSlot(table.getSelectedRow()));
 
         JButton up = new JButton("Up");
+        up.addActionListener(e -> moveSlot(table.getSelectedRow(), true));
+
         JButton down = new JButton("Down");
+        down.addActionListener(e -> moveSlot(table.getSelectedRow(), false));
 
         JPanel editPanel = new JPanel(new GridBagLayout());
         GridBagConstraints constraints = new GridBagConstraints();
@@ -313,6 +316,33 @@ public class NewFrameEditor extends AbstractMenuDialog
             grammarPathTextField.setText(node.frameStruct.getGrammarFile().getAbsolutePath());
             updateFrameTable();
         }
+    }
+
+    private void moveSlot(int inx, boolean moveUp)
+    {
+        if (inx == 0 || inx >= node.frameStruct.size())
+        {
+            return;
+        }
+
+        if (moveUp)
+        {
+            SlotStruct temp = node.frameStruct.getSlot(inx - 1);
+            SlotStruct current = node.frameStruct.getSlot(inx);
+
+            node.frameStruct.setSlot(inx - 1, current);
+            node.frameStruct.setSlot(inx, temp);
+        }
+        else
+        {
+            SlotStruct temp = node.frameStruct.getSlot(inx + 1);
+            SlotStruct current = node.frameStruct.getSlot(inx);
+
+            node.frameStruct.setSlot(inx + 1, current);
+            node.frameStruct.setSlot(inx, temp);
+        }
+
+        updateFrameTable();
     }
 
     @Override
