@@ -20,6 +20,8 @@ public class NewFrameEditor extends AbstractMenuDialog
 
     private JTextField nameTextField;
     private JTextField helpPromptField;
+    private JTextField grammarPathTextField;
+    private final JLabel grammarInfo = new JLabel(" ");
 
     private final DefaultTableModel model = new DefaultTableModel()
     {
@@ -31,18 +33,11 @@ public class NewFrameEditor extends AbstractMenuDialog
     };
     private final JTable table = new JTable(model);
 
-    private JTextField grammarPathTextField;
-    private final JLabel grammarInfo = new JLabel(" ");
-
     public NewFrameEditor(Window window, FrameNode node)
     {
-        super(window, "New Frame");
+        super(new JFrame(), "New Frame");
 
         this.node = node;
-        setLayout(new BorderLayout());
-
-        JPanel panel = new JPanel(new BorderLayout());
-        panel.setBorder(new EmptyBorder(10, 5, 10, 5));
 
         JPanel container = new JPanel(new GridBagLayout());
         GridBagConstraints constraints = new GridBagConstraints();
@@ -62,15 +57,18 @@ public class NewFrameEditor extends AbstractMenuDialog
         constraints.gridy++;
         container.add(createButtonPanel(), constraints);
 
-        populateInputPanel();
+        repopulateInputPanel();
 
-        panel.add(container, BorderLayout.CENTER);
-        add(panel, BorderLayout.NORTH);
-        pack();
+        topPanel.add(container, BorderLayout.CENTER);
+
         setLocation(200, 200);
+        pack();
         setVisible(true);
     }
 
+    /**
+     * @return
+     */
     private JPanel createNameGrammarEdit()
     {
         JPanel nameEditor = new JPanel(new GridBagLayout());
@@ -100,7 +98,6 @@ public class NewFrameEditor extends AbstractMenuDialog
         //
         // Second Row
         //
-
         JLabel helpLabel = new JLabel("Help prompt:");
 
         constraints.gridx = 0;
@@ -198,28 +195,21 @@ public class NewFrameEditor extends AbstractMenuDialog
         return tablePanel;
     }
 
-    //
-    // TODO
-    //  Move up or down
-    //
+    /**
+     * @return
+     */
     private JPanel createControlButtons()
     {
-        JPanel topPanel = new JPanel(new GridBagLayout());
+        JPanel controlPanel = new JPanel(new GridBagLayout());
 
         JButton newSlot = new JButton("New");
-        newSlot.addActionListener(e -> createSlotEditor());
+        newSlot.addActionListener(e -> createSlotEditor(node.frameStruct.size()));
 
         JButton editSlot = new JButton("Edit");
         editSlot.addActionListener(e -> createSlotEditor(table.getSelectedRow()));
 
         JButton deleteSlot = new JButton("Delete");
         deleteSlot.addActionListener(e -> node.frameStruct.removeSlot(table.getSelectedRow()));
-
-        JButton up = new JButton("Up");
-        up.addActionListener(e -> moveSlot(table.getSelectedRow(), true));
-
-        JButton down = new JButton("Down");
-        down.addActionListener(e -> moveSlot(table.getSelectedRow(), false));
 
         JPanel editPanel = new JPanel(new GridBagLayout());
         GridBagConstraints constraints = new GridBagConstraints();
@@ -228,16 +218,12 @@ public class NewFrameEditor extends AbstractMenuDialog
         constraints.gridy = 0;
         constraints.anchor = GridBagConstraints.LINE_START;
         editPanel.add(newSlot, constraints);
+
         constraints.gridx++;
         editPanel.add(editSlot, constraints);
+
         constraints.gridx++;
         editPanel.add(deleteSlot, constraints);
-
-        JPanel movePanel = new JPanel(new GridBagLayout());
-        constraints.gridx++;
-        movePanel.add(up, constraints);
-        constraints.gridx++;
-        movePanel.add(down, constraints);
 
         constraints.gridx = 0;
         constraints.gridy = 0;
@@ -248,41 +234,53 @@ public class NewFrameEditor extends AbstractMenuDialog
         constraints.weighty = 1.0;
         constraints.gridwidth = 1;
         constraints.gridheight = 1;
-        topPanel.add(editPanel, constraints);
+        controlPanel.add(editPanel, constraints);
+
+        //
+        // Move buttons
+        //
+        JButton up = new JButton("Up");
+        up.addActionListener(e -> moveSlot(table.getSelectedRow(), true));
+
+        JButton down = new JButton("Down");
+        down.addActionListener(e -> moveSlot(table.getSelectedRow(), false));
+
+        JPanel movePanel = new JPanel(new GridBagLayout());
+        constraints.gridx++;
+        movePanel.add(up, constraints);
+
+        constraints.gridx++;
+        movePanel.add(down, constraints);
 
         constraints.gridx = 2;
         constraints.anchor = GridBagConstraints.EAST;
         constraints.insets = new Insets(5, 5, 5, 0);
         constraints.weightx = 1.0;
-        topPanel.add(movePanel, constraints);
+        controlPanel.add(movePanel, constraints);
 
-        return topPanel;
-    }
-
-    private void createSlotEditor()
-    {
-        createSlotEditor(node.frameStruct.size());
+        return controlPanel;
     }
 
     private void createSlotEditor(int selected)
     {
-        JFrame frame = new JFrame();
-
         processGrammarFile();
 
-        new NewSlotEditor(frame, node, "Edit Slot", selected)
+        if (selected != -1)
         {
-            @Override
-            public void onCloseAction()
+            new NewSlotEditor(new JFrame(), node, "Edit Slot", selected)
             {
-                updateFrameTable();
-            }
-        };
-
-        frame.pack();
-        frame.setVisible(true);
+                @Override
+                public void onCloseAction()
+                {
+                    updateFrameTable();
+                }
+            };
+        }
     }
 
+    /**
+     *
+     */
     private void processGrammarFile()
     {
         String path = grammarPathTextField.getText();
@@ -294,6 +292,9 @@ public class NewFrameEditor extends AbstractMenuDialog
         }
     }
 
+    /**
+     *
+     */
     private void updateFrameTable()
     {
         while (model.getRowCount() > 0)
@@ -307,7 +308,10 @@ public class NewFrameEditor extends AbstractMenuDialog
         }
     }
 
-    private void populateInputPanel()
+    /**
+     *
+     */
+    public void repopulateInputPanel()
     {
         if (node.frameStruct.isEdited())
         {
@@ -318,6 +322,10 @@ public class NewFrameEditor extends AbstractMenuDialog
         }
     }
 
+    /**
+     * @param inx
+     * @param moveUp
+     */
     private void moveSlot(int inx, boolean moveUp)
     {
         if (moveUp && inx > 0)

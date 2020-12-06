@@ -19,6 +19,13 @@ public class NewSlotEditor extends AbstractMenuDialog
     private JComboBox<String> grammarCombo;
     private JTextField queryText;
 
+    /**
+     *
+     * @param window
+     * @param node
+     * @param title
+     * @param index
+     */
     public NewSlotEditor(Window window, FrameNode node, String title, int index)
     {
         super(window, title);
@@ -26,26 +33,20 @@ public class NewSlotEditor extends AbstractMenuDialog
         this.node = node;
         this.index = index;
 
-        setLayout(new BorderLayout());
-
-        JPanel topPanel = new JPanel(new BorderLayout());
-        topPanel.setBorder(new EmptyBorder(20, 10, 20, 10));
-
-        //
-        // Assemble the final panel
-        //
         topPanel.add(createInputPanel(), BorderLayout.NORTH);
         topPanel.add(createButtonPanel(), BorderLayout.SOUTH);
 
-        populateInputPanel();
+        repopulateInputPanel();
 
-        add(topPanel);
-
-        pack();
         setLocation(250, 250);
+        pack();
         setVisible(true);
     }
 
+    /**
+     *
+     * @return
+     */
     private JPanel createInputPanel()
     {
         //
@@ -82,7 +83,6 @@ public class NewSlotEditor extends AbstractMenuDialog
         inputPanel.add(tags, constraints);
 
         grammarCombo = new JComboBox<>(getAllGrammars().toArray(new String[]{}));
-//        grammarCombo = NodePropertiesDialog.createComboBox(properties, "LANGUAGE", getAllGrammars());
 
         constraints.gridx = 1;
         constraints.gridwidth = 3;
@@ -108,7 +108,10 @@ public class NewSlotEditor extends AbstractMenuDialog
         return inputPanel;
     }
 
-    private void populateInputPanel()
+    /**
+     *
+     */
+    public void repopulateInputPanel()
     {
         if (index != node.frameStruct.size())
         {
@@ -150,6 +153,10 @@ public class NewSlotEditor extends AbstractMenuDialog
         dispose();
     }
 
+    /**
+     *
+     * @return
+     */
     private List<String> getAllGrammars()
     {
         List<String> ownedGrammars = new ArrayList<>(node.frameStruct.getGrammars().keySet());

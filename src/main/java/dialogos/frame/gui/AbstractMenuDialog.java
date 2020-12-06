@@ -8,11 +8,18 @@ import java.awt.event.WindowListener;
 
 public abstract class AbstractMenuDialog extends JDialog
 {
+    public JPanel topPanel;
+
     AbstractMenuDialog(Window window, String title)
     {
         super(window, title, Dialog.ModalityType.APPLICATION_MODAL);
 
-        this.addWindowListener(new WindowListener()
+        setLayout(new BorderLayout());
+
+        topPanel = new JPanel(new BorderLayout());
+        topPanel.setBorder(new EmptyBorder(10, 5, 10, 5));
+
+        addWindowListener(new WindowListener()
         {
             @Override
             public void windowOpened(WindowEvent e)
@@ -53,11 +60,21 @@ public abstract class AbstractMenuDialog extends JDialog
             @Override
             public void windowDeactivated(WindowEvent e)
             {
-
+                System.out.println("#####");
             }
         });
+
+        add(topPanel);
+
+        window.pack();
+        window.setVisible(true);
     }
 
+    /**
+     * Creates a panel that contains an apply and cancel button.
+     *
+     * @return The panel containing the buttons.
+     */
     public JPanel createButtonPanel()
     {
         JPanel buttonPanel = new JPanel(new GridBagLayout());
@@ -87,10 +104,19 @@ public abstract class AbstractMenuDialog extends JDialog
         return buttonPanel;
     }
 
+    /**
+     * This action will be executed, when the "Apply" button is pressed.
+     */
     public abstract void applyAction();
 
+    /**
+     * This action will be executed, when the "Cancel" button is pressed.
+     */
     public abstract void cancelAction();
 
+    /**
+     * This action will be executed, when the dialog is closed.
+     */
     public void onCloseAction()
     {
     }

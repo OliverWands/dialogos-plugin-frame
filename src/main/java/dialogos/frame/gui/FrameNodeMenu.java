@@ -51,18 +51,14 @@ public class FrameNodeMenu extends JPanel
         createButton = new JButton("Create Frame");
         createButton.addActionListener(e ->
         {
-            JFrame frame = new JFrame();
-            new NewFrameEditor(frame, frameNode)
+            new NewFrameEditor(new JFrame(),frameNode)
             {
                 @Override
                 public void onCloseAction()
                 {
-                    processFrameUpdate();
+                    updateGUI();
                 }
             };
-
-            frame.pack();
-            frame.setVisible(true);
         });
 
         constraints.gridx = 1;
@@ -101,7 +97,7 @@ public class FrameNodeMenu extends JPanel
                     String content = new String(Files.readAllBytes(fileChooser.getSelectedFile().toPath()),
                             Charset.defaultCharset().name());
                     frameNode.frameStruct.unmarshalStruct(new JSONObject(content));
-                    processFrameUpdate();
+                    updateGUI();
                 } catch (IOException exp)
                 {
                     exp.printStackTrace();
@@ -155,12 +151,12 @@ public class FrameNodeMenu extends JPanel
         constraints.fill = GridBagConstraints.HORIZONTAL;
         inputPanel.add(exportButton, constraints);
 
-        processFrameUpdate();
+        updateGUI();
 
         add(inputPanel, BorderLayout.CENTER);
     }
 
-    private void processFrameUpdate()
+    private void updateGUI()
     {
         if (frameNode.frameStruct.isEdited())
         {
