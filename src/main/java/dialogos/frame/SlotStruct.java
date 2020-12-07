@@ -102,22 +102,6 @@ public class SlotStruct implements Marshalling
     @Override
     public JSONObject marshal()
     {
-        JSONObject jsonObject = marshalStruct();
-        jsonObject.put("VALUE", value);
-        jsonObject.put("IS_FILLED", isFilled);
-
-        return jsonObject;
-    }
-
-    @Override
-    public boolean unmarshal(JSONObject jsonObject)
-    {
-        return false;
-    }
-
-    @Override
-    public JSONObject marshalStruct()
-    {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("NAME", name);
         jsonObject.put("QUERY", query);
@@ -127,7 +111,7 @@ public class SlotStruct implements Marshalling
     }
 
     @Override
-    public boolean unmarshalStruct(JSONObject jsonObject)
+    public boolean unmarshal(JSONObject jsonObject)
     {
         for (String key : new String[]{"NAME", "QUERY", "GRAMMAR_NAME"})
         {

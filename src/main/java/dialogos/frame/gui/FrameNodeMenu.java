@@ -96,7 +96,7 @@ public class FrameNodeMenu extends JPanel
                 {
                     String content = new String(Files.readAllBytes(fileChooser.getSelectedFile().toPath()),
                             Charset.defaultCharset().name());
-                    frameNode.frameStruct.unmarshalStruct(new JSONObject(content));
+                    frameNode.frameStruct.unmarshal(new JSONObject(content));
                     updateGUI();
                 } catch (IOException exp)
                 {
@@ -136,7 +136,7 @@ public class FrameNodeMenu extends JPanel
                 try (Writer writer = new BufferedWriter(
                         new OutputStreamWriter(new FileOutputStream(file), StandardCharsets.UTF_8)))
                 {
-                    writer.write(frameNode.frameStruct.marshalStruct().toString(4));
+                    writer.write(frameNode.frameStruct.marshal().toString(4));
                 } catch (IOException exp)
                 {
                     exp.printStackTrace();

@@ -155,18 +155,6 @@ public class FrameStruct implements Marshalling
     @Override
     public JSONObject marshal()
     {
-        return null;
-    }
-
-    @Override
-    public boolean unmarshal(JSONObject jsonObject)
-    {
-        return false;
-    }
-
-    @Override
-    public JSONObject marshalStruct()
-    {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("ID", name);
         jsonObject.put("TAG_FILE", grammarFile.getAbsolutePath());
@@ -185,7 +173,7 @@ public class FrameStruct implements Marshalling
     }
 
     @Override
-    public boolean unmarshalStruct(JSONObject jsonObject)
+    public boolean unmarshal(JSONObject jsonObject)
     {
         for (String key : new String[]{"ID", "TAG_FILE", "GRAMMAR_TAGS", "SLOT_LIST", "HELP_PROMPT"})
         {
@@ -209,7 +197,7 @@ public class FrameStruct implements Marshalling
         for (int inx = 0; inx < jsonObject.getJSONArray("SLOT_LIST").length(); inx++)
         {
             SlotStruct slot = new SlotStruct();
-            if (!slot.unmarshalStruct(jsonObject.getJSONArray("SLOT_LIST").getJSONObject(inx)))
+            if (!slot.unmarshal(jsonObject.getJSONArray("SLOT_LIST").getJSONObject(inx)))
             {
                 return false;
             }

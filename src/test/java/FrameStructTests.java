@@ -79,12 +79,12 @@ public class FrameStructTests
     {
         FrameStruct newFrame = new FrameStruct();
 
-        JSONObject original = createFrame().marshalStruct();
+        JSONObject original = createFrame().marshal();
 
-        boolean unmarshalStruct = newFrame.unmarshalStruct(original);
+        boolean unmarshalStruct = newFrame.unmarshal(original);
         assert unmarshalStruct;
 
-        JSONObject copy = newFrame.marshalStruct();
+        JSONObject copy = newFrame.marshal();
 
         assert copy.toString().equals(original.toString());
     }
