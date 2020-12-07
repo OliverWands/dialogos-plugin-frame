@@ -361,14 +361,11 @@ public class NewFrameEditor extends AbstractMenuDialog
         node.frameStruct.setName(nameTextField.getText());
         node.frameStruct.setHelpPrompt(helpPromptField.getText());
         processGrammarFile();
-
-        dispose();
     }
 
     @Override
     public void cancelAction()
     {
-        dispose();
     }
 
 }

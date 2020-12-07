@@ -20,7 +20,6 @@ public class NewSlotEditor extends AbstractMenuDialog
     private JTextField queryText;
 
     /**
-     *
      * @param window
      * @param node
      * @param title
@@ -44,7 +43,6 @@ public class NewSlotEditor extends AbstractMenuDialog
     }
 
     /**
-     *
      * @return
      */
     private JPanel createInputPanel()
@@ -143,18 +141,14 @@ public class NewSlotEditor extends AbstractMenuDialog
                 .setName(nameText.getText())
                 .setGrammarName(grammarCombo.getItemAt(grammarCombo.getSelectedIndex()))
                 .setQuery(queryText.getText());
-
-        dispose();
     }
 
     @Override
     public void cancelAction()
     {
-        dispose();
     }
 
     /**
-     *
      * @return
      */
     private List<String> getAllGrammars()

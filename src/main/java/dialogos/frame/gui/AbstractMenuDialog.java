@@ -9,10 +9,13 @@ import java.awt.event.WindowListener;
 public abstract class AbstractMenuDialog extends JDialog
 {
     public JPanel topPanel;
+    private Window window;
 
     AbstractMenuDialog(Window window, String title)
     {
         super(window, title, Dialog.ModalityType.APPLICATION_MODAL);
+
+        this.window = window;
 
         setLayout(new BorderLayout());
 
@@ -83,11 +86,19 @@ public abstract class AbstractMenuDialog extends JDialog
 
         JButton applyButton = new JButton();
         applyButton.setText("Apply");
-        applyButton.addActionListener(e -> applyAction());
+        applyButton.addActionListener(e ->
+        {
+            applyAction();
+            window.dispatchEvent(new WindowEvent(window, WindowEvent.WINDOW_CLOSING));
+        });
 
         JButton cancelButton = new JButton();
         cancelButton.setText("Cancel");
-        cancelButton.addActionListener(e -> cancelAction());
+        cancelButton.addActionListener(e ->
+        {
+            cancelAction();
+            window.dispatchEvent(new WindowEvent(window, WindowEvent.WINDOW_CLOSING));
+        });
 
         constraints.gridx = 0;
         constraints.gridy = 0;
