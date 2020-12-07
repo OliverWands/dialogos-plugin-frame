@@ -162,6 +162,8 @@ public class FrameNode extends CallNode
 
                 FrameGraph frameGraphBuilder = new FrameGraph(this);
                 frameGraphBuilder.buildFrameInterpretationAlgo();
+
+                GraphEditorFactory.get(procNode).closeEditor();
             }
 
             return true;

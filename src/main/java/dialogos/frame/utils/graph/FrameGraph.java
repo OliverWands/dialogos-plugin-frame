@@ -51,6 +51,9 @@ public class FrameGraph
         {
             assignAllVariables();
 
+            frameNode.getOwnedGraph().setSize(frameNode.getOwnedGraph().getWidth(),
+                    (frameNode.frameStruct.size() + 3) * 200);
+
             ReturnNode returnNode = new ReturnNode();
             returnNode.setTitle("Return");
             returnNode.setColor(Color.BLACK);
@@ -70,6 +73,9 @@ public class FrameGraph
             GraphBuilder.connectNodes(new Node[]{startNode, inputVariable, fillerNode});
 
             buildBottomUp(frameNode.frameStruct.getSlots(), fillerNode, returnNode);
+
+            frameNode.getOwnedGraph().setSize(frameNode.getOwnedGraph().getWidth(),
+                    returnNode.getLocation().y + 100);
         }
     }
 
@@ -104,7 +110,7 @@ public class FrameGraph
      */
     private void buildBottomUp(List<SlotStruct> slots, Node start, Node end)
     {
-        GraphBuilder.placeBottom(start, end, slots.size() * 3 + 1);
+        GraphBuilder.placeBottom(start, end, slots.size() * 3 + 2);
 
         for (int inx = slots.size() - 1; inx >= 0; inx--)
         {
@@ -136,6 +142,8 @@ public class FrameGraph
             ConditionalNode checkEmpty = new ConditionalNode();
             nodeBuilder.assignConditionalNode(checkEmpty, "Check Empty " + inx + 1, filledVariableName(slotStruct));
             frameNode.add(checkEmpty);
+            GraphBuilder.setConditionalEdges(checkEmpty, end, queryNode);
+            GraphBuilder.connectNodes(new Node[]{queryNode, recogniser, filler, setNotEmpty, end});
 
             GraphBuilder.placeTopRight(end, setNotEmpty, 1, 2);
             GraphBuilder.placeRight(setNotEmpty, filler);
@@ -144,11 +152,9 @@ public class FrameGraph
             GraphBuilder.placeLeft(queryNode, checkEmpty);
             GraphBuilder.placeLeft(checkEmpty, comment);
 
-            GraphBuilder.setConditionalEdges(checkEmpty, end, queryNode);
-            GraphBuilder.connectNodes(new Node[]{queryNode, recogniser, filler, setNotEmpty, end});
-
             end = checkEmpty;
         }
+
         GraphBuilder.setEdge(start, end);
     }
 
