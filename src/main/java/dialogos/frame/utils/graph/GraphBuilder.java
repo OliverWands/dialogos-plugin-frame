@@ -1,9 +1,12 @@
 package dialogos.frame.utils.graph;
 
+import com.clt.diamant.graph.Comment;
 import com.clt.diamant.graph.Graph;
 import com.clt.diamant.graph.Node;
 import com.clt.diamant.graph.VisualGraphElement;
 import com.clt.diamant.graph.nodes.ConditionalNode;
+
+import java.util.ArrayList;
 
 /**
  * Class to be used for the programmatic modification of dialog graphs.
@@ -262,5 +265,21 @@ public class GraphBuilder
     public static void setGraphSize(Graph graph, double multX, double multY)
     {
         setGraphSize(graph, (int) multX, (int) multY);
+    }
+
+    public static void removeAllNodes(Graph graph)
+    {
+        for (Node node : new ArrayList<>(graph.getNodes()))
+        {
+            graph.remove(node);
+        }
+    }
+
+    public static void removeAllComments(Graph graph)
+    {
+        for (Comment comment : new ArrayList<>(graph.getComments()))
+        {
+            graph.removeComment(comment);
+        }
     }
 }

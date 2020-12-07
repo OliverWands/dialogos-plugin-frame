@@ -21,7 +21,7 @@ public class FrameGraph
 {
     public static String FILLED = "FILLED";
     public static String INPUT = "INPUT";
-    private StartNode startNode;
+    private final StartNode startNode;
     private final FrameNode frameNode;
     private final NodeBuilder nodeBuilder;
 
@@ -32,20 +32,14 @@ public class FrameGraph
      */
     public FrameGraph(FrameNode frameNode)
     {
-        this.frameNode = frameNode;
-        for (Node node : frameNode.getOwnedGraph().getNodes())
-        {
-            if (node.getClassName().equals(StartNode.class.getName()))
-            {
-                startNode = (StartNode) node;
-            }
-            else
-            {
-                frameNode.getOwnedGraph().getNodes().remove(node);
-            }
-        }
+        startNode = frameNode.getOwnedGraph().getStartNode();
 
-        nodeBuilder = new NodeBuilder(this.frameNode.getOwnedGraph());
+        GraphBuilder.removeAllNodes(frameNode.getOwnedGraph());
+        GraphBuilder.removeAllComments(frameNode.getOwnedGraph());
+
+        nodeBuilder = new NodeBuilder(frameNode.getOwnedGraph());
+
+        this.frameNode = frameNode;
     }
 
     /**
