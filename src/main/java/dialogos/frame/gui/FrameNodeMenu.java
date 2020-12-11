@@ -15,9 +15,9 @@ import java.nio.file.Files;
 public class FrameNodeMenu extends JPanel
 {
     private final FrameNode frameNode;
-    private final JButton exportButton;
-    private final JLabel createLabel;
-    private final JButton createButton;
+    private final JButton exportButton = new JButton("Export Frame");
+    private final JLabel createLabel = new JLabel();
+    private final JButton createButton = new JButton();
 
     public FrameNodeMenu(FrameNode frameNode)
     {
@@ -39,8 +39,6 @@ public class FrameNodeMenu extends JPanel
         constraints.anchor = GridBagConstraints.LINE_START;
         inputPanel.add(title, constraints);
 
-        createLabel = new JLabel("Create:");
-
         constraints.gridx = 0;
         constraints.gridy = 1;
         constraints.gridwidth = 1;
@@ -48,18 +46,15 @@ public class FrameNodeMenu extends JPanel
         constraints.fill = GridBagConstraints.HORIZONTAL;
         inputPanel.add(createLabel, constraints);
 
-        createButton = new JButton("Create Frame");
         createButton.addActionListener(e ->
-        {
-            new NewFrameEditor(new JFrame(),frameNode)
-            {
-                @Override
-                public void onCloseAction()
+                new NewFrameEditor(frameNode)
                 {
-                    updateGUI();
-                }
-            };
-        });
+                    @Override
+                    public void onCloseAction()
+                    {
+                        updateGUI();
+                    }
+                });
 
         constraints.gridx = 1;
         constraints.gridy = 1;
@@ -86,9 +81,7 @@ public class FrameNodeMenu extends JPanel
 
             JFileChooser fileChooser = new JFileChooser();
             fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("JSON and XML files.", "json", "xml"));
-
             frame.add(fileChooser, BorderLayout.SOUTH);
-
             fileChooser.setEnabled(true);
             if (fileChooser.showOpenDialog(frame) == JFileChooser.APPROVE_OPTION)
             {
@@ -121,7 +114,6 @@ public class FrameNodeMenu extends JPanel
         constraints.fill = GridBagConstraints.HORIZONTAL;
         inputPanel.add(export, constraints);
 
-        exportButton = new JButton("Export Frame");
         exportButton.setEnabled(false);
         exportButton.addActionListener(e ->
         {
@@ -163,6 +155,12 @@ public class FrameNodeMenu extends JPanel
             createLabel.setText("Edit:");
             createButton.setText("Edit Frame");
             exportButton.setEnabled(true);
+        }
+        else
+        {
+            createLabel.setText("Create:");
+            createButton.setText("Create Frame");
+            exportButton.setEnabled(false);
         }
     }
 }

@@ -9,7 +9,7 @@ import java.awt.event.WindowListener;
 public abstract class AbstractMenuDialog extends JDialog
 {
     public JPanel topPanel;
-    private Window window;
+    private final Window window;
 
     AbstractMenuDialog(Window window, String title)
     {
@@ -63,14 +63,10 @@ public abstract class AbstractMenuDialog extends JDialog
             @Override
             public void windowDeactivated(WindowEvent e)
             {
-                System.out.println("#####");
             }
         });
 
         add(topPanel);
-
-        window.pack();
-        window.setVisible(true);
     }
 
     /**
@@ -81,24 +77,23 @@ public abstract class AbstractMenuDialog extends JDialog
     public JPanel createButtonPanel()
     {
         JPanel buttonPanel = new JPanel(new GridBagLayout());
-        GridBagConstraints constraints = new GridBagConstraints();
         buttonPanel.setBorder(new EmptyBorder(5, 0, 0, 0));
 
-        JButton applyButton = new JButton();
-        applyButton.setText("Apply");
+        JButton applyButton = new JButton("Apply");
         applyButton.addActionListener(e ->
         {
             applyAction();
             window.dispatchEvent(new WindowEvent(window, WindowEvent.WINDOW_CLOSING));
         });
 
-        JButton cancelButton = new JButton();
-        cancelButton.setText("Cancel");
+        JButton cancelButton = new JButton("Cancel");
         cancelButton.addActionListener(e ->
         {
             cancelAction();
             window.dispatchEvent(new WindowEvent(window, WindowEvent.WINDOW_CLOSING));
         });
+
+        GridBagConstraints constraints = new GridBagConstraints();
 
         constraints.gridx = 0;
         constraints.gridy = 0;
@@ -109,9 +104,6 @@ public abstract class AbstractMenuDialog extends JDialog
         constraints.gridx++;
         buttonPanel.add(applyButton, constraints);
 
-        constraints.gridx++;
-        constraints.weightx = 0.0;
-        constraints.gridwidth = 1;
         return buttonPanel;
     }
 

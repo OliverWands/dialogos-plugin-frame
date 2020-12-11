@@ -13,23 +13,22 @@ import java.util.List;
 public class NewSlotEditor extends AbstractMenuDialog
 {
     private final int index;
-    private final FrameNode node;
+    private final FrameNode frameNode;
 
     private JTextField nameText;
     private JComboBox<String> grammarCombo;
     private JTextField queryText;
 
     /**
-     * @param window
-     * @param node
+     * @param frameNode
      * @param title
      * @param index
      */
-    public NewSlotEditor(Window window, FrameNode node, String title, int index)
+    public NewSlotEditor(Window window, FrameNode frameNode, String title, int index)
     {
         super(window, title);
 
-        this.node = node;
+        this.frameNode = frameNode;
         this.index = index;
 
         topPanel.add(createInputPanel(), BorderLayout.NORTH);
@@ -111,9 +110,9 @@ public class NewSlotEditor extends AbstractMenuDialog
      */
     public void repopulateInputPanel()
     {
-        if (index != node.frameStruct.size())
+        if (index != frameNode.frameStruct.size())
         {
-            SlotStruct slotStruct = node.frameStruct.getSlot(index);
+            SlotStruct slotStruct = frameNode.frameStruct.getSlot(index);
             nameText.setText(slotStruct.getName());
             String grammar = slotStruct.getGrammarName();
             for (int inx = 0; inx < grammarCombo.getItemCount(); inx++)
@@ -132,12 +131,14 @@ public class NewSlotEditor extends AbstractMenuDialog
     @Override
     public void applyAction()
     {
-        if (index == node.frameStruct.size())
+        if (index == frameNode.frameStruct.size())
         {
-            node.frameStruct.addSlot(new SlotStruct());
+            frameNode.frameStruct.addSlot(new SlotStruct());
         }
 
-        node.frameStruct.getSlot(index)
+        System.out.printf("%s  %s %s \n", nameText.getText(), grammarCombo.getItemAt(grammarCombo.getSelectedIndex()), queryText.getText());
+
+        frameNode.frameStruct.getSlot(index)
                 .setName(nameText.getText())
                 .setGrammarName(grammarCombo.getItemAt(grammarCombo.getSelectedIndex()))
                 .setQuery(queryText.getText());
@@ -153,8 +154,8 @@ public class NewSlotEditor extends AbstractMenuDialog
      */
     private List<String> getAllGrammars()
     {
-        List<String> ownedGrammars = new ArrayList<>(node.frameStruct.getGrammars().keySet());
-        List<Grammar> superGrammars = node.getSuperGraph().getGrammars();
+        List<String> ownedGrammars = new ArrayList<>(frameNode.frameStruct.getGrammars().keySet());
+        List<Grammar> superGrammars = frameNode.getSuperGraph().getGrammars();
 
         for (Grammar grammar : superGrammars)
         {

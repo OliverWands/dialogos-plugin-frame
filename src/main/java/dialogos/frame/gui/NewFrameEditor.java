@@ -33,7 +33,7 @@ public class NewFrameEditor extends AbstractMenuDialog
     };
     private final JTable table = new JTable(model);
 
-    public NewFrameEditor(Window window, FrameNode node)
+    public NewFrameEditor(FrameNode node)
     {
         super(new JFrame(), "New Frame");
 
