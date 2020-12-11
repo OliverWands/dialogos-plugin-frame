@@ -27,13 +27,11 @@ public abstract class AbstractMenuDialog extends JDialog
             @Override
             public void windowOpened(WindowEvent e)
             {
-
             }
 
             @Override
             public void windowClosing(WindowEvent e)
             {
-
             }
 
             @Override
@@ -45,19 +43,16 @@ public abstract class AbstractMenuDialog extends JDialog
             @Override
             public void windowIconified(WindowEvent e)
             {
-
             }
 
             @Override
             public void windowDeiconified(WindowEvent e)
             {
-
             }
 
             @Override
             public void windowActivated(WindowEvent e)
             {
-
             }
 
             @Override
@@ -84,6 +79,7 @@ public abstract class AbstractMenuDialog extends JDialog
         {
             applyAction();
             window.dispatchEvent(new WindowEvent(window, WindowEvent.WINDOW_CLOSING));
+            window.dispose();
         });
 
         JButton cancelButton = new JButton("Cancel");
@@ -91,6 +87,7 @@ public abstract class AbstractMenuDialog extends JDialog
         {
             cancelAction();
             window.dispatchEvent(new WindowEvent(window, WindowEvent.WINDOW_CLOSING));
+            window.dispose();
         });
 
         GridBagConstraints constraints = new GridBagConstraints();
