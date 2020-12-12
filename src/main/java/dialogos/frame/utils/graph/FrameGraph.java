@@ -59,9 +59,8 @@ public class FrameGraph
             returnNode.setColor(Color.BLACK);
             frameNode.add(returnNode);
 
-            // Todo Replace with speech recognition
             SetVariableNode inputVariable = new SetVariableNode();
-            nodeBuilder.assignSetVariableNode(inputVariable, "INPUT_VAR_ID", "\"Ich will von Stade nach Veddel\"");
+            nodeBuilder.assignSetVariableNode(inputVariable, "INPUT_VAR_ID", "");
             frameNode.add(inputVariable);
 
             FillerNode fillerNode = new FillerNode();
@@ -176,12 +175,12 @@ public class FrameGraph
 
     private String filledVariableID(SlotStruct slot)
     {
-        return String.format("%d_%s_%s", frameNode.frameStruct.getIndex(slot), FILLED, slot.ID);
+        return String.format("%d_%s_%s", frameNode.frameStruct.getIndex(slot), FILLED, slot.getId());
     }
 
     private String inputVariableID(SlotStruct slot)
     {
-        return String.format("%d_%s_%s", frameNode.frameStruct.getIndex(slot), INPUT, slot.ID);
+        return String.format("%d_%s_%s", frameNode.frameStruct.getIndex(slot), INPUT, slot.getId());
     }
 
     private String replaceAllDigits(String input)
