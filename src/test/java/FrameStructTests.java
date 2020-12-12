@@ -14,11 +14,12 @@ public class FrameStructTests
     @Test
     public void testCreateById()
     {
-        String id = "Test_ID";
-        FrameStruct frame = new FrameStruct(id);
+        String name = "Test_ID";
+        FrameStruct frame = new FrameStruct();
+        frame.setName(name);
         assert frame.isEmpty();
-        assert frame.getName().equals(id);
-        assert !frame.getName().equals("not id");
+        assert frame.getName().equals(name);
+        assert !frame.getName().equals("not name");
         assert !frame.isFilled();
     }
 
@@ -108,8 +109,10 @@ public class FrameStructTests
                 .setGrammarName("tag3")
                 .setQuery("Please enter Slot2"));
 
-        String id = "Test_ID";
-        FrameStruct newFrame = new FrameStruct(id, slots);
+        String name = "Test_ID";
+        FrameStruct newFrame = new FrameStruct();
+        newFrame.setName(name);
+        newFrame.setSlots(slots);
         newFrame.setTagsFromFile(file);
 
         return newFrame;

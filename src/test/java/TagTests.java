@@ -1,7 +1,6 @@
 import com.clt.diamant.Grammar;
 import dialogos.frame.utils.tags.TagIO;
 import dialogos.frame.utils.tokens.FrameTokenizer;
-import dialogos.frame.utils.tokens.Token;
 import dialogos.frame.utils.tokens.TokenList;
 import org.json.JSONObject;
 import org.junit.Test;
