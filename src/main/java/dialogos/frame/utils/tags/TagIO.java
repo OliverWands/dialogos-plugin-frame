@@ -67,6 +67,11 @@ public class TagIO
         return true;
     }
 
+    public static boolean xmlToTags(File file, Map<String, String> grammarMap)
+    {
+        return false;
+    }
+
     /**
      * To be used when the JSON-Tag-File contains a json array of alternatives.
      * This method will format them to be an OR-separated grammar.

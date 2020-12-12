@@ -1,6 +1,5 @@
 package dialogos.frame;
 
-import com.clt.xml.XMLReader;
 import com.clt.xml.XMLWriter;
 import org.json.JSONObject;
 
@@ -23,5 +22,4 @@ public interface Marshalling
     boolean unmarshal(JSONObject jsonObject);
 
     void marshalXML(XMLWriter writer);
-
 }

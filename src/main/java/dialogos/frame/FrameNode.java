@@ -9,13 +9,11 @@ import com.clt.diamant.graph.nodes.ProcNode;
 import com.clt.diamant.gui.GraphEditorFactory;
 import com.clt.diamant.gui.NodePropertiesDialog;
 import com.clt.script.exp.Type;
-import com.clt.xml.AbstractHandler;
 import com.clt.xml.XMLReader;
 import com.clt.xml.XMLWriter;
 import dialogos.frame.gui.FrameNodeMenu;
 import dialogos.frame.utils.graph.FrameGraph;
 import dialogos.frame.utils.graph.GraphBuilder;
-import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 
 import javax.swing.*;

@@ -1,7 +1,6 @@
 package dialogos.frame;
 
 import com.clt.diamant.IdentityObject;
-import com.clt.xml.XMLReader;
 import com.clt.xml.XMLWriter;
 import dialogos.frame.utils.tokens.Token;
 import org.json.JSONObject;
