@@ -321,7 +321,10 @@ public class NewFrameEditor extends AbstractMenuDialog
         {
             nameTextField.setText(node.frameStruct.getName());
             helpPromptField.setText(node.frameStruct.getHelpPrompt());
-            grammarPathTextField.setText(node.frameStruct.getGrammarFile().getAbsolutePath());
+            if (node.frameStruct.getGrammarFile() != null)
+            {
+                grammarPathTextField.setText(node.frameStruct.getGrammarFile().getAbsolutePath());
+            }
             updateFrameTable();
         }
     }
