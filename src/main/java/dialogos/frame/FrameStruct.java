@@ -1,17 +1,20 @@
 package dialogos.frame;
 
+import com.clt.diamant.IdentityObject;
+import com.clt.xml.AbstractHandler;
+import com.clt.xml.XMLReader;
+import com.clt.xml.XMLWriter;
 import dialogos.frame.utils.tags.TagIO;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.xml.sax.Attributes;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
-public class FrameStruct implements Marshalling
+public class FrameStruct implements Marshalling, IdentityObject
 {
+    private String id;
     private String name = null;
     private File grammarFile = null;
     private String helpPrompt = null;
@@ -23,17 +26,7 @@ public class FrameStruct implements Marshalling
 
     public FrameStruct()
     {
-    }
-
-    public FrameStruct(String name)
-    {
-        this.name = name;
-    }
-
-    public FrameStruct(String name, List<SlotStruct> slotList)
-    {
-        this.name = name;
-        this.slotList = slotList;
+        id = UUID.randomUUID().toString();
     }
 
     public void setTagsFromFile(File tagFile)
@@ -57,11 +50,6 @@ public class FrameStruct implements Marshalling
         slotList.add(slot);
     }
 
-    public void addSlot(int index, SlotStruct slot)
-    {
-        slotList.add(index, slot);
-    }
-
     public void setSlot(int index, SlotStruct slot)
     {
         slotList.set(index, slot);
@@ -75,6 +63,11 @@ public class FrameStruct implements Marshalling
     public List<SlotStruct> getSlots()
     {
         return slotList;
+    }
+
+    public void setSlots(List<SlotStruct> slots)
+    {
+        slotList = slots;
     }
 
     public int getIndex(SlotStruct slotStruct)
@@ -137,8 +130,7 @@ public class FrameStruct implements Marshalling
 
     public boolean isEdited()
     {
-        return !(grammarFile == null || name == null || slotList.isEmpty()
-                || grammars.isEmpty() || helpPrompt == null);
+        return name != null && !slotList.isEmpty() && !grammars.isEmpty() && helpPrompt != null;
     }
 
     /**
@@ -156,8 +148,8 @@ public class FrameStruct implements Marshalling
     public JSONObject marshal()
     {
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("ID", name);
-        jsonObject.put("TAG_FILE", grammarFile.getAbsolutePath());
+        jsonObject.put("NAME", name);
+        jsonObject.put("TAG_FILE", grammarFile != null ? grammarFile.getAbsolutePath() : "");
         jsonObject.put("GRAMMAR_TAGS", new JSONObject(grammars));
         jsonObject.put("HELP_PROMPT", helpPrompt);
 
@@ -175,7 +167,7 @@ public class FrameStruct implements Marshalling
     @Override
     public boolean unmarshal(JSONObject jsonObject)
     {
-        for (String key : new String[]{"ID", "TAG_FILE", "GRAMMAR_TAGS", "SLOT_LIST", "HELP_PROMPT"})
+        for (String key : new String[]{"NAME", "TAG_FILE", "GRAMMAR_TAGS", "SLOT_LIST", "HELP_PROMPT"})
         {
             if (!jsonObject.has(key))
             {
@@ -183,7 +175,7 @@ public class FrameStruct implements Marshalling
             }
         }
 
-        name = jsonObject.getString("ID");
+        name = jsonObject.getString("NAME");
         grammarFile = new File(jsonObject.getString("TAG_FILE"));
         helpPrompt = jsonObject.getString("HELP_PROMPT");
 
@@ -205,5 +197,65 @@ public class FrameStruct implements Marshalling
         }
 
         return true;
+    }
+
+    @Override
+    public void marshalXML(XMLWriter writer)
+    {
+        if (this.isEdited())
+        {
+            writer.openElement("frameStruct",
+                    new String[]{"uid", "name", "helpPrompt", "class"},
+                    new Object[]{getId(), getName(), getHelpPrompt(), getClass().getName()});
+
+            for (SlotStruct slotStruct : slotList)
+            {
+                slotStruct.marshalXML(writer);
+            }
+
+            writer.closeElement("frameStruct");
+        }
+    }
+
+    public void unmarshalXML(XMLReader reader)
+    {
+        reader.setHandler(new AbstractHandler("frameStruct")
+        {
+            @Override
+            protected void start(String name, Attributes atts)
+            {
+                switch (name)
+                {
+                    case "frameStruct":
+                        setId(atts.getValue("uid"));
+                        setName(atts.getValue("name"));
+                        setHelpPrompt(atts.getValue("helpPrompt"));
+                        break;
+                    case "slotStruct":
+                        reader.setHandler(new AbstractHandler("slotStruct"));
+                        SlotStruct slotStruct = new SlotStruct();
+                        slotStruct.setId(atts.getValue("uid"));
+                        slotStruct.setName(atts.getValue("name"));
+                        slotStruct.setQuery(atts.getValue("query"));
+                        slotStruct.setGrammarName(atts.getValue("grammarName"));
+
+                        addSlot(slotStruct);
+                        break;
+                }
+
+            }
+        });
+    }
+
+    @Override
+    public String getId()
+    {
+        return id;
+    }
+
+    @Override
+    public void setId(String id)
+    {
+        this.id = id;
     }
 }

@@ -9,10 +9,14 @@ import com.clt.diamant.graph.nodes.ProcNode;
 import com.clt.diamant.gui.GraphEditorFactory;
 import com.clt.diamant.gui.NodePropertiesDialog;
 import com.clt.script.exp.Type;
+import com.clt.xml.AbstractHandler;
+import com.clt.xml.XMLReader;
 import com.clt.xml.XMLWriter;
 import dialogos.frame.gui.FrameNodeMenu;
 import dialogos.frame.utils.graph.FrameGraph;
 import dialogos.frame.utils.graph.GraphBuilder;
+import org.xml.sax.Attributes;
+import org.xml.sax.SAXException;
 
 import javax.swing.*;
 import java.awt.*;
@@ -23,9 +27,10 @@ import java.util.UUID;
 
 public class FrameNode extends CallNode
 {
-    public FrameStruct frameStruct = new FrameStruct();
-    private final ProcNode procNode = new ProcNode();
     private static final Color nodeColor = new Color(255, 187, 0);
+
+    public FrameStruct frameStruct = new FrameStruct();
+    private ProcNode procNode = null;
 
     public FrameNode()
     {
@@ -56,12 +61,10 @@ public class FrameNode extends CallNode
             String type = varParts[1];
             if (type.equals(FrameGraph.INPUT))
             {
-                SlotStruct slotStruct = frameStruct.getSlot(index);
-                slotStruct.setValue(variable.getValue().toString());
+                SlotStruct slotStruct = frameStruct.getSlot(index).setValue(variable.getValue().toString());
 
                 Slot slot = new Slot();
                 slot.setName(slotStruct.getName());
-//                slot.setType(StructType.String);
                 slot.setType(Type.String);
                 slot.setValue(variable.getValue());
 
@@ -73,16 +76,27 @@ public class FrameNode extends CallNode
     }
 
     @Override
-    public void writeVoiceXML(XMLWriter w, IdMap uid_map)
+    protected void writeAttributes(XMLWriter out, IdMap uid_map)
     {
-        super.writeVoiceXML(w, uid_map);
+        super.writeAttributes(out, uid_map);
+
+        frameStruct.marshalXML(out);
+    }
+
+    @Override
+    protected void readAttribute(XMLReader r, String name, String value, IdMap uid_map) throws SAXException
+    {
+        super.readAttribute(r, name, value, uid_map);
+
+        frameStruct.unmarshalXML(r);
+
     }
 
     @Override
     public JComponent createEditorComponent(Map<String, Object> properties)
     {
         // TODO
-        //  return super.createEditorComponent(properties);
+//        return super.createEditorComponent(properties);
         return new FrameNodeMenu(this);
     }
 
@@ -91,25 +105,33 @@ public class FrameNode extends CallNode
     {
         Map<String, Object> props = (Map<String, Object>) this.deep_copy(this.properties);
 
+        //
+        // Set the procNode
+        //
+        if (procNode == null)
+        {
+            for (Node node : getSuperGraph().getNodes())
+            {
+                if (node instanceof ProcNode && node.getId().equals(frameStruct.getId()))
+                {
+                    procNode = (ProcNode) node;
+
+                    for (Grammar grammar : procNode.getGrammars())
+                    {
+                        frameStruct.getGrammars().put(grammar.getName(), grammar.getGrammar());
+                    }
+
+                    break;
+                }
+            }
+        }
+
         NodePropertiesDialog dialog = new NodePropertiesDialog(this, parent, props, this.createEditorComponent(props));
         dialog.setVisible(true);
 
         this.setProperty(NodePropertiesDialog.LAST_TAB, props.get(NodePropertiesDialog.LAST_TAB));
         this.setProperty(NodePropertiesDialog.LAST_SIZE, props.get(NodePropertiesDialog.LAST_SIZE));
         this.setProperty(NodePropertiesDialog.LAST_POSITION, props.get(NodePropertiesDialog.LAST_POSITION));
-
-        if (frameStruct == null)
-        {
-            frameStruct = new FrameStruct();
-        }
-
-//        Plugin.FramePluginSettings settings = (Plugin.FramePluginSettings) this.getPluginSettings(Plugin.class);
-
-        // Pass the global tags to the frame struct when it will be executed.
-//        if (settings != null)
-//        {
-//            frameStruct.setFromSettings(settings);
-//        }
 
         if (dialog.approved())
         {
@@ -125,29 +147,20 @@ public class FrameNode extends CallNode
 
             //
             // Open a view that shows the corresponding graph
-            // TODO Remove
-            if (!frameStruct.isEmpty() || true)
+            //
+            if (!frameStruct.isEmpty())
             {
-                procNode.setTitle("Frame");
-                procNode.setId("FRAMEPROCEDURE");
-                procNode.setColor(nodeColor);
+                if (procNode == null)
+                {
+                    procNode = new ProcNode();
+                    procNode.setTitle(frameStruct.getName());
+                    procNode.setId(frameStruct.getId());
+                    procNode.setColor(nodeColor);
+                    getSuperGraph().add(procNode);
+                    GraphBuilder.placeLeft(this, procNode);
 
-                super.setProperty("procedure", procNode);
-
-                getSuperGraph().add(procNode);
-                GraphBuilder.placeLeft(this, procNode);
-
-                GraphBuilder.setGraphSize(getOwnedGraph(), 2, 2);
-
-                // For testing
-//                String id = "Test_ID";
-//                List<SlotStruct> slots = new ArrayList<>();
-//                slots.add(new SlotStruct("Slot0").setGrammarName("tag1").setQuery("Please enter Slot0"));
-//                slots.add(new SlotStruct("Slot1").setGrammarName("tag2").setQuery("Please enter Slot1"));
-//                slots.add(new SlotStruct("Slot2").setGrammarName("tag3").setQuery("Please enter Slot2"));
-//
-//                frameStruct = new FrameStruct(id, slots);
-//                frameStruct.setTagsFromFile(new File("/Users/oliverwandschneider/develop/IdeaProjects/dialogos-plugin-frame/src/test/resources/tagging.json"));
+                    super.setProperty("procedure", procNode);
+                }
 
                 //
                 // Add all grammars from the tag file to the graph.

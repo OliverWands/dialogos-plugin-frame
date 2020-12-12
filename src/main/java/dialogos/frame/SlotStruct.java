@@ -1,13 +1,16 @@
 package dialogos.frame;
 
+import com.clt.diamant.IdentityObject;
+import com.clt.xml.XMLReader;
+import com.clt.xml.XMLWriter;
 import dialogos.frame.utils.tokens.Token;
 import org.json.JSONObject;
 
 import java.util.UUID;
 
-public class SlotStruct implements Marshalling
+public class SlotStruct implements Marshalling, IdentityObject
 {
-    public final String ID = UUID.randomUUID().toString();
+    private String id = UUID.randomUUID().toString();
     private String name;
     private String value;
     private String query;
@@ -126,5 +129,30 @@ public class SlotStruct implements Marshalling
         grammarName = jsonObject.getString("GRAMMAR_NAME");
 
         return true;
+    }
+
+    @Override
+    public void marshalXML(XMLWriter writer)
+    {
+        writer.openElement("slotStruct",
+                new String[]{"uid", "name", "query", "grammarName"},
+                new Object[]{getId(),
+                        getName(),
+                        getQuery(),
+                        getGrammarName()});
+
+        writer.closeElement("slotStruct");
+    }
+
+    @Override
+    public String getId()
+    {
+        return id;
+    }
+
+    @Override
+    public void setId(String id)
+    {
+        this.id = id;
     }
 }
