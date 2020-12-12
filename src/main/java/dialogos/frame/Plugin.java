@@ -10,9 +10,7 @@ import org.xml.sax.SAXException;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.File;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.Set;
 
 public class Plugin implements com.clt.dialogos.plugin.Plugin
@@ -57,9 +55,6 @@ public class Plugin implements com.clt.dialogos.plugin.Plugin
 
     static class FramePluginSettings extends PluginSettings
     {
-        public HashMap<String, String> grammarMap = new HashMap<>();
-        public File globalTags = null;
-
         @Override
         public void writeAttributes(XMLWriter xmlWriter, IdMap idMap)
         {
