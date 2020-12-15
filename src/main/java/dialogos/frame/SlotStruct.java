@@ -3,13 +3,12 @@ package dialogos.frame;
 import com.clt.diamant.IdentityObject;
 import com.clt.xml.XMLWriter;
 import dialogos.frame.utils.tokens.Token;
-import org.json.JSONObject;
 
 import java.util.UUID;
 
-public class SlotStruct implements Marshalling, IdentityObject
+public class SlotStruct implements IdentityObject
 {
-    private String id = UUID.randomUUID().toString();
+    private String id;
     private String name;
     private String value;
     private String query;
@@ -18,11 +17,7 @@ public class SlotStruct implements Marshalling, IdentityObject
 
     public SlotStruct()
     {
-    }
-
-    public SlotStruct(String name)
-    {
-        this.name = name;
+        setId(UUID.randomUUID().toString());
     }
 
     public String getGrammarName()
@@ -101,46 +96,15 @@ public class SlotStruct implements Marshalling, IdentityObject
         return val;
     }
 
-    @Override
-    public JSONObject marshal()
+    public void writeToXML(XMLWriter writer)
     {
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("NAME", name);
-        jsonObject.put("QUERY", query);
-        jsonObject.put("GRAMMAR_NAME", grammarName);
-
-        return jsonObject;
-    }
-
-    @Override
-    public boolean unmarshal(JSONObject jsonObject)
-    {
-        for (String key : new String[]{"NAME", "QUERY", "GRAMMAR_NAME"})
-        {
-            if (!jsonObject.has(key))
-            {
-                return false;
-            }
-        }
-
-        name = jsonObject.getString("NAME");
-        query = jsonObject.getString("QUERY");
-        grammarName = jsonObject.getString("GRAMMAR_NAME");
-
-        return true;
-    }
-
-    @Override
-    public void marshalXML(XMLWriter writer)
-    {
-        writer.openElement("slotStruct",
+        writer.printElement("slotStruct",
                 new String[]{"uid", "name", "query", "grammarName"},
                 new Object[]{getId(),
                         getName(),
                         getQuery(),
-                        getGrammarName()});
-
-        writer.closeElement("slotStruct");
+                        getGrammarName()},
+                null);
     }
 
     @Override

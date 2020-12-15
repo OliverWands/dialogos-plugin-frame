@@ -78,7 +78,7 @@ public class FrameNode extends CallNode
     {
         super.writeAttributes(out, uid_map);
 
-        frameStruct.marshalXML(out);
+        frameStruct.writeToXML(out);
     }
 
     @Override
@@ -86,14 +86,12 @@ public class FrameNode extends CallNode
     {
         super.readAttribute(r, name, value, uid_map);
 
-        frameStruct.unmarshalXML(r);
-
+        frameStruct.readFromXML(r);
     }
 
     @Override
     public JComponent createEditorComponent(Map<String, Object> properties)
     {
-        // TODO
 //        return super.createEditorComponent(properties);
         return new FrameNodeMenu(this);
     }
@@ -113,12 +111,6 @@ public class FrameNode extends CallNode
                 if (node instanceof ProcNode && node.getId().equals(frameStruct.getId()))
                 {
                     procNode = (ProcNode) node;
-
-                    for (Grammar grammar : procNode.getGrammars())
-                    {
-                        frameStruct.getGrammars().put(grammar.getName(), grammar.getGrammar());
-                    }
-
                     break;
                 }
             }
@@ -163,10 +155,17 @@ public class FrameNode extends CallNode
                 //
                 // Add all grammars from the tag file to the graph.
                 //
-                List<Grammar> grammars = getOwnedGraph().getGrammars();
-                for (String key : frameStruct.getGrammars().keySet())
+//                getOwnedGraph().getGrammars().addAll(frameStruct.getGrammarList());
+
+                //
+                // Add all used grammars from the file and super graph.
+                // Delete the list beforehand to avoid duplicate and outdated grammars.
+                //
+                List<Grammar> owned = getOwnedGraph().getGrammars();
+                owned.clear();
+                for (String grammarName : frameStruct.getUsedGrammars())
                 {
-                    grammars.add(new Grammar(key, frameStruct.getGrammars().get(key)));
+                    owned.add(getGrammar(grammarName));
                 }
 
                 GraphEditorFactory.show(procNode);
@@ -217,8 +216,6 @@ public class FrameNode extends CallNode
     {
         getOwnedGraph().addComment(comment);
     }
-
-    // TODO Keep track of all added variables, grammars etc. to delete all of them once the node gets removed
 
     /**
      * Creates a slot/variable with the given configuration and adds it to the graph of the FrameNode.
@@ -299,7 +296,7 @@ public class FrameNode extends CallNode
      */
     public Grammar getGrammar(String name)
     {
-        List<Grammar> grammars = getOwnedGraph().getGrammars();
+        List<Grammar> grammars = getAllGrammars();
         for (Grammar grammar : grammars)
         {
             if (grammar.getName().equals(name))
@@ -309,6 +306,14 @@ public class FrameNode extends CallNode
         }
 
         return null;
+    }
+
+    public List<Grammar> getAllGrammars()
+    {
+        List<Grammar> all = new ArrayList<>(getSuperGraph().getGrammars());
+        all.addAll(frameStruct.getGrammarList());
+        all.forEach(e -> System.out.println(e.getName()));
+        return all;
     }
 
     /**

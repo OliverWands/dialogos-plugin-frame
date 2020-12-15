@@ -1,38 +1,49 @@
 package dialogos.frame;
 
+import com.clt.diamant.Grammar;
 import com.clt.diamant.IdentityObject;
 import com.clt.xml.AbstractHandler;
 import com.clt.xml.XMLReader;
 import com.clt.xml.XMLWriter;
-import dialogos.frame.utils.tags.TagIO;
-import org.json.JSONArray;
-import org.json.JSONObject;
+import dialogos.frame.utils.tags.GrammarIO;
 import org.xml.sax.Attributes;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.*;
 
-public class FrameStruct implements Marshalling, IdentityObject
+public class FrameStruct implements IdentityObject
 {
     private String id;
     private String name = null;
     private File grammarFile = null;
     private String helpPrompt = null;
     private List<SlotStruct> slotList = new ArrayList<>();
-    private HashMap<String, String> grammars = new HashMap<>();
+    private List<Grammar> grammarList = new ArrayList<>();
 
     private final Comparator<SlotStruct> slotComparator =
             (o1, o2) -> Boolean.compare(!o1.isFilled(), !o2.isFilled());
 
     public FrameStruct()
     {
-        id = UUID.randomUUID().toString();
+        setId(UUID.randomUUID().toString());
     }
 
-    public void setTagsFromFile(File tagFile)
+    public void setGrammarsFromFile(File grammarFile)
     {
-        grammarFile = tagFile;
-        TagIO.jsonToTags(grammarFile, grammars);
+        if (grammarFile != this.grammarFile)
+        {
+            this.grammarFile = grammarFile;
+
+            if (grammarFile.getName().endsWith("json"))
+            {
+                grammarList = GrammarIO.jsonToGrammars(this.grammarFile);
+            }
+            else if (grammarFile.getName().endsWith("xml"))
+            {
+                grammarList = GrammarIO.xmlToGrammars(this.grammarFile);
+            }
+        }
     }
 
     public void setName(String name)
@@ -43,6 +54,16 @@ public class FrameStruct implements Marshalling, IdentityObject
     public String getName()
     {
         return name;
+    }
+
+    public Set<String> getUsedGrammars()
+    {
+        HashSet<String> used = new HashSet<>();
+        for (SlotStruct slotStruct : slotList)
+        {
+            used.add(slotStruct.getGrammarName());
+        }
+        return used;
     }
 
     public void addSlot(SlotStruct slot)
@@ -85,11 +106,14 @@ public class FrameStruct implements Marshalling, IdentityObject
         return helpPrompt;
     }
 
+    // TODO Move the Grammar file selector from the NewFrameMenu to the FrameNodeMenu.
     public File getGrammarFile()
     {
         return grammarFile;
     }
 
+    // TODO
+    //  Check the grammar. Owned and super graph, set them from the framestruct etc.
     public boolean isFilled()
     {
         if (isEmpty())
@@ -113,9 +137,9 @@ public class FrameStruct implements Marshalling, IdentityObject
         slotList.remove(index);
     }
 
-    public HashMap<String, String> getGrammars()
+    public List<Grammar> getGrammarList()
     {
-        return grammars;
+        return grammarList;
     }
 
     public int size()
@@ -130,13 +154,9 @@ public class FrameStruct implements Marshalling, IdentityObject
 
     public boolean isEdited()
     {
-        return name != null && !slotList.isEmpty() && !grammars.isEmpty() && helpPrompt != null;
+        return name != null && !slotList.isEmpty() && !grammarList.isEmpty() && helpPrompt != null;
     }
 
-    /**
-     * Sort the Slot list of the frame, by whether or not the slot is filled.
-     * Unfilled slots come first.
-     */
     public List<SlotStruct> sortFilled()
     {
         List<SlotStruct> temp = new ArrayList<>(slotList);
@@ -144,63 +164,7 @@ public class FrameStruct implements Marshalling, IdentityObject
         return temp;
     }
 
-    @Override
-    public JSONObject marshal()
-    {
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("NAME", name);
-        jsonObject.put("TAG_FILE", grammarFile != null ? grammarFile.getAbsolutePath() : "");
-        jsonObject.put("GRAMMAR_TAGS", new JSONObject(grammars));
-        jsonObject.put("HELP_PROMPT", helpPrompt);
-
-        JSONArray slotArray = new JSONArray();
-        for (SlotStruct slot : slotList)
-        {
-            slotArray.put(slot.marshal());
-        }
-
-        jsonObject.put("SLOT_LIST", slotArray);
-
-        return jsonObject;
-    }
-
-    @Override
-    public boolean unmarshal(JSONObject jsonObject)
-    {
-        for (String key : new String[]{"NAME", "TAG_FILE", "GRAMMAR_TAGS", "SLOT_LIST", "HELP_PROMPT"})
-        {
-            if (!jsonObject.has(key))
-            {
-                return false;
-            }
-        }
-
-        name = jsonObject.getString("NAME");
-        grammarFile = new File(jsonObject.getString("TAG_FILE"));
-        helpPrompt = jsonObject.getString("HELP_PROMPT");
-
-        grammars = new HashMap<>();
-        for (String key : jsonObject.getJSONObject("GRAMMAR_TAGS").keySet())
-        {
-            grammars.put(key, jsonObject.getJSONObject("GRAMMAR_TAGS").getString(key));
-        }
-
-        slotList = new ArrayList<>();
-        for (int inx = 0; inx < jsonObject.getJSONArray("SLOT_LIST").length(); inx++)
-        {
-            SlotStruct slot = new SlotStruct();
-            if (!slot.unmarshal(jsonObject.getJSONArray("SLOT_LIST").getJSONObject(inx)))
-            {
-                return false;
-            }
-            slotList.add(inx, slot);
-        }
-
-        return true;
-    }
-
-    @Override
-    public void marshalXML(XMLWriter writer)
+    public void writeToXML(XMLWriter writer)
     {
         if (this.isEdited())
         {
@@ -210,21 +174,50 @@ public class FrameStruct implements Marshalling, IdentityObject
 
             for (SlotStruct slotStruct : slotList)
             {
-                slotStruct.marshalXML(writer);
+                slotStruct.writeToXML(writer);
+            }
+
+            for (Grammar grammar : this.grammarList)
+            {
+                writer.openElement("grammar", new String[]{"id"}, new Object[]{grammar.getId()});
+                writer.printElement("name", grammar.getName());
+                writer.printElement("value", grammar.getGrammar());
+                writer.closeElement("grammar");
             }
 
             writer.closeElement("frameStruct");
         }
     }
 
-    public void unmarshalXML(XMLReader reader)
+    public void readFromXML(XMLReader reader)
     {
-        reader.setHandler(new AbstractHandler("frameStruct")
+        reader.setHandler(getHandler(reader));
+    }
+
+    public void readFromXML(File file)
+    {
+        if (file != null)
+        {
+            XMLReader reader = new XMLReader(false);
+
+            try
+            {
+                reader.parse(file, getHandler(reader));
+            } catch (IOException exp)
+            {
+                exp.printStackTrace();
+            }
+        }
+    }
+
+    private AbstractHandler getHandler(XMLReader reader)
+    {
+        return new AbstractHandler("frameStruct")
         {
             @Override
-            protected void start(String name, Attributes atts)
+            protected void start(String frameElem, Attributes atts)
             {
-                switch (name)
+                switch (frameElem)
                 {
                     case "frameStruct":
                         setId(atts.getValue("uid"));
@@ -238,13 +231,31 @@ public class FrameStruct implements Marshalling, IdentityObject
                         slotStruct.setName(atts.getValue("name"));
                         slotStruct.setQuery(atts.getValue("query"));
                         slotStruct.setGrammarName(atts.getValue("grammarName"));
-
                         addSlot(slotStruct);
                         break;
+                    case "grammar":
+                        final Grammar grammar = new Grammar("grammar");
+                        grammar.setId(atts.getValue("id"));
+                        grammarList.add(grammar);
+                        reader.setHandler(new AbstractHandler("grammar")
+                        {
+                            @Override
+                            protected void end(String grammarElem)
+                            {
+                                if (grammarElem.equals("name"))
+                                {
+                                    grammar.setName(this.getValue());
+                                }
+                                else if (grammarElem.equals("value"))
+                                {
+                                    grammar.setGrammar(this.getValue());
+                                }
+                            }
+                        });
+                        break;
                 }
-
             }
-        });
+        };
     }
 
     @Override
