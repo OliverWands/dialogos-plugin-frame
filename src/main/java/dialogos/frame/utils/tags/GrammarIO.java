@@ -1,32 +1,35 @@
 package dialogos.frame.utils.tags;
 
 import com.clt.diamant.Grammar;
+import com.clt.xml.AbstractHandler;
+import com.clt.xml.XMLReader;
 import dialogos.frame.utils.tokens.FrameTokenizer;
 import dialogos.frame.utils.tokens.Token;
 import dialogos.frame.utils.tokens.TokenList;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.xml.sax.Attributes;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
+import java.util.UUID;
 
-public class TagIO
+public class GrammarIO
 {
     /**
-     * Extracts the grammar and defined tags from a JSON-File into maps that contain the string value as key and the
-     * tag as value.
+     * Extracts the grammar and defined tags from a JSON-File into a list.
      *
-     * @param file       The json file that contains the tags.
-     * @param grammarMap This map will be filled with the grammars for each tag.
+     * @param file The json file that contains the tags.
      */
-    public static boolean jsonToTags(File file, Map<String, String> grammarMap)
+    public static List<Grammar> jsonToGrammars(File file)
     {
+        List<Grammar> grammarList = new ArrayList<>();
         String content = null;
+
         try
         {
             content = new String(Files.readAllBytes(file.toPath()), Charset.defaultCharset().name());
@@ -40,7 +43,7 @@ public class TagIO
 
         if (content == null)
         {
-            return false;
+            return null;
         }
 
         JSONObject jsonObject = new JSONObject(content);
@@ -49,8 +52,9 @@ public class TagIO
             Object value = jsonObject.get(key);
             if (value instanceof String)
             {
-                String grammarString = jsonObject.getString(key);
-                grammarMap.put(key, grammarString);
+                Grammar grammar = new Grammar(key, jsonObject.getString(key));
+                grammar.setId(UUID.randomUUID().toString());
+                grammarList.add(grammar);
                 continue;
             }
 
@@ -60,16 +64,56 @@ public class TagIO
             if (value instanceof JSONArray)
             {
                 JSONArray array = jsonObject.getJSONArray(key);
-                grammarMap.put(key, buildGrammarVariable(key, array));
+                grammarList.add(new Grammar(key, buildGrammarVariable(key, array)));
             }
         }
 
-        return true;
+        return grammarList;
     }
 
-    public static boolean xmlToTags(File file, Map<String, String> grammarMap)
+    public static List<Grammar> xmlToGrammars(File file)
     {
-        return false;
+        if (file != null)
+        {
+            List<Grammar> grammarList = new ArrayList<>();
+            XMLReader reader = new XMLReader(false);
+
+            try
+            {
+                reader.parse(file, new AbstractHandler("grammars")
+                {
+                    @Override
+                    protected void start(String name, Attributes atts)
+                    {
+                        final Grammar grammar = new Grammar("grammar");
+                        grammar.setId(atts.getValue(UUID.randomUUID().toString()));
+                        grammarList.add(grammar);
+                        reader.setHandler(new AbstractHandler("grammar")
+                        {
+                            @Override
+                            protected void end(String grammarElem)
+                            {
+                                if (grammarElem.equals("name"))
+                                {
+                                    grammar.setName(this.getValue());
+                                }
+                                else if (grammarElem.equals("value"))
+                                {
+                                    grammar.setGrammar(this.getValue());
+                                }
+                            }
+                        });
+                    }
+                });
+
+                return grammarList;
+            } catch (IOException exp)
+            {
+                exp.printStackTrace();
+            }
+        }
+
+        return null;
     }
 
     /**
@@ -97,14 +141,20 @@ public class TagIO
      * Get formatted string that gives information about the grammars.
      *
      * @param tagFile File that contains the tags
-     * @return Formatted string that gives information about the composition of the tags in the file.
+     * @return Formatted string that gives information about the composition of the tags in the file. -1 if error.
      */
     public static String fileToGrammarInfo(File tagFile)
     {
-        HashMap<String, String> tags = new HashMap<>();
-        TagIO.jsonToTags(tagFile, tags);
+        List<Grammar> grammars = null;
+        if (tagFile.getName().endsWith("json"))
+        {
+            grammars = GrammarIO.jsonToGrammars(tagFile);
+        } else if (tagFile.getName().endsWith("xml"))
+        {
+            grammars = GrammarIO.xmlToGrammars(tagFile);
+        }
 
-        return String.format("Contains %d grammars.", tags.size());
+        return String.format("Contains %d grammars.", grammars != null ? grammars.size() : -1);
     }
 
     public TokenList tagTokenList(List<Grammar> grammars, String input)

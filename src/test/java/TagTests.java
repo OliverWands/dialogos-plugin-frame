@@ -1,13 +1,12 @@
 import com.clt.diamant.Grammar;
-import dialogos.frame.utils.tags.TagIO;
+import dialogos.frame.utils.tags.GrammarIO;
 import dialogos.frame.utils.tokens.FrameTokenizer;
 import dialogos.frame.utils.tokens.TokenList;
-import org.json.JSONObject;
 import org.junit.Test;
 
 import java.io.File;
 import java.net.URL;
-import java.util.HashMap;
+import java.util.List;
 
 public class TagTests
 {
@@ -19,13 +18,10 @@ public class TagTests
         assert tagFile != null;
 
         File file = new File(tagFile.getFile());
-        HashMap<String, String> grammarTags = new HashMap<>();
+        List<Grammar> grammarList = GrammarIO.jsonToGrammars(file);
 
-        assert TagIO.jsonToTags(file, grammarTags);
-
-        assert grammarTags.size() == 4;
-
-        System.out.println(new JSONObject(grammarTags).toString(4));
+        assert grammarList != null;
+        assert grammarList.size() == 4;
     }
 
     @Test
@@ -83,6 +79,14 @@ public class TagTests
         {
             exp.printStackTrace();
         }
+    }
+
+    @Test
+    public void testXML()
+    {
+        File file = new File("/Users/oliverwandschneider/develop/IdeaProjects/dialogos-plugin-frame/examples/grammars.xml");
+        List<Grammar> grammars = GrammarIO.xmlToGrammars(file);
+        grammars.forEach(grammar -> System.out.println(grammar.getName()));
     }
 
 //    @Test

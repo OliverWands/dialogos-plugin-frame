@@ -37,7 +37,6 @@ public class FillerNode extends SetVariableNode
                         if (slot.getValue() != null)
                         {
 //                        TokenList tokens = tagTokenList(slot.getValue().toString(), null);
-                            System.out.println("########## " + slot.getValue().toString());
                         }
                     }
                 }

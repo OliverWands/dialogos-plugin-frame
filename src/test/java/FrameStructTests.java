@@ -1,7 +1,6 @@
 import dialogos.frame.FrameStruct;
 import dialogos.frame.SlotStruct;
 import dialogos.frame.utils.tokens.Token;
-import org.json.JSONObject;
 import org.junit.Test;
 
 import java.io.File;
@@ -48,7 +47,8 @@ public class FrameStructTests
 
         assert createdFrame.isFilled();
 
-        createdFrame.addSlot(new SlotStruct("Slot3")
+        createdFrame.addSlot(new SlotStruct()
+                .setName("Slot3")
                 .setGrammarName("tag3")
                 .setQuery("Please enter Slot3"));
 
@@ -75,21 +75,6 @@ public class FrameStructTests
         assert createdFrame.getSlot(0).getName().equals("Slot0");
     }
 
-    @Test
-    public void testStructMarshalling()
-    {
-        FrameStruct newFrame = new FrameStruct();
-
-        JSONObject original = createFrame().marshal();
-
-        boolean unmarshalStruct = newFrame.unmarshal(original);
-        assert unmarshalStruct;
-
-        JSONObject copy = newFrame.marshal();
-
-        assert copy.toString().equals(original.toString());
-    }
-
     private FrameStruct createFrame()
     {
         ClassLoader classLoader = getClass().getClassLoader();
@@ -99,13 +84,16 @@ public class FrameStructTests
         File file = new File(tagFile.getFile());
 
         List<SlotStruct> slots = new ArrayList<>();
-        slots.add(new SlotStruct("Slot0")
+        slots.add(new SlotStruct()
+                .setName("Slot0")
                 .setGrammarName("tag1")
                 .setQuery("Please enter Slot0"));
-        slots.add(new SlotStruct("Slot1")
+        slots.add(new SlotStruct()
+                .setName("Slot1")
                 .setGrammarName("tag2")
                 .setQuery("Please enter Slot1"));
-        slots.add(new SlotStruct("Slot2")
+        slots.add(new SlotStruct()
+                .setName("Slot2")
                 .setGrammarName("tag3")
                 .setQuery("Please enter Slot2"));
 
@@ -113,7 +101,7 @@ public class FrameStructTests
         FrameStruct newFrame = new FrameStruct();
         newFrame.setName(name);
         newFrame.setSlots(slots);
-        newFrame.setTagsFromFile(file);
+        newFrame.setGrammarsFromFile(file);
 
         return newFrame;
     }
