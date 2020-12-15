@@ -1,16 +1,14 @@
 package dialogos.frame.gui;
 
+import com.clt.xml.XMLWriter;
 import dialogos.frame.FrameNode;
-import org.json.JSONObject;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
-import java.io.*;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
+import java.io.File;
+import java.io.IOException;
 
 public class FrameNodeMenu extends JPanel
 {
@@ -85,16 +83,8 @@ public class FrameNodeMenu extends JPanel
             fileChooser.setEnabled(true);
             if (fileChooser.showOpenDialog(frame) == JFileChooser.APPROVE_OPTION)
             {
-                try
-                {
-                    String content = new String(Files.readAllBytes(fileChooser.getSelectedFile().toPath()),
-                            Charset.defaultCharset().name());
-                    frameNode.frameStruct.unmarshal(new JSONObject(content));
-                    updateGUI();
-                } catch (IOException exp)
-                {
-                    exp.printStackTrace();
-                }
+                frameNode.frameStruct.readFromXML(fileChooser.getSelectedFile());
+                updateGUI();
             }
         });
 
@@ -125,10 +115,12 @@ public class FrameNodeMenu extends JPanel
             if (fileChooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION)
             {
                 File file = fileChooser.getSelectedFile();
-                try (Writer writer = new BufferedWriter(
-                        new OutputStreamWriter(new FileOutputStream(file), StandardCharsets.UTF_8)))
+
+                try
                 {
-                    writer.write(frameNode.frameStruct.marshal().toString(4));
+                    XMLWriter writer = new XMLWriter(file);
+                    frameNode.frameStruct.writeToXML(writer);
+                    writer.close();
                 } catch (IOException exp)
                 {
                     exp.printStackTrace();

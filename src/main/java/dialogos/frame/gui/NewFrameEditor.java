@@ -3,7 +3,7 @@ package dialogos.frame.gui;
 import com.clt.gui.Images;
 import dialogos.frame.FrameNode;
 import dialogos.frame.SlotStruct;
-import dialogos.frame.utils.tags.TagIO;
+import dialogos.frame.utils.tags.GrammarIO;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -66,9 +66,6 @@ public class NewFrameEditor extends AbstractMenuDialog
         setVisible(true);
     }
 
-    /**
-     * @return
-     */
     private JPanel createNameGrammarEdit()
     {
         JPanel nameEditor = new JPanel(new GridBagLayout());
@@ -152,9 +149,9 @@ public class NewFrameEditor extends AbstractMenuDialog
                 if (f.getActionCommand().equals(JFileChooser.APPROVE_SELECTION))
                 {
                     File selected = fileChooser.getSelectedFile();
-                    node.frameStruct.setTagsFromFile(selected);
+                    node.frameStruct.setGrammarsFromFile(selected);
                     grammarPathTextField.setText(selected.getAbsolutePath());
-                    grammarInfo.setText(TagIO.fileToGrammarInfo(selected));
+                    grammarInfo.setText(GrammarIO.fileToGrammarInfo(selected));
                 }
                 if (e.getActionCommand().equals(JFileChooser.CANCEL_SELECTION))
                 {
@@ -181,9 +178,6 @@ public class NewFrameEditor extends AbstractMenuDialog
         return nameEditor;
     }
 
-    //
-    // TODO Only editable when there are in the super graph or a grammarFile present
-    //
     private JPanel createFrameTable()
     {
         model.addColumn("SlotName");
@@ -195,9 +189,6 @@ public class NewFrameEditor extends AbstractMenuDialog
         return tablePanel;
     }
 
-    /**
-     * @return
-     */
     private JPanel createControlButtons()
     {
         JPanel controlPanel = new JPanel(new GridBagLayout());
@@ -282,17 +273,14 @@ public class NewFrameEditor extends AbstractMenuDialog
         }
     }
 
-    /**
-     *
-     */
     private void processGrammarFile()
     {
         String path = grammarPathTextField.getText();
         File file = Paths.get(path).toFile();
         if (file.exists())
         {
-            node.frameStruct.setTagsFromFile(file);
-            grammarInfo.setText(TagIO.fileToGrammarInfo(file));
+            node.frameStruct.setGrammarsFromFile(file);
+            grammarInfo.setText(GrammarIO.fileToGrammarInfo(file));
         }
     }
 
@@ -329,10 +317,6 @@ public class NewFrameEditor extends AbstractMenuDialog
         }
     }
 
-    /**
-     * @param inx
-     * @param moveUp
-     */
     private void moveSlot(int inx, boolean moveUp)
     {
         if (moveUp && inx > 0)
