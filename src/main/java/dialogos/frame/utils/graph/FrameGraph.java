@@ -236,7 +236,7 @@ public class FrameGraph
             SetVariableNode variableNode = new SetVariableNode();
             nodeBuilder.assignSetVariableNode(variableNode, "FRAMESIZE", "111");
 
-            frameNode.addGrammar("firstGrammar", "grammar", "root $Input;\n$Input = .*;\n");
+            //frameNode.addGrammar("firstGrammar", "grammar", "root $Input;\n$Input = .*;\n");
 
             Comment comment = new Comment();
             comment.setComment("This is a comment!");

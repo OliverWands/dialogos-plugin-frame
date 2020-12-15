@@ -21,7 +21,6 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 public class FrameNode extends CallNode
 {
@@ -87,6 +86,8 @@ public class FrameNode extends CallNode
         super.readAttribute(r, name, value, uid_map);
 
         frameStruct.readFromXML(r);
+
+        setUsedGrammars();
     }
 
     @Override
@@ -153,26 +154,16 @@ public class FrameNode extends CallNode
                 }
 
                 //
-                // Add all grammars from the tag file to the graph.
-                //
-//                getOwnedGraph().getGrammars().addAll(frameStruct.getGrammarList());
-
-                //
                 // Add all used grammars from the file and super graph.
                 // Delete the list beforehand to avoid duplicate and outdated grammars.
                 //
                 List<Grammar> owned = getOwnedGraph().getGrammars();
                 owned.clear();
-                for (String grammarName : frameStruct.getUsedGrammars())
-                {
-                    owned.add(getGrammar(grammarName));
-                }
+                setUsedGrammars();
+                owned.addAll(frameStruct.getUsedGrammars());
 
                 GraphEditorFactory.show(procNode);
-
-                FrameGraph frameGraphBuilder = new FrameGraph(this);
-                frameGraphBuilder.buildFrameInterpretationAlgo();
-
+                new FrameGraph(this).buildFrameInterpretationAlgo();
                 GraphEditorFactory.get(procNode).closeEditor();
             }
 
@@ -256,23 +247,6 @@ public class FrameNode extends CallNode
     }
 
     /**
-     * Add a grammar to the graph of the FrameNode.
-     *
-     * @param name          The name of the grammar.
-     * @param grammarString The content of the grammar.
-     * @return The id of the newly created grammar.
-     */
-    public String addGrammar(String name, String grammarString)
-    {
-        List<Grammar> grammars = getOwnedGraph().getGrammars();
-        Grammar grammar = new Grammar(name, grammarString);
-        grammar.setId(UUID.randomUUID().toString());
-        grammars.add(grammar);
-
-        return grammar.getId();
-    }
-
-    /**
      * Create a new grammar using the parameters and adding it to the graph of the procedure.
      *
      * @param id             The grammar id.
@@ -311,9 +285,17 @@ public class FrameNode extends CallNode
     public List<Grammar> getAllGrammars()
     {
         List<Grammar> all = new ArrayList<>(getSuperGraph().getGrammars());
-        all.addAll(frameStruct.getGrammarList());
-        all.forEach(e -> System.out.println(e.getName()));
+        all.addAll(frameStruct.getLoadedGrammars());
         return all;
+    }
+
+    public void setUsedGrammars()
+    {
+        frameStruct.getUsedGrammars().clear();
+        frameStruct.getSlots().forEach(slot ->
+        {
+            frameStruct.getUsedGrammars().add(getGrammar(slot.getGrammarName()));
+        });
     }
 
     /**

@@ -10,7 +10,10 @@ import org.xml.sax.Attributes;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.UUID;
 
 public class FrameStruct implements IdentityObject
 {
@@ -19,7 +22,8 @@ public class FrameStruct implements IdentityObject
     private File grammarFile = null;
     private String helpPrompt = null;
     private List<SlotStruct> slotList = new ArrayList<>();
-    private List<Grammar> grammarList = new ArrayList<>();
+    private List<Grammar> loadedGrammars = new ArrayList<>();
+    private final List<Grammar> usedGrammars = new ArrayList<>();
 
     private final Comparator<SlotStruct> slotComparator =
             (o1, o2) -> Boolean.compare(!o1.isFilled(), !o2.isFilled());
@@ -37,11 +41,11 @@ public class FrameStruct implements IdentityObject
 
             if (grammarFile.getName().endsWith("json"))
             {
-                grammarList = GrammarIO.jsonToGrammars(this.grammarFile);
+                loadedGrammars = GrammarIO.jsonToGrammars(this.grammarFile);
             }
             else if (grammarFile.getName().endsWith("xml"))
             {
-                grammarList = GrammarIO.xmlToGrammars(this.grammarFile);
+                loadedGrammars = GrammarIO.xmlToGrammars(this.grammarFile);
             }
         }
     }
@@ -56,14 +60,9 @@ public class FrameStruct implements IdentityObject
         return name;
     }
 
-    public Set<String> getUsedGrammars()
+    public List<Grammar> getUsedGrammars()
     {
-        HashSet<String> used = new HashSet<>();
-        for (SlotStruct slotStruct : slotList)
-        {
-            used.add(slotStruct.getGrammarName());
-        }
-        return used;
+        return usedGrammars;
     }
 
     public void addSlot(SlotStruct slot)
@@ -112,8 +111,6 @@ public class FrameStruct implements IdentityObject
         return grammarFile;
     }
 
-    // TODO
-    //  Check the grammar. Owned and super graph, set them from the framestruct etc.
     public boolean isFilled()
     {
         if (isEmpty())
@@ -137,9 +134,9 @@ public class FrameStruct implements IdentityObject
         slotList.remove(index);
     }
 
-    public List<Grammar> getGrammarList()
+    public List<Grammar> getLoadedGrammars()
     {
-        return grammarList;
+        return loadedGrammars;
     }
 
     public int size()
@@ -154,7 +151,7 @@ public class FrameStruct implements IdentityObject
 
     public boolean isEdited()
     {
-        return name != null && !slotList.isEmpty() && !grammarList.isEmpty() && helpPrompt != null;
+        return name != null && !slotList.isEmpty() && !usedGrammars.isEmpty() && helpPrompt != null;
     }
 
     public List<SlotStruct> sortFilled()
@@ -177,7 +174,7 @@ public class FrameStruct implements IdentityObject
                 slotStruct.writeToXML(writer);
             }
 
-            for (Grammar grammar : this.grammarList)
+            for (Grammar grammar : this.usedGrammars)
             {
                 writer.openElement("grammar", new String[]{"id"}, new Object[]{grammar.getId()});
                 writer.printElement("name", grammar.getName());
@@ -236,7 +233,7 @@ public class FrameStruct implements IdentityObject
                     case "grammar":
                         final Grammar grammar = new Grammar("grammar");
                         grammar.setId(atts.getValue("id"));
-                        grammarList.add(grammar);
+                        loadedGrammars.add(grammar);
                         reader.setHandler(new AbstractHandler("grammar")
                         {
                             @Override
