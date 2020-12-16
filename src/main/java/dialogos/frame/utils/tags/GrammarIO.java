@@ -3,9 +3,6 @@ package dialogos.frame.utils.tags;
 import com.clt.diamant.Grammar;
 import com.clt.xml.AbstractHandler;
 import com.clt.xml.XMLReader;
-import dialogos.frame.utils.tokens.FrameTokenizer;
-import dialogos.frame.utils.tokens.Token;
-import dialogos.frame.utils.tokens.TokenList;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.xml.sax.Attributes;
@@ -158,9 +155,9 @@ public class GrammarIO
         return String.format("Contains %d grammars.", grammars != null ? grammars.size() : -1);
     }
 
-    public TokenList tagTokenList(List<Grammar> grammars, String input)
+    public static TokenList tagTokenList(List<Grammar> grammars, String input)
     {
-        TokenList tokenList = FrameTokenizer.tokenize(input);
+        TokenList tokenList = tokenize(input);
         for (Grammar grammar : grammars)
         {
             try
@@ -183,7 +180,7 @@ public class GrammarIO
         return tokenList;
     }
 
-    public TokenList cleanupTokens(TokenList tokens)
+    public static TokenList cleanupTokens(TokenList tokens)
     {
         TokenList cleaned = new TokenList();
         tokens.removeIf(token -> token.getTags().isEmpty());
@@ -222,5 +219,34 @@ public class GrammarIO
         }
 
         return cleaned;
+    }
+
+    public static TokenList tokenize(String input)
+    {
+        input = input.replaceAll("\\p{Punct}", "");
+        String[] tokens = input.split(" ");
+        TokenList tokenList = new TokenList();
+
+        for (int inx = 1; inx <= input.length(); inx++)
+        {
+            for (int jnx = 0; jnx < tokens.length; jnx++)
+            {
+                if ((inx + (jnx - 1)) < tokens.length)
+                {
+                    StringBuilder content = new StringBuilder();
+                    String prefix = "";
+                    for (int knx = 0; knx < inx; knx++)
+                    {
+                        content.append(prefix);
+                        prefix = " ";
+                        content.append(tokens[jnx + knx]);
+                    }
+
+                    tokenList.add(new Token(content.toString(), jnx, jnx + inx));
+                }
+            }
+        }
+
+        return tokenList;
     }
 }

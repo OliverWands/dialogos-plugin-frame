@@ -2,7 +2,7 @@ package dialogos.frame;
 
 import com.clt.diamant.IdentityObject;
 import com.clt.xml.XMLWriter;
-import dialogos.frame.utils.tokens.Token;
+import dialogos.frame.utils.tags.Token;
 
 import java.util.UUID;
 

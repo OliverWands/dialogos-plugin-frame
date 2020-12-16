@@ -1,4 +1,4 @@
-package dialogos.frame.utils.tokens;
+package dialogos.frame.utils.tags;
 
 import org.json.JSONArray;
 import org.json.JSONObject;

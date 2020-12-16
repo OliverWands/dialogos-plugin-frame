@@ -1,11 +1,12 @@
 import com.clt.diamant.Grammar;
 import dialogos.frame.utils.tags.GrammarIO;
-import dialogos.frame.utils.tokens.FrameTokenizer;
-import dialogos.frame.utils.tokens.TokenList;
+import dialogos.frame.utils.tags.Token;
+import dialogos.frame.utils.tags.TokenList;
 import org.junit.Test;
 
 import java.io.File;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.List;
 
 public class TagTests
@@ -28,7 +29,7 @@ public class TagTests
     public void testTokenizer()
     {
         String phrase = "Ich möchte von Stade zu den Landungsbrücken";
-        TokenList tokenList = FrameTokenizer.tokenize(phrase);
+        TokenList tokenList = GrammarIO.tokenize(phrase);
         int length = phrase.split(" ").length;
 
         assert tokenList.size() == ((length * length + length) / 2);
@@ -37,6 +38,21 @@ public class TagTests
 //        {
 //            System.out.println(token.getStartIndex() + ", " + token.getLower() + ", " + token.getEndIndex());
 //        }
+
+        File file = new File("/Users/oliverwandschneider/develop/IdeaProjects/dialogos-plugin-frame/examples/grammars.xml");
+        List<Grammar> grammarList = GrammarIO.xmlToGrammars(file);
+
+        TokenList tokens = GrammarIO.tagTokenList(grammarList, phrase);
+
+        GrammarIO.cleanupTokens(tokens);
+
+        for (Token token : tokens)
+        {
+            System.out.println(token.getStartIndex() + ", "
+                                       + token.getLower() + ", "
+                                       + token.getEndIndex() + ", "
+                                       + Arrays.toString(token.getTags().toArray()));
+        }
     }
 
     @Test

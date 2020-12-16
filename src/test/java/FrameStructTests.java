@@ -1,6 +1,6 @@
 import dialogos.frame.FrameStruct;
 import dialogos.frame.SlotStruct;
-import dialogos.frame.utils.tokens.Token;
+import dialogos.frame.utils.tags.Token;
 import org.junit.Test;
 
 import java.io.File;

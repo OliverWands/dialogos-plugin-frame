@@ -1,4 +1,4 @@
-package dialogos.frame.utils.tokens;
+package dialogos.frame.utils.tags;
 
 import org.json.JSONObject;
 
@@ -98,6 +98,11 @@ public class Token
     {
         JSONObject jsonObject = new JSONObject(this);
         return jsonObject.toString(4);
+    }
+
+    public boolean hasTag(String tag)
+    {
+        return tags.contains(tag);
     }
 
     public boolean containsSomeTags(Token token)
