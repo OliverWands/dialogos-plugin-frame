@@ -1,6 +1,9 @@
 package dialogos.frame;
 
-import com.clt.diamant.*;
+import com.clt.diamant.ExecutionLogger;
+import com.clt.diamant.IdMap;
+import com.clt.diamant.InputCenter;
+import com.clt.diamant.WozInterface;
 import com.clt.diamant.graph.Graph;
 import com.clt.diamant.graph.Node;
 import com.clt.diamant.graph.nodes.SetVariableNode;
@@ -16,32 +19,16 @@ import java.util.Map;
  */
 public class FillerNode extends SetVariableNode
 {
+    public FillerNode()
+    {
+
+    }
+
     @Override
     public Node execute(WozInterface comm, InputCenter input, ExecutionLogger logger)
     {
         Graph ownedGraph = getGraph();
 
-        if (ownedGraph != null)
-        {
-            for (Slot slot : ownedGraph.getVariables())
-            {
-                if (slot != null)
-                {
-                    if (slot.getId() == null)
-                    {
-                        continue;
-                    }
-
-                    if (slot.getId().equals("INPUT_VAR_ID"))
-                    {
-                        if (slot.getValue() != null)
-                        {
-//                        TokenList tokens = tagTokenList(slot.getValue().toString(), null);
-                        }
-                    }
-                }
-            }
-        }
         return super.execute(comm, input, logger);
     }
 

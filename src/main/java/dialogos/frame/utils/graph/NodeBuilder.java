@@ -2,12 +2,12 @@ package dialogos.frame.utils.graph;
 
 import com.clt.diamant.Grammar;
 import com.clt.diamant.Slot;
-import com.clt.diamant.graph.Edge;
 import com.clt.diamant.graph.Graph;
 import com.clt.diamant.graph.Node;
 import com.clt.diamant.graph.nodes.ConditionalNode;
 import com.clt.diamant.graph.nodes.SetVariableNode;
 import de.saar.coli.dialogos.marytts.plugin.TTSNode;
+import dialogos.frame.FrameInput;
 import edu.cmu.lti.dialogos.sphinx.plugin.SphinxNode;
 
 import java.awt.*;
@@ -114,18 +114,21 @@ public class NodeBuilder
         }
     }
 
+    public void assignInputNode(Node node, String title, Slot variable)
+    {
+        if (node instanceof FrameInput)
+        {
+            ((FrameInput) node).setVariable(variable);
+            node.setTitle(title);
+        }
+    }
+
     public void assignSlotSphinx(SphinxNode node, Grammar grammar, String edgeCondition)
     {
         node.setTitle(grammar.getName());
         changeColor(node);
         node.setProperty("grammar", grammar);
-        addEdgeCondition(node, edgeCondition);
-    }
-
-    public Integer addEdgeCondition(SphinxNode node, String condition)
-    {
-        Edge edge = node.addEdge(condition);
-        return node.getOutEdges().indexOf(edge);
+        node.addEdge(edgeCondition);
     }
 
     /**

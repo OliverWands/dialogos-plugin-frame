@@ -16,7 +16,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
-public class StringInputNode extends Node
+public class StringInputNode extends Node implements FrameInput
 {
     private String input;
     private Slot variable;
@@ -171,11 +171,13 @@ public class StringInputNode extends Node
         }
     }
 
+    @Override
     public Slot getVariable()
     {
         return variable;
     }
 
+    @Override
     public void setVariable(Slot slot)
     {
         variable = slot;
