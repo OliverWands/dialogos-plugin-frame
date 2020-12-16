@@ -149,7 +149,8 @@ public class GrammarIO
         if (tagFile.getName().endsWith("json"))
         {
             grammars = GrammarIO.jsonToGrammars(tagFile);
-        } else if (tagFile.getName().endsWith("xml"))
+        }
+        else if (tagFile.getName().endsWith("xml"))
         {
             grammars = GrammarIO.xmlToGrammars(tagFile);
         }

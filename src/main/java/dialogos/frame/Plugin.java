@@ -20,7 +20,7 @@ public class Plugin implements com.clt.dialogos.plugin.Plugin
     public void initialize()
     {
         Node.registerNodeTypes(com.clt.speech.Resources.getResources().createLocalizedString("ScriptNode"),
-                Arrays.asList(new Class<?>[]{FrameNode.class}));
+                               Arrays.asList(new Class<?>[]{FrameNode.class}));
     }
 
     @Override

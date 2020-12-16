@@ -99,12 +99,12 @@ public class SlotStruct implements IdentityObject
     public void writeToXML(XMLWriter writer)
     {
         writer.printElement("slotStruct",
-                new String[]{"uid", "name", "query", "grammarName"},
-                new Object[]{getId(),
-                        getName(),
-                        getQuery(),
-                        getGrammarName()},
-                null);
+                            new String[]{"uid", "name", "query", "grammarName"},
+                            new Object[]{getId(),
+                                    getName(),
+                                    getQuery(),
+                                    getGrammarName()},
+                            null);
     }
 
     @Override

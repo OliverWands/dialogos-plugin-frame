@@ -293,9 +293,9 @@ public class FrameNode extends CallNode
     {
         frameStruct.getUsedGrammars().clear();
         frameStruct.getSlots().forEach(slot ->
-        {
-            frameStruct.getUsedGrammars().add(getGrammar(slot.getGrammarName()));
-        });
+                                       {
+                                           frameStruct.getUsedGrammars().add(getGrammar(slot.getGrammarName()));
+                                       });
     }
 
     /**

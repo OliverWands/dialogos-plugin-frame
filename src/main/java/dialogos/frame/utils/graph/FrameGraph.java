@@ -52,7 +52,7 @@ public class FrameGraph
             assignAllVariables();
 
             frameNode.getOwnedGraph().setSize(frameNode.getOwnedGraph().getWidth(),
-                    (frameNode.frameStruct.size() + 3) * 200);
+                                              (frameNode.frameStruct.size() + 3) * 200);
 
             ReturnNode returnNode = new ReturnNode();
             returnNode.setTitle("Return");
@@ -74,7 +74,7 @@ public class FrameGraph
             buildBottomUp(frameNode.frameStruct.getSlots(), fillerNode, returnNode);
 
             frameNode.getOwnedGraph().setSize(frameNode.getOwnedGraph().getWidth(),
-                    returnNode.getLocation().y + 100);
+                                              returnNode.getLocation().y + 100);
         }
     }
 
@@ -91,11 +91,6 @@ public class FrameGraph
             frameNode.addVariable(filledVariableID(slot), filledVariableName(slot), Type.Bool, "false");
             frameNode.addVariable(inputVariableID(slot), inputVariableName(slot), Type.String, null);
         }
-
-//        InputHandler handler = new InputHandler(frameNode.getOwnedGraph());
-//        handler.setType(InputHandler.BEFORE_LOCAL);
-//        handler.setPattern("help");
-//        frameNode.getOwnedGraph().getHandlers().add(handler);
     }
 
     /**
@@ -160,17 +155,17 @@ public class FrameGraph
     private String filledVariableName(SlotStruct slot)
     {
         return String.format("%s%s%s",
-                numbersToLetters(frameNode.frameStruct.getIndex(slot)),
-                FILLED,
-                replaceAllDigits(slot.getName()));
+                             numbersToLetters(frameNode.frameStruct.getIndex(slot)),
+                             FILLED,
+                             replaceAllDigits(slot.getName()));
     }
 
     private String inputVariableName(SlotStruct slot)
     {
         return String.format("%s%s%s",
-                numbersToLetters(frameNode.frameStruct.getIndex(slot)),
-                INPUT,
-                replaceAllDigits(slot.getName()));
+                             numbersToLetters(frameNode.frameStruct.getIndex(slot)),
+                             INPUT,
+                             replaceAllDigits(slot.getName()));
     }
 
     private String filledVariableID(SlotStruct slot)
@@ -183,6 +178,9 @@ public class FrameGraph
         return String.format("%d_%s_%s", frameNode.frameStruct.getIndex(slot), INPUT, slot.getId());
     }
 
+    //
+    // Think of more elegant solution
+    //
     private String replaceAllDigits(String input)
     {
         if (!input.matches(".*\\d+.*"))
@@ -220,68 +218,5 @@ public class FrameGraph
         }
 
         return numberString;
-    }
-
-    @Deprecated
-    public void buildGraph()
-    {
-        frameNode.addVariable("FRAMESIZE", "Size", Type.Int, Integer.toString(frameNode.frameStruct.size()));
-//        frameNode.addVariable(FrameNode.INPUT_VAR_ID, FrameNode.INPUT_VAR_NAME, Type.String, "");
-
-        if (startNode != null)
-        {
-            SetVariableNode inputVariable = new SetVariableNode();
-//            nodeBuilder.assignSetVariableNode(inputVariable, FrameNode.INPUT_VAR_ID, "Ich will von Stade nach Veddel");
-
-            SetVariableNode variableNode = new SetVariableNode();
-            nodeBuilder.assignSetVariableNode(variableNode, "FRAMESIZE", "111");
-
-            //frameNode.addGrammar("firstGrammar", "grammar", "root $Input;\n$Input = .*;\n");
-
-            Comment comment = new Comment();
-            comment.setComment("This is a comment!");
-            GraphBuilder.placeLeft(startNode, comment);
-
-            frameNode.getOwnedGraph().addComment(comment);
-
-            FillerNode fillerNode = new FillerNode();
-
-            SphinxNode sphinxNode = new SphinxNode();
-            sphinxNode.setTitle("Haltestelle");
-            nodeBuilder.changeColor(sphinxNode);
-            nodeBuilder.assignSphinxNode(sphinxNode, "firstGrammar");
-//            nodeBuilder.addEdgeCondition(sphinxNode, FrameNode.INPUT_VAR_NAME);
-
-            TTSNode speechSynthesis0 = new TTSNode();
-            nodeBuilder.assignTTSNode(speechSynthesis0, "TTS 0", "null");
-
-            TTSNode speechSynthesis1 = new TTSNode();
-            nodeBuilder.assignTTSNode(speechSynthesis1, "TTS 1", "eins");
-
-            ConditionalNode conditionalNode = new ConditionalNode();
-            nodeBuilder.assignConditionalNode(conditionalNode, "Condition", "Size > 10");
-
-            ReturnNode returnNode = new ReturnNode();
-            returnNode.setTitle("Return");
-            returnNode.setColor(Color.BLACK);
-
-            frameNode.add(new Node[]{inputVariable, fillerNode, sphinxNode, variableNode,
-                    conditionalNode, speechSynthesis0, speechSynthesis1, returnNode});
-
-            GraphBuilder.connectNodes(new Node[]{startNode, inputVariable, sphinxNode,
-                    fillerNode, variableNode, conditionalNode});
-
-            GraphBuilder.setEdge(speechSynthesis0, returnNode);
-            GraphBuilder.setEdge(speechSynthesis1, returnNode);
-            GraphBuilder.setConditionalEdges(conditionalNode, speechSynthesis0, speechSynthesis1);
-
-            GraphBuilder.placeBottom(startNode, inputVariable);
-            GraphBuilder.placeBottom(inputVariable, sphinxNode);
-            GraphBuilder.placeBottom(sphinxNode, fillerNode);
-            GraphBuilder.placeBottom(fillerNode, variableNode);
-            GraphBuilder.placeBottom(variableNode, conditionalNode);
-            GraphBuilder.placeConditional(conditionalNode, speechSynthesis0, speechSynthesis1);
-            GraphBuilder.placeBottomLeft(speechSynthesis1, returnNode);
-        }
     }
 }

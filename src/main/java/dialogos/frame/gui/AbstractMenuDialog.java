@@ -76,19 +76,19 @@ public abstract class AbstractMenuDialog extends JDialog
 
         JButton applyButton = new JButton("Apply");
         applyButton.addActionListener(e ->
-        {
-            applyAction();
-            window.dispatchEvent(new WindowEvent(window, WindowEvent.WINDOW_CLOSING));
-            window.dispose();
-        });
+                                      {
+                                          applyAction();
+                                          window.dispatchEvent(new WindowEvent(window, WindowEvent.WINDOW_CLOSING));
+                                          window.dispose();
+                                      });
 
         JButton cancelButton = new JButton("Cancel");
         cancelButton.addActionListener(e ->
-        {
-            cancelAction();
-            window.dispatchEvent(new WindowEvent(window, WindowEvent.WINDOW_CLOSING));
-            window.dispose();
-        });
+                                       {
+                                           cancelAction();
+                                           window.dispatchEvent(new WindowEvent(window, WindowEvent.WINDOW_CLOSING));
+                                           window.dispose();
+                                       });
 
         GridBagConstraints constraints = new GridBagConstraints();
 

@@ -166,8 +166,8 @@ public class FrameStruct implements IdentityObject
         if (this.isEdited())
         {
             writer.openElement("frameStruct",
-                    new String[]{"uid", "name", "helpPrompt", "class"},
-                    new Object[]{getId(), getName(), getHelpPrompt(), getClass().getName()});
+                               new String[]{"uid", "name", "helpPrompt", "class"},
+                               new Object[]{getId(), getName(), getHelpPrompt(), getClass().getName()});
 
             for (SlotStruct slotStruct : slotList)
             {

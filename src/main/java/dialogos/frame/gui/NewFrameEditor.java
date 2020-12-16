@@ -134,38 +134,38 @@ public class NewFrameEditor extends AbstractMenuDialog
         JButton openFile = new JButton();
         openFile.setIcon(Images.load("OpenFile.png"));
         openFile.addActionListener(e ->
-        {
-            JFrame frame = new JFrame();
-            frame.setLayout(new BorderLayout());
-            JFileChooser fileChooser = new JFileChooser();
+                                   {
+                                       JFrame frame = new JFrame();
+                                       frame.setLayout(new BorderLayout());
+                                       JFileChooser fileChooser = new JFileChooser();
 
-            frame.add(fileChooser, BorderLayout.SOUTH);
+                                       frame.add(fileChooser, BorderLayout.SOUTH);
 
-            fileChooser.addChoosableFileFilter(
-                    new FileNameExtensionFilter("JSON and XML files.", "json", "xml"));
+                                       fileChooser.addChoosableFileFilter(
+                                               new FileNameExtensionFilter("JSON and XML files.", "json", "xml"));
 
-            fileChooser.addActionListener(f ->
-            {
-                if (f.getActionCommand().equals(JFileChooser.APPROVE_SELECTION))
-                {
-                    File selected = fileChooser.getSelectedFile();
-                    node.frameStruct.setGrammarsFromFile(selected);
-                    grammarPathTextField.setText(selected.getAbsolutePath());
-                    grammarInfo.setText(GrammarIO.fileToGrammarInfo(selected));
-                }
-                if (e.getActionCommand().equals(JFileChooser.CANCEL_SELECTION))
-                {
-                    frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
-                    frame.setVisible(false);
-                    frame.setAlwaysOnTop(false);
-                }
-            });
+                                       fileChooser.addActionListener(f ->
+                                                                     {
+                                                                         if (f.getActionCommand().equals(JFileChooser.APPROVE_SELECTION))
+                                                                         {
+                                                                             File selected = fileChooser.getSelectedFile();
+                                                                             node.frameStruct.setGrammarsFromFile(selected);
+                                                                             grammarPathTextField.setText(selected.getAbsolutePath());
+                                                                             grammarInfo.setText(GrammarIO.fileToGrammarInfo(selected));
+                                                                         }
+                                                                         if (e.getActionCommand().equals(JFileChooser.CANCEL_SELECTION))
+                                                                         {
+                                                                             frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
+                                                                             frame.setVisible(false);
+                                                                             frame.setAlwaysOnTop(false);
+                                                                         }
+                                                                     });
 
-            fileChooser.showOpenDialog(frame);
-            frame.pack();
-            frame.setVisible(true);
-            frame.toFront();
-        });
+                                       fileChooser.showOpenDialog(frame);
+                                       frame.pack();
+                                       frame.setVisible(true);
+                                       frame.toFront();
+                                   });
 
         constraints.gridx++;
         nameEditor.add(openFile, constraints);
@@ -201,10 +201,10 @@ public class NewFrameEditor extends AbstractMenuDialog
 
         JButton deleteSlot = new JButton("Delete");
         deleteSlot.addActionListener(e ->
-        {
-            node.frameStruct.removeSlot(table.getSelectedRow());
-            updateFrameTable();
-        });
+                                     {
+                                         node.frameStruct.removeSlot(table.getSelectedRow());
+                                         updateFrameTable();
+                                     });
 
         JPanel editPanel = new JPanel(new GridBagLayout());
         GridBagConstraints constraints = new GridBagConstraints();

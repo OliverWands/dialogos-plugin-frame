@@ -45,14 +45,14 @@ public class FrameNodeMenu extends JPanel
         inputPanel.add(createLabel, constraints);
 
         createButton.addActionListener(e ->
-                new NewFrameEditor(frameNode)
-                {
-                    @Override
-                    public void onCloseAction()
-                    {
-                        updateGUI();
-                    }
-                });
+                                               new NewFrameEditor(frameNode)
+                                               {
+                                                   @Override
+                                                   public void onCloseAction()
+                                                   {
+                                                       updateGUI();
+                                                   }
+                                               });
 
         constraints.gridx = 1;
         constraints.gridy = 1;
@@ -73,20 +73,20 @@ public class FrameNodeMenu extends JPanel
 
         JButton importButton = new JButton("Import Frame");
         importButton.addActionListener(e ->
-        {
-            JFrame frame = new JFrame();
-            frame.setLayout(new BorderLayout());
+                                       {
+                                           JFrame frame = new JFrame();
+                                           frame.setLayout(new BorderLayout());
 
-            JFileChooser fileChooser = new JFileChooser();
-            fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("JSON and XML files.", "json", "xml"));
-            frame.add(fileChooser, BorderLayout.SOUTH);
-            fileChooser.setEnabled(true);
-            if (fileChooser.showOpenDialog(frame) == JFileChooser.APPROVE_OPTION)
-            {
-                frameNode.frameStruct.readFromXML(fileChooser.getSelectedFile());
-                updateGUI();
-            }
-        });
+                                           JFileChooser fileChooser = new JFileChooser();
+                                           fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("JSON and XML files.", "json", "xml"));
+                                           frame.add(fileChooser, BorderLayout.SOUTH);
+                                           fileChooser.setEnabled(true);
+                                           if (fileChooser.showOpenDialog(frame) == JFileChooser.APPROVE_OPTION)
+                                           {
+                                               frameNode.frameStruct.readFromXML(fileChooser.getSelectedFile());
+                                               updateGUI();
+                                           }
+                                       });
 
         constraints.gridx = 1;
         constraints.gridy = 2;
@@ -106,27 +106,27 @@ public class FrameNodeMenu extends JPanel
 
         exportButton.setEnabled(false);
         exportButton.addActionListener(e ->
-        {
-            JFrame frame = new JFrame();
-            frame.setLayout(new BorderLayout());
-            JFileChooser fileChooser = new JFileChooser();
+                                       {
+                                           JFrame frame = new JFrame();
+                                           frame.setLayout(new BorderLayout());
+                                           JFileChooser fileChooser = new JFileChooser();
 
-            frame.add(fileChooser, BorderLayout.SOUTH);
-            if (fileChooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION)
-            {
-                File file = fileChooser.getSelectedFile();
+                                           frame.add(fileChooser, BorderLayout.SOUTH);
+                                           if (fileChooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION)
+                                           {
+                                               File file = fileChooser.getSelectedFile();
 
-                try
-                {
-                    XMLWriter writer = new XMLWriter(file);
-                    frameNode.frameStruct.writeToXML(writer);
-                    writer.close();
-                } catch (IOException exp)
-                {
-                    exp.printStackTrace();
-                }
-            }
-        });
+                                               try
+                                               {
+                                                   XMLWriter writer = new XMLWriter(file);
+                                                   frameNode.frameStruct.writeToXML(writer);
+                                                   writer.close();
+                                               } catch (IOException exp)
+                                               {
+                                                   exp.printStackTrace();
+                                               }
+                                           }
+                                       });
 
         constraints.gridx = 1;
         constraints.gridy = 3;

@@ -138,7 +138,7 @@ public class GraphBuilder
     public static void placeBottomLeft(VisualGraphElement relativeTo, VisualGraphElement element, int xScale, int yScale)
     {
         element.setLocation((int) Math.floor(getMiddle(relativeTo) - getHalvedWidth(element) - (baseWidth * X_UNIT * xScale)),
-                (int) Math.floor(relativeTo.getY() + baseHeight * Y_UNIT * yScale));
+                            (int) Math.floor(relativeTo.getY() + baseHeight * Y_UNIT * yScale));
     }
 
     /**
@@ -155,7 +155,7 @@ public class GraphBuilder
     public static void placeBottom(VisualGraphElement relativeTo, VisualGraphElement element, int scale)
     {
         element.setLocation(getMiddle(relativeTo) - getHalvedWidth(element),
-                (int) Math.floor(relativeTo.getY() + baseHeight * Y_UNIT * scale));
+                            (int) Math.floor(relativeTo.getY() + baseHeight * Y_UNIT * scale));
     }
 
     /**
@@ -172,7 +172,7 @@ public class GraphBuilder
     public static void placeBottomRight(VisualGraphElement relativeTo, VisualGraphElement element, int xScale, int yScale)
     {
         element.setLocation((int) Math.floor(getMiddle(relativeTo) - getHalvedWidth(element) + (baseWidth * X_UNIT * xScale)),
-                (int) Math.floor(relativeTo.getY() + baseHeight * Y_UNIT * yScale));
+                            (int) Math.floor(relativeTo.getY() + baseHeight * Y_UNIT * yScale));
     }
 
     /**
@@ -221,7 +221,7 @@ public class GraphBuilder
     public static void placeTopLeft(VisualGraphElement relativeTo, VisualGraphElement element, int xScale, int yScale)
     {
         element.setLocation((int) Math.floor(getMiddle(relativeTo) - getHalvedWidth(element) - (baseWidth * X_UNIT * xScale)),
-                (int) Math.floor(relativeTo.getY() - baseHeight * Y_UNIT * yScale));
+                            (int) Math.floor(relativeTo.getY() - baseHeight * Y_UNIT * yScale));
     }
 
     /**
@@ -254,7 +254,7 @@ public class GraphBuilder
     public static void placeTopRight(VisualGraphElement relativeTo, VisualGraphElement element, int xScale, int yScale)
     {
         element.setLocation((int) Math.floor(getMiddle(relativeTo) - getHalvedWidth(element) + (baseWidth * X_UNIT * xScale)),
-                (int) Math.floor(relativeTo.getY() - baseHeight * Y_UNIT * yScale));
+                            (int) Math.floor(relativeTo.getY() - baseHeight * Y_UNIT * yScale));
     }
 
     public static void setGraphSize(Graph graph, int multX, int multY)
