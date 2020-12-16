@@ -246,6 +246,19 @@ public class FrameNode extends CallNode
         variables.add(variable);
     }
 
+    public Slot getVariable(String name)
+    {
+        List<Slot> variables = getOwnedGraph().getVariables();
+        for (Slot slot : variables)
+        {
+            if (slot.getName().equals(name))
+            {
+                return slot;
+            }
+        }
+        return null;
+    }
+
     /**
      * Create a new grammar using the parameters and adding it to the graph of the procedure.
      *
