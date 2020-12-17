@@ -8,6 +8,8 @@ import com.clt.diamant.graph.nodes.ConditionalNode;
 import com.clt.diamant.graph.nodes.SetVariableNode;
 import de.saar.coli.dialogos.marytts.plugin.TTSNode;
 import dialogos.frame.FrameInput;
+import dialogos.frame.FrameStruct;
+import dialogos.frame.SlotStruct;
 import edu.cmu.lti.dialogos.sphinx.plugin.SphinxNode;
 
 import java.awt.*;
@@ -20,6 +22,8 @@ import java.util.List;
 public class NodeBuilder
 {
     Graph ownedGraph;
+    public static String FILLED = "FILLED";
+    public static String INPUT = "INPUT";
 
     public NodeBuilder(Graph ownedGraph)
     {
@@ -37,11 +41,6 @@ public class NodeBuilder
         node.setColor(color);
     }
 
-    /**
-     * @param node
-     * @param varID
-     * @param assingVal
-     */
     public void assignSetVariableNode(SetVariableNode node, String varID, String assingVal)
     {
         if (node == null)
@@ -80,11 +79,6 @@ public class NodeBuilder
         variableNode.setProperty(SetVariableNode.ASSIGNMENTS, assignments);
     }
 
-    /**
-     * @param node
-     * @param title
-     * @param prompt
-     */
     public void assignTTSNode(TTSNode node, String title, String prompt)
     {
         if (node == null)
@@ -114,6 +108,13 @@ public class NodeBuilder
         }
     }
 
+    public void assignSlotSphinx(SphinxNode node, Grammar grammar, String edgeCondition)
+    {
+        node.setTitle(grammar.getName());
+        changeColor(node);
+        node.setProperty("grammar", grammar);
+        node.addEdge(edgeCondition);
+    }
     public void assignInputNode(Node node, String title, Slot variable)
     {
         if (node instanceof FrameInput)
@@ -123,19 +124,8 @@ public class NodeBuilder
         }
     }
 
-    public void assignSlotSphinx(SphinxNode node, Grammar grammar, String edgeCondition)
-    {
-        node.setTitle(grammar.getName());
-        changeColor(node);
-        node.setProperty("grammar", grammar);
-        node.addEdge(edgeCondition);
-    }
 
-    /**
-     * @param node
-     * @param title
-     * @param expression
-     */
+
     public void assignConditionalNode(ConditionalNode node, String title, String expression)
     {
         if (node == null)
@@ -145,7 +135,63 @@ public class NodeBuilder
 
         ConditionalNode conditionalNode = node;
         conditionalNode.setTitle(title);
-
         conditionalNode.setProperty(ConditionalNode.EXPRESSION, expression);
+    }
+
+    public static String filledVariableName(SlotStruct slot)
+    {
+        return String.format("%s%s", FILLED, replaceAllDigits(slot.getName()).toUpperCase());
+    }
+
+    public static String inputVariableName(SlotStruct slot)
+    {
+        return String.format("%s%s", INPUT, replaceAllDigits(slot.getName().toUpperCase()));
+    }
+
+    public static String filledVariableID(FrameStruct frameStruct, SlotStruct slot)
+    {
+        return String.format("%d_%s_%s", frameStruct.getIndex(slot), FILLED, slot.getId());
+    }
+
+    public static String inputVariableID(FrameStruct frameStruct, SlotStruct slot)
+    {
+        return String.format("%d_%s_%s", frameStruct.getIndex(slot), INPUT, slot.getId());
+    }
+
+    //
+    // Think of more elegant solution
+    //
+    private static String replaceAllDigits(String input)
+    {
+        if (!input.matches(".*\\d+.*"))
+        {
+            return input;
+        }
+
+        StringBuilder builder = new StringBuilder();
+        for (char digit : input.toCharArray())
+        {
+            String digitString = String.valueOf(digit);
+            if (digitString.matches("\\d"))
+            {
+                digitString = numbersToLetters(digitString);
+            }
+            builder.append(digitString);
+        }
+
+        return builder.toString();
+    }
+
+    private static String numbersToLetters(String number)
+    {
+        String numberString = number;
+        String[] letters = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J"};
+
+        for (int inx = 0; inx < letters.length; inx++)
+        {
+            numberString = numberString.replaceAll(Integer.toString(inx), letters[inx]);
+        }
+
+        return numberString;
     }
 }

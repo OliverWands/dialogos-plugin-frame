@@ -82,9 +82,7 @@ public class FrameNodeMenu extends JPanel
                                            fileChooser.setEnabled(true);
                                            if (fileChooser.showOpenDialog(frame) == JFileChooser.APPROVE_OPTION)
                                            {
-                                               System.out.println(fileChooser.getSelectedFile().getAbsolutePath());
                                                frameNode.frameStruct.readFromXML(fileChooser.getSelectedFile());
-                                               System.out.println(frameNode.frameStruct.size());
                                                updateGUI();
                                            }
                                        });
