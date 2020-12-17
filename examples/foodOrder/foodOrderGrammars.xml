@@ -1,0 +1,20 @@
+<grammars>
+    <grammar>
+        <name>mainDish</name>
+        <value>root $input;$input = pasta | pizza | burger | curry | steak;</value>
+    </grammar>
+    <grammar>
+        <name>drink</name>
+        <value>root $input;$input = wine | cola | water | beer | coffee | soda;
+        </value>
+    </grammar>
+    <grammar>
+        <name>toGo</name>
+        <value>root $input;$input = to go | to eat here | here;</value>
+    </grammar>
+    <grammar>
+        <name>sideDish</name>
+        <value>root $input;$input = fries | french fries | baked potato | salad | wedges | curly fries;
+        </value>
+    </grammar>
+</grammars>
