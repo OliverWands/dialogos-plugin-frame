@@ -28,18 +28,13 @@ public class TagTests
     @Test
     public void testTokenizer()
     {
-        String phrase = "Ich möchte von Stade zu den Landungsbrücken";
+        String phrase = "I would like to order a burger and fries";
         TokenList tokenList = GrammarIO.tokenize(phrase);
         int length = phrase.split(" ").length;
 
         assert tokenList.size() == ((length * length + length) / 2);
 
-//        for (Token token : tokenList)
-//        {
-//            System.out.println(token.getStartIndex() + ", " + token.getLower() + ", " + token.getEndIndex());
-//        }
-
-        File file = new File("/Users/oliverwandschneider/develop/IdeaProjects/dialogos-plugin-frame/examples/grammars.xml");
+        File file = new File("/Users/oliverwandschneider/develop/IdeaProjects/dialogos-plugin-frame/examples/foodOrder/foodOrderGrammars.xml");
         List<Grammar> grammarList = GrammarIO.xmlToGrammars(file);
 
         TokenList tokens = GrammarIO.tagTokenList(grammarList, phrase);
