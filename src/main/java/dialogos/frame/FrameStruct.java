@@ -233,7 +233,7 @@ public class FrameStruct implements IdentityObject
                     case "grammar":
                         final Grammar grammar = new Grammar("grammar");
                         grammar.setId(atts.getValue("id"));
-                        loadedGrammars.add(grammar);
+                        usedGrammars.add(grammar);
                         reader.setHandler(new AbstractHandler("grammar")
                         {
                             @Override

@@ -44,15 +44,14 @@ public class FrameNodeMenu extends JPanel
         constraints.fill = GridBagConstraints.HORIZONTAL;
         inputPanel.add(createLabel, constraints);
 
-        createButton.addActionListener(e ->
-                                               new NewFrameEditor(frameNode)
-                                               {
-                                                   @Override
-                                                   public void onCloseAction()
-                                                   {
-                                                       updateGUI();
-                                                   }
-                                               });
+        createButton.addActionListener(e -> new NewFrameEditor(frameNode)
+        {
+            @Override
+            public void onCloseAction()
+            {
+                updateGUI();
+            }
+        });
 
         constraints.gridx = 1;
         constraints.gridy = 1;
@@ -83,7 +82,9 @@ public class FrameNodeMenu extends JPanel
                                            fileChooser.setEnabled(true);
                                            if (fileChooser.showOpenDialog(frame) == JFileChooser.APPROVE_OPTION)
                                            {
+                                               System.out.println(fileChooser.getSelectedFile().getAbsolutePath());
                                                frameNode.frameStruct.readFromXML(fileChooser.getSelectedFile());
+                                               System.out.println(frameNode.frameStruct.size());
                                                updateGUI();
                                            }
                                        });
