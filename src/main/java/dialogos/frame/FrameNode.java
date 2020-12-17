@@ -14,6 +14,7 @@ import com.clt.xml.XMLWriter;
 import dialogos.frame.gui.FrameNodeMenu;
 import dialogos.frame.utils.graph.FrameGraph;
 import dialogos.frame.utils.graph.GraphBuilder;
+import dialogos.frame.utils.graph.NodeBuilder;
 import org.xml.sax.SAXException;
 
 import javax.swing.*;
@@ -56,7 +57,7 @@ public class FrameNode extends CallNode
             String[] varParts = variable.getName().split("_");
             int index = Integer.getInteger(varParts[0]);
             String type = varParts[1];
-            if (type.equals(FrameGraph.INPUT))
+            if (type.equals(NodeBuilder.INPUT))
             {
                 SlotStruct slotStruct = frameStruct.getSlot(index).setValue(variable.getValue().toString());
 
@@ -286,7 +287,7 @@ public class FrameNode extends CallNode
         List<Grammar> grammars = getAllGrammars();
         for (Grammar grammar : grammars)
         {
-            if (grammar.getName().equals(name))
+            if (grammar != null && grammar.getName().equals(name))
             {
                 return grammar;
             }
@@ -298,17 +299,16 @@ public class FrameNode extends CallNode
     public List<Grammar> getAllGrammars()
     {
         List<Grammar> all = new ArrayList<>(getSuperGraph().getGrammars());
-        all.addAll(frameStruct.getLoadedGrammars());
+        all.addAll(frameStruct.getUsedGrammars());
         return all;
     }
 
     public void setUsedGrammars()
     {
+        List<Grammar> grammars = new ArrayList<>();
+        frameStruct.getSlots().forEach(slot -> grammars.add(getGrammar(slot.getGrammarName())));
         frameStruct.getUsedGrammars().clear();
-        frameStruct.getSlots().forEach(slot ->
-                                       {
-                                           frameStruct.getUsedGrammars().add(getGrammar(slot.getGrammarName()));
-                                       });
+        frameStruct.getUsedGrammars().addAll(grammars);
     }
 
     /**

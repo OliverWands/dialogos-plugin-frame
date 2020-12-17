@@ -162,13 +162,17 @@ public class GrammarIO
         {
             try
             {
-                com.clt.srgf.Grammar testGrammar = com.clt.srgf.Grammar.create(grammar.getGrammar());
-
-                for (Token token : tokenList)
+                if (grammar.getGrammar() != null)
                 {
-                    if (testGrammar.match(token.getLower(), null) != null)
+                    System.out.printf("%s\n", grammar.getGrammar());
+                    com.clt.srgf.Grammar testGrammar = com.clt.srgf.Grammar.create(grammar.getGrammar());
+
+                    for (Token token : tokenList)
                     {
-                        token.addTag(grammar.getName());
+                        if (testGrammar.match(token.getLower(), null) != null)
+                        {
+                            token.addTag(grammar.getName());
+                        }
                     }
                 }
             } catch (Exception exp)
