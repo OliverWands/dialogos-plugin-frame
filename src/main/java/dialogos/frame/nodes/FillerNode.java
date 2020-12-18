@@ -1,4 +1,4 @@
-package dialogos.frame;
+package dialogos.frame.nodes;
 
 import com.clt.diamant.*;
 import com.clt.diamant.graph.Graph;
@@ -6,6 +6,8 @@ import com.clt.diamant.graph.Node;
 import com.clt.script.exp.Value;
 import com.clt.xml.XMLReader;
 import com.clt.xml.XMLWriter;
+import dialogos.frame.FrameNode;
+import dialogos.frame.SlotStruct;
 import dialogos.frame.utils.graph.NodeBuilder;
 import dialogos.frame.utils.tags.GrammarIO;
 import dialogos.frame.utils.tags.Token;

@@ -1,4 +1,4 @@
-package dialogos.frame;
+package dialogos.frame.nodes;
 
 import com.clt.diamant.*;
 import com.clt.diamant.graph.Graph;
@@ -8,7 +8,9 @@ import com.clt.gui.GUI;
 import com.clt.gui.Passpartout;
 import com.clt.script.exp.Type;
 import com.clt.script.exp.Value;
+import com.clt.xml.XMLReader;
 import com.clt.xml.XMLWriter;
+import org.xml.sax.SAXException;
 
 import javax.swing.*;
 import java.awt.*;
@@ -69,6 +71,18 @@ public class StringInputNode extends Node implements FrameInput
     public void writeVoiceXML(XMLWriter w, IdMap uid_map) throws IOException
     {
 
+    }
+
+    @Override
+    protected void writeAttributes(XMLWriter out, IdMap uid_map)
+    {
+        super.writeAttributes(out, uid_map);
+    }
+
+    @Override
+    protected void readAttribute(XMLReader r, String name, String value, IdMap uid_map) throws SAXException
+    {
+        super.readAttribute(r, name, value, uid_map);
     }
 
     @Override

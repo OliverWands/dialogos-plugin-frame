@@ -1,4 +1,4 @@
-package dialogos.frame;
+package dialogos.frame.nodes;
 
 import com.clt.diamant.Slot;
 

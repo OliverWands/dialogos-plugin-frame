@@ -8,10 +8,10 @@ import com.clt.diamant.graph.nodes.StartNode;
 import com.clt.script.exp.Type;
 import com.clt.script.exp.types.StructType;
 import de.saar.coli.dialogos.marytts.plugin.TTSNode;
-import dialogos.frame.FillerNode;
+import dialogos.frame.nodes.FillerNode;
 import dialogos.frame.FrameNode;
 import dialogos.frame.SlotStruct;
-import dialogos.frame.StringInputNode;
+import dialogos.frame.nodes.StringInputNode;
 
 import java.awt.*;
 import java.util.List;

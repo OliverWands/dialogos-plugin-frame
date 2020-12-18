@@ -7,7 +7,7 @@ import com.clt.diamant.graph.Node;
 import com.clt.diamant.graph.nodes.ConditionalNode;
 import com.clt.diamant.graph.nodes.SetVariableNode;
 import de.saar.coli.dialogos.marytts.plugin.TTSNode;
-import dialogos.frame.FrameInput;
+import dialogos.frame.nodes.FrameInput;
 import dialogos.frame.FrameStruct;
 import dialogos.frame.SlotStruct;
 import edu.cmu.lti.dialogos.sphinx.plugin.SphinxNode;
