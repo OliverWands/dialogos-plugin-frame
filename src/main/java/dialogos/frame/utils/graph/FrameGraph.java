@@ -6,6 +6,7 @@ import com.clt.diamant.graph.nodes.ConditionalNode;
 import com.clt.diamant.graph.nodes.ReturnNode;
 import com.clt.diamant.graph.nodes.StartNode;
 import com.clt.script.exp.Type;
+import com.clt.script.exp.types.StructType;
 import de.saar.coli.dialogos.marytts.plugin.TTSNode;
 import dialogos.frame.FillerNode;
 import dialogos.frame.FrameNode;
@@ -60,10 +61,12 @@ public class FrameGraph
             frameNode.add(helpPrompt);
 
             StringInputNode inputNode = new StringInputNode();
-            inputNode.setVariable(frameNode.getVariable("INPUT_VAR"));
+            inputNode.setVariable(frameNode.getVariable("INPUT_VAR_ID"));
             frameNode.add(inputNode);
 
-            FillerNode fillerNode = new FillerNode(frameNode.getVariable("INPUT_VAR"), frameNode);
+            FillerNode fillerNode = new FillerNode();
+            fillerNode.setVariable(frameNode.getVariable("INPUT_VAR_ID"));
+            fillerNode.setFrameNode(frameNode);
             frameNode.add(fillerNode);
 
             GraphBuilder.placeBottom(startNode, helpPrompt);
@@ -84,7 +87,11 @@ public class FrameGraph
      */
     private void assignAllVariables()
     {
+
         frameNode.addVariable("INPUT_VAR_ID", "INPUT_VAR", Type.String, null);
+
+        String[] names = new String[frameNode.frameStruct.size()];
+        Type[] types = new Type[frameNode.frameStruct.size()];
 
         for (int inx = 0; inx < frameNode.frameStruct.size(); inx++)
         {
@@ -97,7 +104,13 @@ public class FrameGraph
                                   NodeBuilder.inputVariableName(slot),
                                   Type.String,
                                   null);
+
+            names[inx] = slot.getName();
+            types[inx] = Type.String;
         }
+        StructType type = new StructType(names, types, false);
+
+        frameNode.addVariable("testID", "test", type, "");
     }
 
     /**
@@ -117,11 +130,14 @@ public class FrameGraph
         {
             SlotStruct slotStruct = slots.get(inx);
 
-            FillerNode fillerNode = new FillerNode(frameNode.getVariable("INPUT_VAR"), frameNode, inx);
+            FillerNode fillerNode = new FillerNode();
+            fillerNode.setVariable(frameNode.getVariable("INPUT_VAR_ID"));
+            fillerNode.setFrameNode(frameNode);
+            fillerNode.setExpectedSlotInput(inx);
             frameNode.add(fillerNode);
 
             StringInputNode inputNode = new StringInputNode();
-            inputNode.setVariable(frameNode.getVariable("INPUT_VAR"));
+            inputNode.setVariable(frameNode.getVariable("INPUT_VAR_ID"));
             frameNode.add(inputNode);
 
             TTSNode queryNode = new TTSNode();
