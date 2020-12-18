@@ -7,9 +7,9 @@ import com.clt.diamant.graph.Node;
 import com.clt.diamant.graph.nodes.ConditionalNode;
 import com.clt.diamant.graph.nodes.SetVariableNode;
 import de.saar.coli.dialogos.marytts.plugin.TTSNode;
-import dialogos.frame.nodes.FrameInput;
 import dialogos.frame.FrameStruct;
 import dialogos.frame.SlotStruct;
+import dialogos.frame.nodes.FrameInput;
 import edu.cmu.lti.dialogos.sphinx.plugin.SphinxNode;
 
 import java.awt.*;
@@ -115,16 +115,15 @@ public class NodeBuilder
         node.setProperty("grammar", grammar);
         node.addEdge(edgeCondition);
     }
-    public void assignInputNode(Node node, String title, Slot variable)
+
+    public void assignInputNode(Node node, String title, String variableID)
     {
         if (node instanceof FrameInput)
         {
-            ((FrameInput) node).setVariable(variable);
+            ((FrameInput) node).setVariableID(variableID);
             node.setTitle(title);
         }
     }
-
-
 
     public void assignConditionalNode(ConditionalNode node, String title, String expression)
     {

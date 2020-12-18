@@ -8,9 +8,9 @@ import com.clt.diamant.graph.nodes.StartNode;
 import com.clt.script.exp.Type;
 import com.clt.script.exp.types.StructType;
 import de.saar.coli.dialogos.marytts.plugin.TTSNode;
-import dialogos.frame.nodes.FillerNode;
 import dialogos.frame.FrameNode;
 import dialogos.frame.SlotStruct;
+import dialogos.frame.nodes.FillerNode;
 import dialogos.frame.nodes.StringInputNode;
 
 import java.awt.*;
@@ -61,7 +61,7 @@ public class FrameGraph
             frameNode.add(helpPrompt);
 
             StringInputNode inputNode = new StringInputNode();
-            inputNode.setVariable(frameNode.getVariable("INPUT_VAR_ID"));
+            inputNode.setVariableID("INPUT_VAR_ID");
             frameNode.add(inputNode);
 
             FillerNode fillerNode = new FillerNode();
@@ -137,7 +137,7 @@ public class FrameGraph
             frameNode.add(fillerNode);
 
             StringInputNode inputNode = new StringInputNode();
-            inputNode.setVariable(frameNode.getVariable("INPUT_VAR_ID"));
+            inputNode.setVariableID("INPUT_VAR_ID");
             frameNode.add(inputNode);
 
             TTSNode queryNode = new TTSNode();

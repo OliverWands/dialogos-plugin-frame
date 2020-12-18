@@ -15,13 +15,14 @@ import org.xml.sax.SAXException;
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 public class StringInputNode extends Node implements FrameInput
 {
     private String input;
-    private Slot variable;
+    private String varID;
     private JComboBox<String> varCombo;
 
     public StringInputNode()
@@ -46,13 +47,23 @@ public class StringInputNode extends Node implements FrameInput
         JPanel panel = new JPanel(new GridBagLayout());
         GridBagConstraints constraints = new GridBagConstraints();
 
-        List<Slot> all = this.getGraph().getAllVariables(Graph.LOCAL);
-        String[] varNames = new String[all.size()];
-        for (int inx = 0; inx < all.size(); inx++)
+        Integer selected = null;
+        List<Slot> stringVars = new ArrayList<>();
+        this.getGraph().getAllVariables(Graph.LOCAL).forEach(var ->
+                                                             {
+                                                                 if (var.getType().equals(Type.String))
+                                                                 {
+                                                                     stringVars.add(var);
+                                                                 }
+                                                             });
+
+        String[] varNames = new String[stringVars.size()];
+        for (int inx = 0; inx < stringVars.size(); inx++)
         {
-            if (all.get(inx).getType().equals(Type.String))
+            varNames[inx] = stringVars.get(inx).getName();
+            if (varID != null)
             {
-                varNames[inx] = all.get(inx).getName();
+
             }
         }
 
@@ -60,6 +71,9 @@ public class StringInputNode extends Node implements FrameInput
         panel.add(new JLabel("Select variable to receive the input"), constraints);
 
         varCombo = new JComboBox<>(varNames);
+        if (varID != null)
+        {
+        }
         constraints.gridy = 1;
         constraints.fill = GridBagConstraints.HORIZONTAL;
         panel.add(varCombo, constraints);
@@ -77,12 +91,19 @@ public class StringInputNode extends Node implements FrameInput
     protected void writeAttributes(XMLWriter out, IdMap uid_map)
     {
         super.writeAttributes(out, uid_map);
+
+        Graph.printAtt(out, "varID", varID);
     }
 
     @Override
     protected void readAttribute(XMLReader r, String name, String value, IdMap uid_map) throws SAXException
     {
         super.readAttribute(r, name, value, uid_map);
+
+        if ("varID".equals(name))
+        {
+            varID = value;
+        }
     }
 
     @Override
@@ -103,7 +124,7 @@ public class StringInputNode extends Node implements FrameInput
             {
                 if (slot.getName().equals(varCombo.getItemAt(varCombo.getSelectedIndex())))
                 {
-                    variable = slot;
+                    varID = slot.getId();
                     break;
                 }
             }
@@ -173,10 +194,9 @@ public class StringInputNode extends Node implements FrameInput
                 }
             }
 
-            List<Slot> slotList = this.getGraph().getAllVariables(Graph.LOCAL);
-            for (Slot slot : slotList)
+            for (Slot slot : this.getGraph().getAllVariables(Graph.LOCAL))
             {
-                if (slot.equals(variable))
+                if (varID != null && slot.getId().equals(varID))
                 {
                     slot.setValue(Value.of(input));
                     break;
@@ -186,15 +206,15 @@ public class StringInputNode extends Node implements FrameInput
     }
 
     @Override
-    public Slot getVariable()
+    public String getVariableID()
     {
-        return variable;
+        return varID;
     }
 
     @Override
-    public void setVariable(Slot slot)
+    public void setVariableID(String id)
     {
-        variable = slot;
+        varID = id;
     }
 }
 

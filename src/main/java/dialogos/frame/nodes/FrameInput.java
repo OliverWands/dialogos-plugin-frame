@@ -4,7 +4,7 @@ import com.clt.diamant.Slot;
 
 public interface FrameInput
 {
-    void setVariable(Slot slot);
+    void setVariableID(String id);
 
-    Slot getVariable();
+    String getVariableID();
 }
