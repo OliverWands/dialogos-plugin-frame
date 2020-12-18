@@ -164,7 +164,6 @@ public class GrammarIO
             {
                 if (grammar.getGrammar() != null)
                 {
-                    System.out.printf("%s\n", grammar.getGrammar());
                     com.clt.srgf.Grammar testGrammar = com.clt.srgf.Grammar.create(grammar.getGrammar());
 
                     for (Token token : tokenList)

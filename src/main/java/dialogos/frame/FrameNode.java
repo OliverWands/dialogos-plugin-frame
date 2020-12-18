@@ -247,12 +247,11 @@ public class FrameNode extends CallNode
         variables.add(variable);
     }
 
-    public Slot getVariable(String name)
+    public Slot getVariable(String id)
     {
-        List<Slot> variables = getOwnedGraph().getVariables();
-        for (Slot slot : variables)
+        for (Slot slot : getOwnedGraph().getVariables())
         {
-            if (slot.getName().equals(name))
+            if (slot.getId().equals(id))
             {
                 return slot;
             }
