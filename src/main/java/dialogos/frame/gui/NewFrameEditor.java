@@ -1,16 +1,17 @@
 package dialogos.frame.gui;
 
+import com.clt.gui.FileChooser;
 import com.clt.gui.Images;
+import com.clt.io.FileExtensionFilter;
 import dialogos.frame.FrameNode;
 import dialogos.frame.struct.SlotStruct;
 import dialogos.frame.utils.GrammarIO;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.awt.event.WindowEvent;
+import java.awt.event.ActionEvent;
 import java.io.File;
 import java.nio.file.Paths;
 
@@ -131,44 +132,24 @@ public class NewFrameEditor extends AbstractMenuDialog
         constraints.anchor = GridBagConstraints.LINE_END;
         nameEditor.add(grammarPathTextField, constraints);
 
-        JButton openFile = new JButton();
-        openFile.setIcon(Images.load("OpenFile.png"));
-        openFile.addActionListener(e ->
-                                   {
-                                       JFrame frame = new JFrame();
-                                       frame.setLayout(new BorderLayout());
-                                       JFileChooser fileChooser = new JFileChooser();
-
-                                       frame.add(fileChooser, BorderLayout.SOUTH);
-
-                                       fileChooser.addChoosableFileFilter(
-                                               new FileNameExtensionFilter("JSON and XML files.", "json", "xml"));
-
-                                       fileChooser.addActionListener(f ->
-                                                                     {
-                                                                         if (f.getActionCommand().equals(JFileChooser.APPROVE_SELECTION))
-                                                                         {
-                                                                             File selected = fileChooser.getSelectedFile();
-                                                                             node.frameStruct.setGrammarsFromFile(selected);
-                                                                             grammarPathTextField.setText(selected.getAbsolutePath());
-                                                                             grammarInfo.setText(GrammarIO.fileToGrammarInfo(selected));
-                                                                         }
-                                                                         if (e.getActionCommand().equals(JFileChooser.CANCEL_SELECTION))
-                                                                         {
-                                                                             frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
-                                                                             frame.setVisible(false);
-                                                                             frame.setAlwaysOnTop(false);
-                                                                         }
-                                                                     });
-
-                                       fileChooser.showOpenDialog(frame);
-                                       frame.pack();
-                                       frame.setVisible(true);
-                                       frame.toFront();
-                                   });
+        AbstractAction importFrameAction = new AbstractAction("", Images.load("OpenFile.png"))
+        {
+            @Override
+            public void actionPerformed(ActionEvent e)
+            {
+                FileChooser fc = new FileChooser(new FileExtensionFilter("xml", "XML exported frame"));
+                File selected = fc.standardGetFile(nameEditor);
+                if (selected != null)
+                {
+                    node.frameStruct.setGrammarsFromFile(selected);
+                    grammarPathTextField.setText(selected.getAbsolutePath());
+                    grammarInfo.setText(GrammarIO.fileToGrammarInfo(selected));
+                }
+            }
+        };
 
         constraints.gridx++;
-        nameEditor.add(openFile, constraints);
+        nameEditor.add(new JButton(importFrameAction), constraints);
 
         constraints.gridy++;
         constraints.gridx = 1;

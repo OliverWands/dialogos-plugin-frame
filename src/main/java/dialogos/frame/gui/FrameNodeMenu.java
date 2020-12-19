@@ -40,7 +40,7 @@ public class FrameNodeMenu extends JPanel
         inputPanel.add(title, constraints);
 
         constraints.gridx = 0;
-        constraints.gridy = 1;
+        constraints.gridy++;
         constraints.gridwidth = 1;
         constraints.anchor = GridBagConstraints.LINE_START;
         constraints.fill = GridBagConstraints.HORIZONTAL;
@@ -56,7 +56,6 @@ public class FrameNodeMenu extends JPanel
         });
 
         constraints.gridx = 1;
-        constraints.gridy = 1;
         constraints.gridwidth = 3;
         constraints.anchor = GridBagConstraints.LINE_END;
         constraints.fill = GridBagConstraints.HORIZONTAL;
@@ -65,7 +64,7 @@ public class FrameNodeMenu extends JPanel
         JLabel tags = new JLabel("Import from file:");
 
         constraints.gridx = 0;
-        constraints.gridy = 2;
+        constraints.gridy++;
         constraints.weightx = 0.0;
         constraints.gridwidth = 1;
         constraints.anchor = GridBagConstraints.LINE_START;
@@ -90,7 +89,6 @@ public class FrameNodeMenu extends JPanel
         JButton importButton = new JButton(importFrameAction);
 
         constraints.gridx = 1;
-        constraints.gridy = 2;
         constraints.gridwidth = 3;
         constraints.anchor = GridBagConstraints.LINE_END;
         constraints.fill = GridBagConstraints.HORIZONTAL;
@@ -99,7 +97,7 @@ public class FrameNodeMenu extends JPanel
         JLabel export = new JLabel("Export to file:");
 
         constraints.gridx = 0;
-        constraints.gridy = 3;
+        constraints.gridy++;
         constraints.gridwidth = 1;
         constraints.anchor = GridBagConstraints.LINE_START;
         constraints.fill = GridBagConstraints.HORIZONTAL;
@@ -130,7 +128,6 @@ public class FrameNodeMenu extends JPanel
                                        });
 
         constraints.gridx = 1;
-        constraints.gridy = 3;
         constraints.gridwidth = 3;
         constraints.anchor = GridBagConstraints.LINE_END;
         constraints.fill = GridBagConstraints.HORIZONTAL;
