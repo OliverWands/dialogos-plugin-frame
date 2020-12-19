@@ -1,19 +1,21 @@
 package dialogos.frame.gui;
 
+import com.clt.gui.FileChooser;
+import com.clt.io.FileExtensionFilter;
 import com.clt.xml.XMLWriter;
 import dialogos.frame.FrameNode;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.io.File;
 import java.io.IOException;
 
 public class FrameNodeMenu extends JPanel
 {
     private final FrameNode frameNode;
-    private final JButton exportButton = new JButton("Export Frame");
+    private JButton exportButton;
     private final JLabel createLabel = new JLabel();
     private final JButton createButton = new JButton();
 
@@ -70,22 +72,22 @@ public class FrameNodeMenu extends JPanel
         constraints.fill = GridBagConstraints.HORIZONTAL;
         inputPanel.add(tags, constraints);
 
-        JButton importButton = new JButton("Import Frame");
-        importButton.addActionListener(e ->
-                                       {
-                                           JFrame frame = new JFrame();
-                                           frame.setLayout(new BorderLayout());
+        AbstractAction importFrameAction = new AbstractAction("Import Frame")
+        {
+            @Override
+            public void actionPerformed(ActionEvent e)
+            {
+                FileChooser fc = new FileChooser(new FileExtensionFilter("xml", "XML exported frame"));
+                File file = fc.standardGetFile(inputPanel);
+                if (file != null)
+                {
+                    frameNode.frameStruct.readFromXML(file);
+                    updateGUI();
+                }
+            }
+        };
 
-                                           JFileChooser fileChooser = new JFileChooser();
-                                           fileChooser.addChoosableFileFilter(new FileNameExtensionFilter("JSON and XML files.", "json", "xml"));
-                                           frame.add(fileChooser, BorderLayout.SOUTH);
-                                           fileChooser.setEnabled(true);
-                                           if (fileChooser.showOpenDialog(frame) == JFileChooser.APPROVE_OPTION)
-                                           {
-                                               frameNode.frameStruct.readFromXML(fileChooser.getSelectedFile());
-                                               updateGUI();
-                                           }
-                                       });
+        JButton importButton = new JButton(importFrameAction);
 
         constraints.gridx = 1;
         constraints.gridy = 2;

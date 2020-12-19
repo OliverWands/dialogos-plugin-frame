@@ -300,9 +300,6 @@ public class NewFrameEditor extends AbstractMenuDialog
         }
     }
 
-    /**
-     *
-     */
     public void repopulateInputPanel()
     {
         if (node.frameStruct.isEdited())
