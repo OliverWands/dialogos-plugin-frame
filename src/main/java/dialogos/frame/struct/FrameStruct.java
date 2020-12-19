@@ -255,6 +255,16 @@ public class FrameStruct implements IdentityObject
         };
     }
 
+    public String getStructVariableName()
+    {
+        return "STRUCT" + getId();
+    }
+
+    public String getStructVariableID()
+    {
+        return "STRUCTID" + getId();
+    }
+
     @Override
     public String getId()
     {

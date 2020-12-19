@@ -9,6 +9,7 @@ import com.clt.diamant.graph.nodes.ProcNode;
 import com.clt.diamant.gui.GraphEditorFactory;
 import com.clt.diamant.gui.NodePropertiesDialog;
 import com.clt.script.exp.Type;
+import com.clt.script.exp.types.StructType;
 import com.clt.xml.XMLReader;
 import com.clt.xml.XMLWriter;
 import dialogos.frame.graph.FrameGraph;
@@ -154,6 +155,26 @@ public class FrameNode extends CallNode
                     GraphBuilder.placeLeft(this, procNode);
 
                     super.setProperty("procedure", procNode);
+                }
+
+                // If the graph is created  for the first time
+                if (getVariable(frameStruct.getStructVariableID()) == null)
+                {
+                    String[] names = new String[frameStruct.size()];
+                    Type[] types = new Type[frameStruct.size()];
+                    for (int inx = 0; inx < frameStruct.size(); inx++)
+                    {
+                        SlotStruct slotStruct = frameStruct.getSlot(inx);
+                        names[inx] = slotStruct.getName();
+                        types[inx] = Type.String;
+                    }
+
+                    StructType type = new StructType(names, types, false);
+                    Slot slot = new Slot();
+                    slot.setId(frameStruct.getStructVariableID());
+                    slot.setName(frameStruct.getStructVariableName());
+                    slot.setType(type);
+                    getSuperGraph().getVariables().add(slot);
                 }
 
                 //

@@ -4,6 +4,7 @@ import com.clt.diamant.*;
 import com.clt.diamant.graph.Graph;
 import com.clt.diamant.graph.Node;
 import com.clt.script.exp.Value;
+import com.clt.script.exp.values.StructValue;
 import com.clt.xml.XMLReader;
 import com.clt.xml.XMLWriter;
 import dialogos.frame.FrameNode;
@@ -116,7 +117,12 @@ public class FillerNode extends Node
 
     private void fillSlots()
     {
-        String inputString = frameNode.getVariable(varID).getValue().toString();
+        if (variable == null)
+        {
+            variable = frameNode.getVariable(varID);
+        }
+
+        String inputString = variable.getValue().toString();
 
         TokenList tokens = GrammarIO.tagTokenList(frameNode.frameStruct.getUsedGrammars(), inputString);
 
@@ -135,7 +141,8 @@ public class FillerNode extends Node
                     if (token.hasTag(slotStruct.getGrammarName()))
                     {
                         slotStruct.setValue(token.getLower());
-                        frameNode.getVariable(NodeBuilder.filledVariableName(slotStruct)).setValue(Value.of(true));
+                        frameNode.getVariable(NodeBuilder.filledVariableID(frameNode.frameStruct, slotStruct))
+                                .setValue(Value.of(true));
                         tokens.remove(token);
                         break;
                     }
@@ -143,9 +150,28 @@ public class FillerNode extends Node
             }
         }
 
-        for (SlotStruct slotStruct : frameNode.frameStruct.getSlots())
+        Slot structVar = null;
+
+        for (Slot slot : frameNode.getSuperGraph().getVariables())
         {
-            System.out.printf("%s %s\n", slotStruct.getName(), slotStruct.getValue());
+            if (slot.getId().equals(frameNode.frameStruct.getStructVariableID()))
+            {
+                structVar = slot;
+            }
+        }
+
+        if (structVar != null)
+        {
+            String[] names = new String[frameNode.frameStruct.getSlots().size()];
+            Value[] values = new Value[frameNode.frameStruct.getSlots().size()];
+            for (int inx = 0; inx < frameNode.frameStruct.size(); inx++)
+            {
+                SlotStruct slotStruct = frameNode.frameStruct.getSlot(inx);
+                names[inx] = slotStruct.getName();
+                values[inx] = Value.of(slotStruct.getValue());
+            }
+
+            structVar.setValue(new StructValue(names, values));
         }
     }
 }

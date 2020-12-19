@@ -6,7 +6,6 @@ import com.clt.diamant.graph.nodes.ConditionalNode;
 import com.clt.diamant.graph.nodes.ReturnNode;
 import com.clt.diamant.graph.nodes.StartNode;
 import com.clt.script.exp.Type;
-import com.clt.script.exp.types.StructType;
 import de.saar.coli.dialogos.marytts.plugin.TTSNode;
 import dialogos.frame.FrameNode;
 import dialogos.frame.nodes.FillerNode;
@@ -90,9 +89,6 @@ public class FrameGraph
 
         frameNode.addVariable("INPUT_VAR_ID", "INPUT_VAR", Type.String, null);
 
-        String[] names = new String[frameNode.frameStruct.size()];
-        Type[] types = new Type[frameNode.frameStruct.size()];
-
         for (int inx = 0; inx < frameNode.frameStruct.size(); inx++)
         {
             SlotStruct slot = frameNode.frameStruct.getSlot(inx);
@@ -104,13 +100,7 @@ public class FrameGraph
                                   NodeBuilder.inputVariableName(slot),
                                   Type.String,
                                   null);
-
-            names[inx] = slot.getName();
-            types[inx] = Type.String;
         }
-        StructType type = new StructType(names, types, false);
-
-        frameNode.addVariable("testID", "test", type, "");
     }
 
     /**
