@@ -15,7 +15,7 @@ import java.io.IOException;
 public class FrameNodeMenu extends JPanel
 {
     private final FrameNode frameNode;
-    private JButton exportButton;
+    private final JButton exportButton = new JButton("Export Frame");
     private final JLabel createLabel = new JLabel();
     private final JButton createButton = new JButton();
 
