@@ -1,4 +1,4 @@
-package dialogos.frame.utils.graph;
+package dialogos.frame.graph;
 
 import com.clt.diamant.graph.Comment;
 import com.clt.diamant.graph.Node;
@@ -9,9 +9,9 @@ import com.clt.script.exp.Type;
 import com.clt.script.exp.types.StructType;
 import de.saar.coli.dialogos.marytts.plugin.TTSNode;
 import dialogos.frame.FrameNode;
-import dialogos.frame.SlotStruct;
 import dialogos.frame.nodes.FillerNode;
 import dialogos.frame.nodes.StringInputNode;
+import dialogos.frame.struct.SlotStruct;
 
 import java.awt.*;
 import java.util.List;

@@ -1,7 +1,7 @@
 import com.clt.diamant.Grammar;
-import dialogos.frame.utils.tags.GrammarIO;
-import dialogos.frame.utils.tags.Token;
-import dialogos.frame.utils.tags.TokenList;
+import dialogos.frame.utils.GrammarIO;
+import dialogos.frame.utils.Token;
+import dialogos.frame.utils.TokenList;
 import org.junit.Test;
 
 import java.io.File;

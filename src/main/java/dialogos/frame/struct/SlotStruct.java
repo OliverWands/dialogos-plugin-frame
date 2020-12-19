@@ -1,8 +1,8 @@
-package dialogos.frame;
+package dialogos.frame.struct;
 
 import com.clt.diamant.IdentityObject;
 import com.clt.xml.XMLWriter;
-import dialogos.frame.utils.tags.Token;
+import dialogos.frame.utils.Token;
 
 import java.util.UUID;
 

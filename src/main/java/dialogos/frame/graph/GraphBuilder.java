@@ -1,4 +1,4 @@
-package dialogos.frame.utils.graph;
+package dialogos.frame.graph;
 
 import com.clt.diamant.graph.Comment;
 import com.clt.diamant.graph.Graph;

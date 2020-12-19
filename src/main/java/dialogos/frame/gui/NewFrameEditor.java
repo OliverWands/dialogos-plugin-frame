@@ -2,8 +2,8 @@ package dialogos.frame.gui;
 
 import com.clt.gui.Images;
 import dialogos.frame.FrameNode;
-import dialogos.frame.SlotStruct;
-import dialogos.frame.utils.tags.GrammarIO;
+import dialogos.frame.struct.SlotStruct;
+import dialogos.frame.utils.GrammarIO;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;

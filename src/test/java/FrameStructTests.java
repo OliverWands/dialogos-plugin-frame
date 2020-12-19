@@ -1,6 +1,6 @@
-import dialogos.frame.FrameStruct;
-import dialogos.frame.SlotStruct;
-import dialogos.frame.utils.tags.Token;
+import dialogos.frame.struct.FrameStruct;
+import dialogos.frame.struct.SlotStruct;
+import dialogos.frame.utils.Token;
 import org.junit.Test;
 
 import java.io.File;
@@ -48,9 +48,9 @@ public class FrameStructTests
         assert createdFrame.isFilled();
 
         createdFrame.addSlot(new SlotStruct()
-                .setName("Slot3")
-                .setGrammarName("tag3")
-                .setQuery("Please enter Slot3"));
+                                     .setName("Slot3")
+                                     .setGrammarName("tag3")
+                                     .setQuery("Please enter Slot3"));
 
         Token token3 = new Token("Token3", 4, 5).addTag("tag3");
         createdFrame.getSlot(2).setTokenValue(token3);
@@ -85,17 +85,17 @@ public class FrameStructTests
 
         List<SlotStruct> slots = new ArrayList<>();
         slots.add(new SlotStruct()
-                .setName("Slot0")
-                .setGrammarName("tag1")
-                .setQuery("Please enter Slot0"));
+                          .setName("Slot0")
+                          .setGrammarName("tag1")
+                          .setQuery("Please enter Slot0"));
         slots.add(new SlotStruct()
-                .setName("Slot1")
-                .setGrammarName("tag2")
-                .setQuery("Please enter Slot1"));
+                          .setName("Slot1")
+                          .setGrammarName("tag2")
+                          .setQuery("Please enter Slot1"));
         slots.add(new SlotStruct()
-                .setName("Slot2")
-                .setGrammarName("tag3")
-                .setQuery("Please enter Slot2"));
+                          .setName("Slot2")
+                          .setGrammarName("tag3")
+                          .setQuery("Please enter Slot2"));
 
         String name = "Test_ID";
         FrameStruct newFrame = new FrameStruct();

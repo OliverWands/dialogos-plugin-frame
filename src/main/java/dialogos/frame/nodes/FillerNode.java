@@ -7,11 +7,11 @@ import com.clt.script.exp.Value;
 import com.clt.xml.XMLReader;
 import com.clt.xml.XMLWriter;
 import dialogos.frame.FrameNode;
-import dialogos.frame.SlotStruct;
-import dialogos.frame.utils.graph.NodeBuilder;
-import dialogos.frame.utils.tags.GrammarIO;
-import dialogos.frame.utils.tags.Token;
-import dialogos.frame.utils.tags.TokenList;
+import dialogos.frame.graph.NodeBuilder;
+import dialogos.frame.struct.SlotStruct;
+import dialogos.frame.utils.GrammarIO;
+import dialogos.frame.utils.Token;
+import dialogos.frame.utils.TokenList;
 import org.xml.sax.SAXException;
 
 import javax.swing.*;

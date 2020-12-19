@@ -1,11 +1,11 @@
-package dialogos.frame;
+package dialogos.frame.struct;
 
 import com.clt.diamant.Grammar;
 import com.clt.diamant.IdentityObject;
 import com.clt.xml.AbstractHandler;
 import com.clt.xml.XMLReader;
 import com.clt.xml.XMLWriter;
-import dialogos.frame.utils.tags.GrammarIO;
+import dialogos.frame.utils.GrammarIO;
 import org.xml.sax.Attributes;
 
 import java.io.File;

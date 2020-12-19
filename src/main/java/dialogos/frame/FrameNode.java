@@ -11,10 +11,12 @@ import com.clt.diamant.gui.NodePropertiesDialog;
 import com.clt.script.exp.Type;
 import com.clt.xml.XMLReader;
 import com.clt.xml.XMLWriter;
+import dialogos.frame.graph.FrameGraph;
+import dialogos.frame.graph.GraphBuilder;
+import dialogos.frame.graph.NodeBuilder;
 import dialogos.frame.gui.FrameNodeMenu;
-import dialogos.frame.utils.graph.FrameGraph;
-import dialogos.frame.utils.graph.GraphBuilder;
-import dialogos.frame.utils.graph.NodeBuilder;
+import dialogos.frame.struct.FrameStruct;
+import dialogos.frame.struct.SlotStruct;
 import org.xml.sax.SAXException;
 
 import javax.swing.*;

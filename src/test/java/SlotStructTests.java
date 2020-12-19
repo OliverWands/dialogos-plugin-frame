@@ -1,4 +1,4 @@
-import dialogos.frame.SlotStruct;
+import dialogos.frame.struct.SlotStruct;
 import org.junit.Test;
 
 public class SlotStructTests

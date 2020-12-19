@@ -1,4 +1,4 @@
-package dialogos.frame.utils.graph;
+package dialogos.frame.graph;
 
 import com.clt.diamant.Grammar;
 import com.clt.diamant.Slot;
@@ -7,9 +7,9 @@ import com.clt.diamant.graph.Node;
 import com.clt.diamant.graph.nodes.ConditionalNode;
 import com.clt.diamant.graph.nodes.SetVariableNode;
 import de.saar.coli.dialogos.marytts.plugin.TTSNode;
-import dialogos.frame.FrameStruct;
-import dialogos.frame.SlotStruct;
 import dialogos.frame.nodes.FrameInput;
+import dialogos.frame.struct.FrameStruct;
+import dialogos.frame.struct.SlotStruct;
 import edu.cmu.lti.dialogos.sphinx.plugin.SphinxNode;
 
 import java.awt.*;

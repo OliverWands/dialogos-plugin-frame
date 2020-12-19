@@ -1,4 +1,4 @@
-package dialogos.frame.utils.tags;
+package dialogos.frame.utils;
 
 import com.clt.diamant.Grammar;
 import com.clt.xml.AbstractHandler;

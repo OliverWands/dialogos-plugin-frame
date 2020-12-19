@@ -1,25 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<frameStruct uid="f4a8d619-ec65-4dae-830d-b13fa9acfa83" name="FoodOrder" helpPrompt="Enter your order consisting of main and side dish a drink and wether or not it is to go" class="dialogos.frame.FrameStruct">
-	<slotStruct uid="793ab722-5428-4613-9b60-bb6cdcb91258" name="MainDish" query="Which main dish do you want" grammarName="mainDish"/>
-	<slotStruct uid="1b478f3b-da86-4f89-92a2-8381edcddb45" name="SideDish" query="Which side dish do you want" grammarName="sideDish"/>
-	<slotStruct uid="a88bc5cc-3678-4ea1-a421-2a3b99eca563" name="Drink" query="What do you want to drink" grammarName="drink"/>
-	<slotStruct uid="59a910ef-5ba0-4335-89d2-34d61dd6955b" name="ToGo" query="Is that to go or for eating here" grammarName="toGo"/>
-	<grammar>
-		<name>mainDish</name>
-		<value>root $input;$input = pasta | pizza | burger | curry | steak;</value>
-	</grammar>
-	<grammar>
-		<name>sideDish</name>
-		<value>root $input;$input = fries | french fries | baked potato | salad | wedges | curly fries;
+<frameStruct uid="f4a8d619-ec65-4dae-830d-b13fa9acfa83" name="FoodOrder"
+             helpPrompt="Enter your order consisting of main and side dish a drink and wether or not it is to go"
+             class="dialogos.frame.struct.FrameStruct">
+    <slotStruct uid="793ab722-5428-4613-9b60-bb6cdcb91258" name="MainDish" query="Which main dish do you want"
+                grammarName="mainDish"/>
+    <slotStruct uid="1b478f3b-da86-4f89-92a2-8381edcddb45" name="SideDish" query="Which side dish do you want"
+                grammarName="sideDish"/>
+    <slotStruct uid="a88bc5cc-3678-4ea1-a421-2a3b99eca563" name="Drink" query="What do you want to drink"
+                grammarName="drink"/>
+    <slotStruct uid="59a910ef-5ba0-4335-89d2-34d61dd6955b" name="ToGo" query="Is that to go or for eating here"
+                grammarName="toGo"/>
+    <grammar>
+        <name>mainDish</name>
+        <value>root $input;$input = pasta | pizza | burger | curry | steak;</value>
+    </grammar>
+    <grammar>
+        <name>sideDish</name>
+        <value>root $input;$input = fries | french fries | baked potato | salad | wedges | curly fries;
         </value>
-	</grammar>
-	<grammar>
-		<name>drink</name>
-		<value>root $input;$input = wine | cola | water | beer | coffee | soda;
+    </grammar>
+    <grammar>
+        <name>drink</name>
+        <value>root $input;$input = wine | cola | water | beer | coffee | soda;
         </value>
-	</grammar>
-	<grammar>
-		<name>toGo</name>
-		<value>root $input;$input = to go | to eat here | here;</value>
-	</grammar>
+    </grammar>
+    <grammar>
+        <name>toGo</name>
+        <value>root $input;$input = to go | to eat here | here;</value>
+    </grammar>
 </frameStruct>

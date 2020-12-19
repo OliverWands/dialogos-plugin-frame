@@ -2,7 +2,7 @@ package dialogos.frame.gui;
 
 import com.clt.diamant.Grammar;
 import dialogos.frame.FrameNode;
-import dialogos.frame.SlotStruct;
+import dialogos.frame.struct.SlotStruct;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
