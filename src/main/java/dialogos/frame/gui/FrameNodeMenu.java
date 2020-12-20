@@ -18,6 +18,7 @@ public class FrameNodeMenu extends JPanel
     private final JButton exportButton = new JButton("Export Frame");
     private final JLabel createLabel = new JLabel();
     private final JButton createButton = new JButton();
+    private final JLabel variableName = new JLabel("---------");
 
     public FrameNodeMenu(FrameNode frameNode)
     {
@@ -133,6 +134,21 @@ public class FrameNodeMenu extends JPanel
         constraints.fill = GridBagConstraints.HORIZONTAL;
         inputPanel.add(exportButton, constraints);
 
+        JLabel var = new JLabel("Result variable:");
+        constraints.gridx = 0;
+        constraints.gridy++;
+        constraints.weightx = 0.0;
+        constraints.gridwidth = 1;
+        constraints.anchor = GridBagConstraints.LINE_START;
+        constraints.fill = GridBagConstraints.HORIZONTAL;
+        inputPanel.add(var, constraints);
+
+        constraints.gridx = 1;
+        constraints.gridwidth = 3;
+        constraints.anchor = GridBagConstraints.LINE_END;
+        constraints.fill = GridBagConstraints.HORIZONTAL;
+        inputPanel.add(variableName, constraints);
+
         updateGUI();
 
         add(inputPanel, BorderLayout.CENTER);
@@ -145,12 +161,14 @@ public class FrameNodeMenu extends JPanel
             createLabel.setText("Edit:");
             createButton.setText("Edit Frame");
             exportButton.setEnabled(true);
+            variableName.setText(frameNode.frameStruct.getResultVariableName());
         }
         else
         {
             createLabel.setText("Create:");
             createButton.setText("Create Frame");
             exportButton.setEnabled(false);
+            variableName.setText("");
         }
     }
 }

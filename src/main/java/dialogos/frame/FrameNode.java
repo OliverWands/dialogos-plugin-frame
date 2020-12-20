@@ -158,7 +158,7 @@ public class FrameNode extends CallNode
                 }
 
                 // If the graph is created  for the first time
-                if (getVariable(frameStruct.getStructVariableID()) == null)
+                if (getVariable(frameStruct.getResultVariableID()) == null)
                 {
                     String[] names = new String[frameStruct.size()];
                     Type[] types = new Type[frameStruct.size()];
@@ -171,8 +171,8 @@ public class FrameNode extends CallNode
 
                     StructType type = new StructType(names, types, false);
                     Slot slot = new Slot();
-                    slot.setId(frameStruct.getStructVariableID());
-                    slot.setName(frameStruct.getStructVariableName());
+                    slot.setId(frameStruct.getResultVariableID());
+                    slot.setName(frameStruct.getResultVariableName());
                     slot.setType(type);
                     getSuperGraph().getVariables().add(slot);
                 }
