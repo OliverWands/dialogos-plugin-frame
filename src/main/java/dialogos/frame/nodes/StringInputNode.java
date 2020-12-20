@@ -47,7 +47,6 @@ public class StringInputNode extends Node implements FrameInput
         JPanel panel = new JPanel(new GridBagLayout());
         GridBagConstraints constraints = new GridBagConstraints();
 
-        Integer selected = null;
         List<Slot> stringVars = new ArrayList<>();
         this.getGraph().getAllVariables(Graph.LOCAL).forEach(var ->
                                                              {
@@ -141,6 +140,9 @@ public class StringInputNode extends Node implements FrameInput
     //
     private void graphicallyRecognize(JLayeredPane layer)
     {
+        JPanel top = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        top.add(new JLabel("Enter text:"));
+
         final JTextField result = new JTextField(30);
         result.setPreferredSize(new Dimension(300, 75));
 
@@ -162,9 +164,15 @@ public class StringInputNode extends Node implements FrameInput
                                 });
 
         final JButton stop = new JButton(GUI.getString("Cancel"));
+        stop.addActionListener(e ->
+                               {
+
+                               });
+
         bottom.add(stop);
         bottom.add(apply);
 
+        panel.add(top, BorderLayout.NORTH);
         panel.add(bottom, BorderLayout.SOUTH);
         JComponent popup = null;
         if (layer != null)
