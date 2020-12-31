@@ -124,7 +124,7 @@ public class FillerNode extends Node
 
         String inputString = variable.getValue().toString();
 
-        TokenList tokens = GrammarIO.tagTokenList(frameNode.frameStruct.getUsedGrammars(), inputString);
+        TokenList tokens = GrammarIO.tagTokenList(frameNode.frameStruct.getEmptySlotGrammars(), inputString);
 
         GrammarIO.cleanupTokens(tokens);
 

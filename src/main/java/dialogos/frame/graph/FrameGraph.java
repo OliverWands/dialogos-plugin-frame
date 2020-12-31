@@ -144,10 +144,10 @@ public class FrameGraph
                                               NodeBuilder.filledVariableName(slotStruct));
             frameNode.add(checkEmpty);
             GraphBuilder.setConditionalEdges(checkEmpty, end, queryNode);
-            GraphBuilder.connectNodes(new Node[]{queryNode, inputNode, fillerNode, end});
+            GraphBuilder.connectNodes(new Node[]{queryNode, inputNode, fillerNode, checkEmpty});
 
-            GraphBuilder.placeTopRight(end, fillerNode, 2, 2);
-            GraphBuilder.placeTop(fillerNode, inputNode);
+            GraphBuilder.placeTopRight(end, fillerNode, 1, 2);
+            GraphBuilder.placeTopRight(fillerNode, inputNode);
             GraphBuilder.placeLeft(inputNode, queryNode);
             GraphBuilder.placeLeft(queryNode, checkEmpty);
             GraphBuilder.placeLeft(checkEmpty, comment);

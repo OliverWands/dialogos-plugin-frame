@@ -10,10 +10,7 @@ import org.xml.sax.Attributes;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 public class FrameStruct implements IdentityObject
 {
@@ -109,6 +106,29 @@ public class FrameStruct implements IdentityObject
     public File getGrammarFile()
     {
         return grammarFile;
+    }
+
+    public List<Grammar> getEmptySlotGrammars()
+    {
+        Set<Grammar> grammars = new HashSet<>();
+        Set<String> grammarNames = new HashSet<>();
+        for (SlotStruct slotStruct : slotList)
+        {
+            if (!slotStruct.isFilled())
+            {
+                grammarNames.add(slotStruct.getGrammarName());
+            }
+        }
+
+        for (Grammar grammar : usedGrammars)
+        {
+            if (grammarNames.contains(grammar.getName()))
+            {
+                grammars.add(grammar);
+            }
+        }
+
+        return new ArrayList<>(grammars);
     }
 
     public boolean isFilled()
