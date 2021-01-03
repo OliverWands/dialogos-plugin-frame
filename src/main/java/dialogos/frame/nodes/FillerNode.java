@@ -37,7 +37,6 @@ public class FillerNode extends Node
         super();
         addEdge();
         setTitle(Resources.getString("Filler"));
-
     }
 
     @Override
@@ -124,7 +123,14 @@ public class FillerNode extends Node
 
         String inputString = variable.getValue().toString();
 
-        TokenList tokens = GrammarIO.tagTokenList(frameNode.frameStruct.getEmptySlotGrammars(), inputString);
+        TokenList tokens = GrammarIO.tagTokenList(frameNode.frameStruct.getEmptySlotGrammars(),
+                                                  inputString,
+                                                  frameNode.getMaxTokenLength());
+
+        for (Token token : tokens)
+        {
+            System.out.println(token.getLower());
+        }
 
         GrammarIO.cleanupTokens(tokens);
 

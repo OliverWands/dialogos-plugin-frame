@@ -29,6 +29,7 @@ import java.util.Map;
 public class FrameNode extends CallNode
 {
     private static final Color nodeColor = new Color(255, 187, 0);
+    private Integer maxTokenLength = null;
 
     public FrameStruct frameStruct = new FrameStruct();
     private ProcNode procNode = null;
@@ -42,9 +43,17 @@ public class FrameNode extends CallNode
         return nodeColor;
     }
 
+    public Integer getMaxTokenLength()
+    {
+        return maxTokenLength;
+    }
+
     @Override
     public Node execute(WozInterface wozInterface, InputCenter input, ExecutionLogger logger)
     {
+        Plugin.FramePluginRuntime runtime = (Plugin.FramePluginRuntime) this.getPluginRuntime(Plugin.class, wozInterface);
+        maxTokenLength = runtime.getMaxTokenWords();
+
         Node node = super.execute(wozInterface, input, logger);
 
         List<Slot> superVariables = getSuperGraph().getVariables();
