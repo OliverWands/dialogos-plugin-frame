@@ -155,9 +155,10 @@ public class GrammarIO
         return String.format("Contains %d grammars.", grammars != null ? grammars.size() : -1);
     }
 
-    public static TokenList tagTokenList(List<Grammar> grammars, String input)
+    public static TokenList tagTokenList(List<Grammar> grammars, String input, Integer maxTokenLength)
     {
-        TokenList tokenList = tokenize(input);
+        TokenList tokenList = tokenize(input, maxTokenLength);
+
         for (Grammar grammar : grammars)
         {
             try
@@ -224,13 +225,17 @@ public class GrammarIO
         return cleaned;
     }
 
-    public static TokenList tokenize(String input)
+    public static TokenList tokenize(String input, Integer maxLength)
     {
+        if (maxLength == null)
+        {
+            maxLength = input.split(" ").length;
+        }
         input = input.replaceAll("\\p{Punct}", "");
         String[] tokens = input.split(" ");
         TokenList tokenList = new TokenList();
 
-        for (int inx = 1; inx <= input.length(); inx++)
+        for (int inx = 1; inx <= maxLength; inx++)
         {
             for (int jnx = 0; jnx < tokens.length; jnx++)
             {

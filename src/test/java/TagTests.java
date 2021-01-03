@@ -29,17 +29,34 @@ public class TagTests
     public void testTokenizer()
     {
         String phrase = "I would like to order a burger and fries";
-        TokenList tokenList = GrammarIO.tokenize(phrase);
+//        String phrase = "Mein Ziel ist der Hamburger Hauptbahnhof";
+//        String phrase = "Mein Ziel ist Hamburg hamburg hamburg hamburg hamburg";
+//        TokenList tokenList = GrammarIO.tokenize(phrase);
+        int max = 4;
+        TokenList tokenList = GrammarIO.tokenize(phrase, 4);
         int length = phrase.split(" ").length;
 
-        assert tokenList.size() == ((length * length + length) / 2);
+        for (Token token : tokenList)
+        {
+            System.out.println(token.getLower());
+        }
+
+        System.out.println(tokenList.size());
+        System.out.println(length * max - max);
+
+//        assert tokenList.size() == (length * max - max);
+//        assert tokenList.size() == ((length * length + length) / 2);
 
         File file = new File("/Users/oliverwandschneider/develop/IdeaProjects/dialogos-plugin-frame/examples/foodOrder/foodOrderGrammars.xml");
         List<Grammar> grammarList = GrammarIO.xmlToGrammars(file);
 
-        TokenList tokens = GrammarIO.tagTokenList(grammarList, phrase);
+        TokenList tokens = GrammarIO.tagTokenList(grammarList, phrase, null);
+
+        System.out.println("# " + tokens.size());
 
         GrammarIO.cleanupTokens(tokens);
+
+        System.out.println("+ " + tokens.size());
 
         for (Token token : tokens)
         {
