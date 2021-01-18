@@ -105,7 +105,7 @@ public class Token
         return tags.contains(tag);
     }
 
-    public boolean containsSomeTags(Token token)
+    public boolean containsTagsOf(Token token)
     {
         for (String tag : this.tags)
         {

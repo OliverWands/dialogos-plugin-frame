@@ -187,36 +187,34 @@ public class GrammarIO
     public static TokenList cleanupTokens(TokenList tokens)
     {
         TokenList cleaned = new TokenList();
-        tokens.removeIf(token -> token.getTags().isEmpty());
+        cleaned.addAll(tokens);
+        cleaned.removeIf(token -> token.getTags().isEmpty());
 
         for (int inx = 0; inx < tokens.size(); inx++)
         {
-            Token token = tokens.get(inx);
-            for (int jnx = 0; jnx < token.size(); jnx++)
+            for (int jnx = 0; jnx < tokens.size(); jnx++)
             {
                 if (inx == jnx)
                 {
                     continue;
                 }
+
+                Token token = tokens.get(inx);
                 Token compareTkn = tokens.get(jnx);
 
-                if (token.getStartIndex() == compareTkn.getStartIndex())
+                if (token.containsTagsOf(compareTkn))
                 {
-                    if (token.containsSomeTags(compareTkn))
+                    if (token.getStartIndex() == compareTkn.getStartIndex())
                     {
-                        if (token.size() == compareTkn.size())
+                        if (token.size() < compareTkn.size())
                         {
-                            cleaned.add(token);
-                            cleaned.add(compareTkn);
+                            cleaned.remove(token);
                         }
-                        else if (token.size() > compareTkn.size())
-                        {
-                            cleaned.add(token);
-                        }
-                        else
-                        {
-                            cleaned.add(compareTkn);
-                        }
+                    }
+                    else if (token.getStartIndex() < compareTkn.getStartIndex() &&
+                            token.getEndIndex() >= compareTkn.getEndIndex())
+                    {
+                        cleaned.remove(compareTkn);
                     }
                 }
             }

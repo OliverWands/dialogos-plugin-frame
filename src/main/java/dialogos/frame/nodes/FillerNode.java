@@ -127,12 +127,7 @@ public class FillerNode extends Node
                                                   inputString,
                                                   frameNode.getMaxTokenLength());
 
-        for (Token token : tokens)
-        {
-            System.out.println(token.getLower());
-        }
-
-        GrammarIO.cleanupTokens(tokens);
+        tokens = GrammarIO.cleanupTokens(tokens);
 
         expectedSlotInput = expectedSlotInput != -1 ? expectedSlotInput : 0;
         for (int inx = 0; inx < frameNode.frameStruct.size(); inx++)

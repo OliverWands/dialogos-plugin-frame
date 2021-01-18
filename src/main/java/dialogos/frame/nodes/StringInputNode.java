@@ -29,13 +29,14 @@ public class StringInputNode extends Node implements FrameInput
     {
         super();
         addEdge();
+//        addEdge();
         setTitle(Resources.getString("String Input"));
     }
 
     @Override
     public Node execute(WozInterface comm, InputCenter input, ExecutionLogger logger)
     {
-        graphicallyRecognize(comm.getLayeredPane());
+        handleInput(comm.getLayeredPane());
         Node target = this.getEdge(0).getTarget();
         comm.transition(this, target, 0, null);
         return target;
@@ -138,7 +139,7 @@ public class StringInputNode extends Node implements FrameInput
     //
     // Allow for entering of string, and continue on Apply or "Enter" keypress
     //
-    private void graphicallyRecognize(JLayeredPane layer)
+    private void handleInput(JLayeredPane layer)
     {
         JPanel top = new JPanel(new FlowLayout(FlowLayout.CENTER));
         top.add(new JLabel("Enter text:"));

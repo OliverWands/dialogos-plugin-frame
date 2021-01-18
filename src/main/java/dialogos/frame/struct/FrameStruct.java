@@ -22,9 +22,6 @@ public class FrameStruct implements IdentityObject
     private List<Grammar> loadedGrammars = new ArrayList<>();
     private final List<Grammar> usedGrammars = new ArrayList<>();
 
-    private final Comparator<SlotStruct> slotComparator =
-            (o1, o2) -> Boolean.compare(!o1.isFilled(), !o2.isFilled());
-
     public FrameStruct()
     {
         setId(UUID.randomUUID().toString());
@@ -172,13 +169,6 @@ public class FrameStruct implements IdentityObject
     public boolean isEdited()
     {
         return name != null && !slotList.isEmpty() && !usedGrammars.isEmpty() && helpPrompt != null;
-    }
-
-    public List<SlotStruct> sortFilled()
-    {
-        List<SlotStruct> temp = new ArrayList<>(slotList);
-        temp.sort(slotComparator.reversed());
-        return temp;
     }
 
     public void writeToXML(XMLWriter writer)
