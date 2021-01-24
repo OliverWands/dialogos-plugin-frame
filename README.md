@@ -1,6 +1,6 @@
 # dialogos-plugin-frame
 
-A plugin for automatic generation of a dialog graph based on a frame.
+A plugin for automatic generation of a frame-based dialogue graph.
 
 ## Examples
 
