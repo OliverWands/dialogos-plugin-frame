@@ -47,6 +47,8 @@ public class FrameGraph
         {
             assignAllVariables();
 
+            startNode.setLocation(58, startNode.getY());
+
             frameNode.getOwnedGraph().setSize(frameNode.getOwnedGraph().getWidth(),
                                               (frameNode.frameStruct.size() + 3) * 200);
 
@@ -74,10 +76,10 @@ public class FrameGraph
 
             GraphBuilder.connectNodes(new Node[]{startNode, helpPrompt, inputNode, fillerNode});
 
-            buildBottomUp(frameNode.frameStruct.getSlots(), fillerNode, returnNode);
+            int maxX = buildBottomUp(frameNode.frameStruct.getSlots(), fillerNode, returnNode);
 
-            frameNode.getOwnedGraph().setSize(frameNode.getOwnedGraph().getWidth(),
-                                              returnNode.getLocation().y + 200);
+            frameNode.getOwnedGraph().setSize(maxX + 258,
+                                              returnNode.getLocation().y + 100);
         }
     }
 
@@ -112,49 +114,90 @@ public class FrameGraph
      * @param start The top node that connects the slot filling.
      * @param end   The last node that marks the end of the slot filling.
      */
-    private void buildBottomUp(List<SlotStruct> slots, Node start, Node end)
+    private int buildBottomUp(List<SlotStruct> slots, Node start, Node end)
     {
-        GraphBuilder.placeBottom(start, end, slots.size() * 3 + 2);
-
-        for (int inx = slots.size() - 1; inx >= 0; inx--)
+        int maxWidth = 0;
+        int columns;
+        if (slots.size() < 5)
         {
-            SlotStruct slotStruct = slots.get(inx);
+            columns = 1;
+        }
+        else if (slots.size() < 9)
+        {
+            columns = 2;
+        }
+        else if (slots.size() < 13)
+        {
+            columns = 3;
+        }
+        else
+        {
+            columns = 4;
+        }
 
-            FillerNode fillerNode = new FillerNode();
-            fillerNode.setVariable(frameNode.getVariable("INPUT_VAR_ID"));
-            fillerNode.setFrameNode(frameNode);
-            fillerNode.setExpectedSlotInput(inx);
-            frameNode.add(fillerNode);
+        int rows = (int) (Math.ceil((double) slots.size() / columns));
 
-            StringInputNode inputNode = new StringInputNode();
-            inputNode.setVariableID("INPUT_VAR_ID");
-            frameNode.add(inputNode);
+        frameNode.getOwnedGraph().setSize(frameNode.getOwnedGraph().getWidth() * columns,
+                                          frameNode.getOwnedGraph().getHeight() * rows);
 
-            TTSNode queryNode = new TTSNode();
-            nodeBuilder.assignTTSNode(queryNode, String.format("Query %s", slotStruct.getName()), slotStruct.getQuery());
-            frameNode.add(queryNode);
+        end.setLocation(150, end.getY());
 
-            Comment comment = new Comment();
-            comment.setComment(slotStruct.getName());
-            frameNode.addComment(comment);
+        GraphBuilder.placeBottom(start, end, rows * 3 + 4);
+        Node previous = end;
 
-            ConditionalNode checkEmpty = new ConditionalNode();
-            nodeBuilder.assignConditionalNode(checkEmpty,
-                                              "Check Empty " + inx + 1,
-                                              NodeBuilder.filledVariableName(slotStruct));
-            frameNode.add(checkEmpty);
-            GraphBuilder.setConditionalEdges(checkEmpty, end, queryNode);
-            GraphBuilder.connectNodes(new Node[]{queryNode, inputNode, fillerNode, checkEmpty});
+        int index = slots.size() - 1;
+        for (int row = rows - 1; row >= 0; row--)
+        {
+            for (int column = index % columns; column >= 0; column--, index--)
+            {
+                SlotStruct slotStruct = slots.get(index);
 
-            GraphBuilder.placeTopRight(end, fillerNode, 1, 2);
-            GraphBuilder.placeTopRight(fillerNode, inputNode);
-            GraphBuilder.placeLeft(inputNode, queryNode);
-            GraphBuilder.placeLeft(queryNode, checkEmpty);
-            GraphBuilder.placeLeft(checkEmpty, comment);
+                FillerNode fillerNode = new FillerNode();
+                fillerNode.setVariable(frameNode.getVariable("INPUT_VAR_ID"));
+                fillerNode.setFrameNode(frameNode);
+                fillerNode.setExpectedSlotInput(index);
+                frameNode.add(fillerNode);
 
-            end = checkEmpty;
+                StringInputNode inputNode = new StringInputNode();
+                inputNode.setVariableID("INPUT_VAR_ID");
+                frameNode.add(inputNode);
+
+                TTSNode queryNode = new TTSNode();
+                nodeBuilder.assignTTSNode(queryNode, String.format("Query %s", slotStruct.getName()), slotStruct.getQuery());
+                frameNode.add(queryNode);
+
+                Comment comment = new Comment();
+                comment.setComment(slotStruct.getName());
+                frameNode.addComment(comment);
+
+                ConditionalNode checkEmpty = new ConditionalNode();
+                nodeBuilder.assignConditionalNode(checkEmpty,
+                                                  "Check Empty " + index + 1,
+                                                  NodeBuilder.filledVariableName(slotStruct));
+                frameNode.add(checkEmpty);
+                GraphBuilder.setConditionalEdges(checkEmpty, previous, queryNode);
+                GraphBuilder.connectNodes(new Node[]{queryNode, inputNode, fillerNode, checkEmpty});
+
+                GraphBuilder.placeTopRight(end, fillerNode, column * 4 + 1, 2.75);
+                if (maxWidth < fillerNode.getX())
+                {
+                    maxWidth = fillerNode.getX();
+                }
+                GraphBuilder.placeTopRight(fillerNode, inputNode);
+                GraphBuilder.placeLeft(inputNode, queryNode);
+                GraphBuilder.placeLeft(queryNode, checkEmpty);
+                GraphBuilder.placeBottom(inputNode, comment);
+
+                previous = checkEmpty;
+                if (column == 0)
+                {
+                    end = checkEmpty;
+                }
+            }
         }
 
         GraphBuilder.setEdge(start, end);
+
+        return maxWidth;
     }
 }
