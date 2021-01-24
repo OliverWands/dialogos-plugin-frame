@@ -135,7 +135,7 @@ public class GraphBuilder
         placeBottomLeft(relativeTo, element, 1, 1);
     }
 
-    public static void placeBottomLeft(VisualGraphElement relativeTo, VisualGraphElement element, int xScale, int yScale)
+    public static void placeBottomLeft(VisualGraphElement relativeTo, VisualGraphElement element, double xScale, double yScale)
     {
         element.setLocation((int) Math.floor(getMiddle(relativeTo) - getHalvedWidth(element) - (baseWidth * X_UNIT * xScale)),
                             (int) Math.floor(relativeTo.getY() + baseHeight * Y_UNIT * yScale));
@@ -152,7 +152,7 @@ public class GraphBuilder
         placeBottom(relativeTo, element, 1);
     }
 
-    public static void placeBottom(VisualGraphElement relativeTo, VisualGraphElement element, int scale)
+    public static void placeBottom(VisualGraphElement relativeTo, VisualGraphElement element, double scale)
     {
         element.setLocation(getMiddle(relativeTo) - getHalvedWidth(element),
                             (int) Math.floor(relativeTo.getY() + baseHeight * Y_UNIT * scale));
@@ -169,7 +169,7 @@ public class GraphBuilder
         placeBottomRight(relativeTo, element, 1, 1);
     }
 
-    public static void placeBottomRight(VisualGraphElement relativeTo, VisualGraphElement element, int xScale, int yScale)
+    public static void placeBottomRight(VisualGraphElement relativeTo, VisualGraphElement element, double xScale, double yScale)
     {
         element.setLocation((int) Math.floor(getMiddle(relativeTo) - getHalvedWidth(element) + (baseWidth * X_UNIT * xScale)),
                             (int) Math.floor(relativeTo.getY() + baseHeight * Y_UNIT * yScale));
@@ -186,7 +186,7 @@ public class GraphBuilder
         placeLeft(relativeTo, element, 1);
     }
 
-    public static void placeLeft(VisualGraphElement relativeTo, VisualGraphElement element, int scale)
+    public static void placeLeft(VisualGraphElement relativeTo, VisualGraphElement element, double scale)
     {
         element.setLocation((int) Math.floor(getMiddle(relativeTo) - getHalvedWidth(element) - (baseWidth * X_UNIT * scale)), relativeTo.getY());
     }
@@ -202,7 +202,7 @@ public class GraphBuilder
         placeRight(relativeTo, element, 1);
     }
 
-    public static void placeRight(VisualGraphElement relativeTo, VisualGraphElement element, int scale)
+    public static void placeRight(VisualGraphElement relativeTo, VisualGraphElement element, double scale)
     {
         element.setLocation((int) Math.floor(getMiddle(relativeTo) - getHalvedWidth(element) + (baseWidth * X_UNIT * scale)), relativeTo.getY());
     }
@@ -218,7 +218,7 @@ public class GraphBuilder
         placeTopLeft(relativeTo, element, 1, 1);
     }
 
-    public static void placeTopLeft(VisualGraphElement relativeTo, VisualGraphElement element, int xScale, int yScale)
+    public static void placeTopLeft(VisualGraphElement relativeTo, VisualGraphElement element, double xScale, double yScale)
     {
         element.setLocation((int) Math.floor(getMiddle(relativeTo) - getHalvedWidth(element) - (baseWidth * X_UNIT * xScale)),
                             (int) Math.floor(relativeTo.getY() - baseHeight * Y_UNIT * yScale));
@@ -235,7 +235,7 @@ public class GraphBuilder
         placeTop(relativeTo, element, 1);
     }
 
-    public static void placeTop(VisualGraphElement relativeTo, VisualGraphElement element, int scale)
+    public static void placeTop(VisualGraphElement relativeTo, VisualGraphElement element, double scale)
     {
         element.setLocation(getMiddle(relativeTo) - getHalvedWidth(element), (int) Math.floor(relativeTo.getY() - baseHeight * Y_UNIT * scale));
     }
@@ -251,20 +251,10 @@ public class GraphBuilder
         placeTopRight(relativeTo, element, 1, 1);
     }
 
-    public static void placeTopRight(VisualGraphElement relativeTo, VisualGraphElement element, int xScale, int yScale)
+    public static void placeTopRight(VisualGraphElement relativeTo, VisualGraphElement element, double xScale, double yScale)
     {
         element.setLocation((int) Math.floor(getMiddle(relativeTo) - getHalvedWidth(element) + (baseWidth * X_UNIT * xScale)),
                             (int) Math.floor(relativeTo.getY() - baseHeight * Y_UNIT * yScale));
-    }
-
-    public static void setGraphSize(Graph graph, int multX, int multY)
-    {
-        graph.setSize(graph.getWidth() * multX, graph.getHeight() * multY);
-    }
-
-    public static void setGraphSize(Graph graph, double multX, double multY)
-    {
-        setGraphSize(graph, (int) multX, (int) multY);
     }
 
     public static void removeAllNodes(Graph graph)
