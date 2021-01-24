@@ -331,6 +331,7 @@ public class FrameNode extends CallNode
     {
         List<Grammar> all = new ArrayList<>(getSuperGraph().getGrammars());
         all.addAll(frameStruct.getUsedGrammars());
+        all.addAll(frameStruct.getLoadedGrammars());
         return all;
     }
 
