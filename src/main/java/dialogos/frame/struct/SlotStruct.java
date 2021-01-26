@@ -55,7 +55,7 @@ public class SlotStruct implements IdentityObject
     {
         if (token.getTags().contains(grammarName))
         {
-            value = token.getLower();
+            value = token.getContent().toLowerCase();
             isFilled = true;
             return this;
         }

@@ -22,7 +22,6 @@ public class Token
     public Token(String content, int startIndex, int endIndex)
     {
         this.content = content;
-        this.lower = content.toLowerCase();
         this.startIndex = startIndex;
         this.endIndex = endIndex;
         this.size = endIndex - startIndex;
@@ -74,12 +73,6 @@ public class Token
     public void setContent(String content)
     {
         this.content = content;
-        this.lower = content.toLowerCase();
-    }
-
-    public String getLower()
-    {
-        return lower;
     }
 
     public List<String> getTags()
@@ -87,17 +80,16 @@ public class Token
         return tags;
     }
 
+    public String toString(int indent)
+    {
+        JSONObject jsonObject = new JSONObject(this);
+        return jsonObject.toString(indent);
+    }
+
     @Override
     public String toString()
     {
-        JSONObject jsonObject = new JSONObject(this);
-        return jsonObject.toString();
-    }
-
-    public String toPretty()
-    {
-        JSONObject jsonObject = new JSONObject(this);
-        return jsonObject.toString(4);
+        return toString(0);
     }
 
     public boolean hasTag(String tag)

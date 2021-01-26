@@ -1,6 +1,7 @@
 package dialogos.frame.utils;
 
 import com.clt.diamant.Grammar;
+import com.clt.script.exp.Value;
 import com.clt.xml.AbstractHandler;
 import com.clt.xml.XMLReader;
 import org.json.JSONArray;
@@ -165,12 +166,14 @@ public class GrammarIO
             {
                 if (grammar.getGrammar() != null)
                 {
-                    com.clt.srgf.Grammar testGrammar = com.clt.srgf.Grammar.create(grammar.getGrammar());
+                    com.clt.srgf.Grammar matchGrammar = com.clt.srgf.Grammar.create(grammar.getGrammar());
 
                     for (Token token : tokenList)
                     {
-                        if (testGrammar.match(token.getLower(), null) != null)
+                        Value value = matchGrammar.match(token.getContent().toLowerCase(), null);
+                        if (value != null)
                         {
+                            token.setContent(value.toString().replaceAll("\"", ""));
                             token.addTag(grammar.getName());
                         }
                     }

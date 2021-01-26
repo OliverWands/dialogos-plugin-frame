@@ -141,7 +141,7 @@ public class FillerNode extends Node
                 {
                     if (token.hasTag(slotStruct.getGrammarName()))
                     {
-                        slotStruct.setValue(token.getLower());
+                        slotStruct.setValue(token.getContent().toLowerCase());
                         frameNode.getVariable(NodeBuilder.filledVariableID(frameNode.frameStruct, slotStruct))
                                 .setValue(Value.of(true));
                         tokens.remove(token);
