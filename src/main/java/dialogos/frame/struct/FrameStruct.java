@@ -6,6 +6,7 @@ import com.clt.xml.AbstractHandler;
 import com.clt.xml.XMLReader;
 import com.clt.xml.XMLWriter;
 import dialogos.frame.utils.GrammarIO;
+import org.json.JSONObject;
 import org.xml.sax.Attributes;
 
 import java.io.File;
@@ -285,5 +286,16 @@ public class FrameStruct implements IdentityObject
     public void setId(String id)
     {
         this.id = id;
+    }
+
+    public JSONObject toJson()
+    {
+        JSONObject jsonObject = new JSONObject();
+        for (SlotStruct slot : slotList)
+        {
+            jsonObject.put(slot.getName(), slot.getValue());
+        }
+
+        return jsonObject;
     }
 }

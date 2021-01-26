@@ -14,7 +14,6 @@ import com.clt.xml.XMLReader;
 import com.clt.xml.XMLWriter;
 import dialogos.frame.graph.FrameGraph;
 import dialogos.frame.graph.GraphBuilder;
-import dialogos.frame.graph.NodeBuilder;
 import dialogos.frame.gui.FrameNodeMenu;
 import dialogos.frame.struct.FrameStruct;
 import dialogos.frame.struct.SlotStruct;
@@ -56,30 +55,9 @@ public class FrameNode extends CallNode
 
         Node node = super.execute(wozInterface, input, logger);
 
-        List<Slot> superVariables = getSuperGraph().getVariables();
-
-        for (Slot variable : getOwnedGraph().getVariables())
+        for (SlotStruct slotStruct : frameStruct.getSlots())
         {
-            String varName = variable.getName();
-            if (!varName.matches("\\d_.+_.+"))
-            {
-                continue;
-            }
-
-            String[] varParts = variable.getName().split("_");
-            int index = Integer.getInteger(varParts[0]);
-            String type = varParts[1];
-            if (type.equals(NodeBuilder.INPUT))
-            {
-                SlotStruct slotStruct = frameStruct.getSlot(index).setValue(variable.getValue().toString());
-
-                Slot slot = new Slot();
-                slot.setName(slotStruct.getName());
-                slot.setType(Type.String);
-                slot.setValue(variable.getValue());
-
-                superVariables.add(slot);
-            }
+            slotStruct.removeValue();
         }
 
         return node;
@@ -169,20 +147,10 @@ public class FrameNode extends CallNode
                 // If the graph is created  for the first time
                 if (getVariable(frameStruct.getResultVariableID()) == null)
                 {
-                    String[] names = new String[frameStruct.size()];
-                    Type[] types = new Type[frameStruct.size()];
-                    for (int inx = 0; inx < frameStruct.size(); inx++)
-                    {
-                        SlotStruct slotStruct = frameStruct.getSlot(inx);
-                        names[inx] = slotStruct.getName();
-                        types[inx] = Type.String;
-                    }
-
-                    StructType type = new StructType(names, types, false);
                     Slot slot = new Slot();
                     slot.setId(frameStruct.getResultVariableID());
                     slot.setName(frameStruct.getResultVariableName());
-                    slot.setType(type);
+                    slot.setType(new StructType());
                     getSuperGraph().getVariables().add(slot);
                 }
 

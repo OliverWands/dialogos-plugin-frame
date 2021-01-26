@@ -4,7 +4,6 @@ import com.clt.diamant.*;
 import com.clt.diamant.graph.Graph;
 import com.clt.diamant.graph.Node;
 import com.clt.script.exp.Value;
-import com.clt.script.exp.values.StructValue;
 import com.clt.xml.XMLReader;
 import com.clt.xml.XMLWriter;
 import dialogos.frame.FrameNode;
@@ -163,16 +162,7 @@ public class FillerNode extends Node
 
         if (structVar != null)
         {
-            String[] names = new String[frameNode.frameStruct.getSlots().size()];
-            Value[] values = new Value[frameNode.frameStruct.getSlots().size()];
-            for (int inx = 0; inx < frameNode.frameStruct.size(); inx++)
-            {
-                SlotStruct slotStruct = frameNode.frameStruct.getSlot(inx);
-                names[inx] = slotStruct.getName();
-                values[inx] = Value.of(slotStruct.getValue());
-            }
-
-            structVar.setValue(new StructValue(names, values));
+            structVar.setValue(Value.fromJson(frameNode.frameStruct.toJson()));
         }
     }
 }
