@@ -20,6 +20,7 @@ public class FrameGraph
     private final StartNode startNode;
     private final FrameNode frameNode;
     private final NodeBuilder nodeBuilder;
+    private final String INV_ID = "INPUT_VAR_ID";
 
     /**
      * Constructor for the FrameGraph
@@ -62,11 +63,11 @@ public class FrameGraph
             frameNode.add(helpPrompt);
 
             StringInputNode inputNode = new StringInputNode();
-            inputNode.setVariableID("INPUT_VAR_ID");
+            inputNode.setVariableID(INV_ID);
             frameNode.add(inputNode);
 
             FillerNode fillerNode = new FillerNode();
-            fillerNode.setVariable(frameNode.getVariable("INPUT_VAR_ID"));
+            fillerNode.setVariable(frameNode.getVariable(INV_ID));
             fillerNode.setFrameNode(frameNode);
             frameNode.add(fillerNode);
 
@@ -89,7 +90,7 @@ public class FrameGraph
     private void assignAllVariables()
     {
 
-        frameNode.addVariable("INPUT_VAR_ID", "INPUT_VAR", Type.String, null);
+        frameNode.addVariable(INV_ID, "INPUT_VAR", Type.String, null);
 
         for (int inx = 0; inx < frameNode.frameStruct.size(); inx++)
         {
@@ -153,13 +154,13 @@ public class FrameGraph
                 SlotStruct slotStruct = slots.get(index);
 
                 FillerNode fillerNode = new FillerNode();
-                fillerNode.setVariable(frameNode.getVariable("INPUT_VAR_ID"));
+                fillerNode.setVariable(frameNode.getVariable(INV_ID));
                 fillerNode.setFrameNode(frameNode);
                 fillerNode.setExpectedSlotInput(index);
                 frameNode.add(fillerNode);
 
                 StringInputNode inputNode = new StringInputNode();
-                inputNode.setVariableID("INPUT_VAR_ID");
+                inputNode.setVariableID(INV_ID);
                 frameNode.add(inputNode);
 
                 TTSNode queryNode = new TTSNode();

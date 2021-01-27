@@ -35,6 +35,7 @@ public class FrameNode extends CallNode
 
     public FrameNode()
     {
+        frameStruct.setId(this.getId());
     }
 
     public static Color getDefaultColor()
@@ -123,6 +124,18 @@ public class FrameNode extends CallNode
             }
 
             this.properties.keySet().removeIf(key -> !props.containsKey(key));
+
+            if (procNode == null)
+            {
+                for (Node node : getSuperGraph().getNodes())
+                {
+                    if (node instanceof ProcNode && node.getId().equals(frameStruct.getId()))
+                    {
+                        procNode = (ProcNode) node;
+                        break;
+                    }
+                }
+            }
 
             //
             // Open a view that shows the corresponding graph
