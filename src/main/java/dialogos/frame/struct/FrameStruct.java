@@ -15,7 +15,7 @@ import java.util.*;
 
 public class FrameStruct implements IdentityObject
 {
-    private String id;
+    private String id = UUID.randomUUID().toString();
     private String name = null;
     private File grammarFile = null;
     private String helpPrompt = null;
@@ -25,7 +25,6 @@ public class FrameStruct implements IdentityObject
 
     public FrameStruct()
     {
-        setId(UUID.randomUUID().toString());
     }
 
     public void setGrammarsFromFile(File grammarFile)

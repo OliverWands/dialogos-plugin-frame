@@ -53,6 +53,18 @@ public class FrameNode extends CallNode
         Plugin.FramePluginRuntime runtime = (Plugin.FramePluginRuntime) this.getPluginRuntime(Plugin.class, wozInterface);
         maxTokenLength = runtime.getMaxTokenWords();
 
+        if (procNode == null)
+        {
+            for (Node node : getSuperGraph().getNodes())
+            {
+                if (node instanceof ProcNode && node.getId().equals(frameStruct.getId()))
+                {
+                    procNode = (ProcNode) node;
+                    break;
+                }
+            }
+        }
+
         Node node = super.execute(wozInterface, input, logger);
 
         for (SlotStruct slotStruct : frameStruct.getSlots())
@@ -92,21 +104,6 @@ public class FrameNode extends CallNode
     public boolean editProperties(Component parent)
     {
         Map<String, Object> props = (Map<String, Object>) this.deep_copy(this.properties);
-
-        //
-        // Set the procNode
-        //
-        if (procNode == null)
-        {
-            for (Node node : getSuperGraph().getNodes())
-            {
-                if (node instanceof ProcNode && node.getId().equals(frameStruct.getId()))
-                {
-                    procNode = (ProcNode) node;
-                    break;
-                }
-            }
-        }
 
         NodePropertiesDialog dialog = new NodePropertiesDialog(this, parent, props, this.createEditorComponent(props));
         dialog.setVisible(true);
