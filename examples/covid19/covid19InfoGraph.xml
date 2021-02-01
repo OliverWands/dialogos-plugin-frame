@@ -1,0 +1,546 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE wizard SYSTEM "Wizard.dtd">
+
+<wizard>
+	<plugin type="dialogos-plugin-frame">
+	</plugin>
+	<plugin type="dialogos-plugin-api">
+	</plugin>
+	<plugin type="dialogos.plugin.tts">
+	</plugin>
+	<graph directed="1" Graphic="1" Layout="points">
+		<att name="width" type="integer" value="750"/>
+		<att name="height" type="integer" value="540"/>
+		<groovyFunctions></groovyFunctions>
+		<variable uid="2017e400-bf1c-4194-b081-83d1eb6d2887">
+			<name>apiReturn</name>
+			<type>struct</type>
+			<value>undefined</value>
+		</variable>
+		<variable uid="98fdeb11-2825-4ee3-b493-928a909b76a3">
+			<name>answer</name>
+			<type>string</type>
+			<value>undefined</value>
+		</variable>
+		<variable uid="RESULTIDnull">
+			<name>RESULTCovid19Info</name>
+			<type>struct</type>
+			<value>undefined</value>
+		</variable>
+		<node uid="02887db9-3810-4238-a0fd-0f9732d8a802" class="com.clt.diamant.graph.nodes.ProcNode">
+			<graphics x="230" y="125" fill="#ffbb00"/>
+			<att name="title" type="string" value="Covid19Info"/>
+			<att name="graph" type="object">
+				<graph directed="1" Graphic="1" Layout="points">
+					<att name="width" type="integer" value="941"/>
+					<att name="height" type="integer" value="1031"/>
+					<groovyFunctions></groovyFunctions>
+					<grammar id="34acccdd-814a-47d8-97ae-e09571de93aa">
+						<name>Landkreis</name>
+						<value>
+            root $input;
+            $input = Flensburg | Kiel | Lübeck | Neumünster | Dithmarschen | Herzogtum Lauenburg |
+            Nordfriesland | Ostholstein | Pinneberg | Plön | Segeberg | Steinburg | Stormarn | Hamburg | Braunschweig |
+            Salzgitter | Wolfsburg | Gifhorn | Goslar | Helmstedt | Northeim | Peine | Wolfenbüttel | Göttingen | Region
+            Hannover | Diepholz | Hildesheim | Holzminden | Schaumburg | Celle | Cuxhaven | Harburg | Lüneburg |
+            Osterholz | Heidekreis | Stade | Uelzen | Verden | Delmenhorst | Emden | Osnabrück | Wilhelmshaven |
+            Ammerland | Aurich | Cloppenburg | Emsland | Friesland | Grafschaft Bentheim | Leer | Oldenburg | Osnabrück
+            | Vechta | Wesermarsch | Wittmund | Bremen | Bremerhaven | Düsseldorf | Duisburg | Essen | Krefeld |
+            Mönchengladbach | Mülheim an der Ruhr | Oberhausen | Remscheid | Solingen | Wuppertal | Kleve | Mettmann |
+            Viersen | Wesel | Bonn | Köln | Leverkusen | Städteregion Aachen | Düren | Euskirchen | Heinsberg |
+            Oberbergischer Kreis | Bottrop | Gelsenkirchen | Münster | Borken | Coesfeld | Recklinghausen | Steinfurt |
+            Warendorf | Bielefeld | Gütersloh | Herford | Höxter | Lippe | Paderborn | Bochum | Dortmund | Hagen | Hamm
+            | Herne | Hochsauerlandkreis | Märkischer Kreis | Olpe | Soest | Unna | Darmstadt | Frankfurt am Main |
+            Offenbach am Main | Wiesbaden | Bergstraße | Hochtaunuskreis | Odenwaldkreis | Offenbach | Wetteraukreis |
+            Gießen | Vogelsbergkreis | Kassel | Fulda | Kassel | Koblenz | Ahrweiler | Bad Kreuznach | Birkenfeld |
+            Neuwied | Westerwaldkreis | Trier | Vulkaneifel | Kaiserslautern | Landau in der Pfalz | Ludwigshafen am
+            Rhein | Mainz | Neustadt an der Weinstraße | Pirmasens | Speyer | Worms | Zweibrücken | Bad Dürkheim |
+            Donnersbergkreis | Germersheim | Kaiserslautern | Kusel | Südliche Weinstraße | Südwestpfalz | Stuttgart |
+            Böblingen | Esslingen | Göppingen | Ludwigsburg | Heilbronn | Heilbronn | Hohenlohekreis | Schwäbisch Hall |
+            Heidenheim | Ostalbkreis | Karlsruhe | Karlsruhe | Rastatt | Heidelberg | Mannheim | Pforzheim | Calw |
+            Enzkreis | Freudenstadt | Freiburg im Breisgau | Emmendingen | Ortenaukreis | Rottweil | Tuttlingen |
+            Konstanz | Lörrach | Waldshut | Reutlingen | Tübingen | Zollernalbkreis | Ulm | Biberach | Bodenseekreis |
+            Ravensburg | Sigmaringen | Ingolstadt | München | Rosenheim | Altötting | Berchtesgadener Land | Dachau |
+            Ebersberg | Eichstätt | Erding | Freising | Fürstenfeldbruck | Landsberg am Lech | Miesbach | München |
+            Rosenheim | Starnberg | Traunstein | Landshut | Passau | Straubing | Deggendorf | Kelheim | Landshut |
+            Passau | Regen | Amberg | Regensburg | Cham | Regensburg | Schwandorf | Tirschenreuth | Bamberg | Bayreuth |
+            Coburg | Hof | Bamberg | Bayreuth | Coburg | Forchheim | Hof | Kronach | Kulmbach | Lichtenfels | Ansbach |
+            Erlangen | Fürth | Nürnberg | Schwabach | Ansbach | Fürth | Nürnberger Land | Roth | Aschaffenburg |
+            Schweinfurt | Würzburg | Aschaffenburg | Bad Kissingen | Haßberge | Kitzingen | Miltenberg | Schweinfurt |
+            Würzburg | Augsburg | Kaufbeuren | Memmingen | Augsburg | Günzburg | Ostallgäu | Unterallgäu | Oberallgäu |
+            Regionalverband Saarbrücken | Neunkirchen | Saarlouis | Brandenburg an der Havel | Cottbus | Potsdam |
+            Barnim | Havelland | Oberhavel | Prignitz | Uckermark | Rostock | Schwerin | Mecklenburgische Seenplatte |
+            Rostock | Nordwestmecklenburg | Chemnitz | Erzgebirgskreis | Mittelsachsen | Vogtlandkreis | Zwickau |
+            Dresden | Bautzen | Görlitz | Meißen | Leipzig | Leipzig | Nordsachsen | Magdeburg | Altmarkkreis Salzwedel
+            | Börde | Burgenlandkreis | Harz | Jerichower Land | Saalekreis | Salzlandkreis | Stendal | Wittenberg |
+            Erfurt | Gera | Jena | Suhl | Weimar | Eisenach | Eichsfeld | Nordhausen | Wartburgkreis | Kyffhäuserkreis |
+            Gotha | Sömmerda | Hildburghausen | Weimarer Land | Sonneberg | Greiz | Altenburger Land | Berlin
+            Reinickendorf | Berlin Pankow | Berlin Neukölln | Berlin Lichtenberg | Berlin Spandau | Berlin Mitte;
+        </value>
+					</grammar>
+					<grammar id="22232737-032d-4c8e-b7cd-fd66dfb7daee">
+						<name>Datentyp</name>
+						<value>
+            root $input;
+            $input = $tod {$ = &quot;deaths&quot;} | $infektionen {$ = &quot;cases&quot;};
+            $tod = tod | gestorben | todeszahlen | todesfälle | vestorben | verstorbene;
+            $infektionen = fälle | infektionen | infektionszahlen | infizierte | infizierten | fallzahlen;
+        </value>
+					</grammar>
+					<grammar id="41a2d544-6a2d-4d12-a3b2-93020fe2bf66">
+						<name>Zeitspanne</name>
+						<value>
+            root $input;
+            $input = $alle {$ = &quot;all&quot;} | $woche {$ = &quot;week&quot;};
+            $alle = gesamt | gesamter zeitraum | gesamten zeitraum | bisher | bisherige | seit beginn;
+            $woche = sieben tage | woche;
+        </value>
+					</grammar>
+					<grammar id="1087e094-97d3-49c1-8f0b-bfce89f3bb2f">
+						<name>Relation</name>
+						<value>
+            root $input;
+            $input = $gesamt {$ = &quot;all&quot;} | $einwohnerzahl {$ = &quot;pop&quot;} | $einhundertk {$ = &quot;hundredk&quot;};
+            $gesamt = alle | anzahl| insgesamt | absolut | keine relation | summe;
+            $einwohnerzahl = einwohner | einwohnerzahl;
+            $einhundertk = hunderttausend | einhunderttausend;
+        </value>
+					</grammar>
+					<variable uid="INPUT_VAR_ID">
+						<name>INPUT_VAR</name>
+						<type>string</type>
+						<value>undefined</value>
+					</variable>
+					<variable uid="0_FILLED_9f91080e-ac0e-4538-80f5-b95e867ecce5">
+						<name>FILLEDLANDKREIS</name>
+						<type>bool</type>
+						<value>false</value>
+					</variable>
+					<variable uid="0_INPUT_9f91080e-ac0e-4538-80f5-b95e867ecce5">
+						<name>INPUTLANDKREIS</name>
+						<type>string</type>
+						<value>undefined</value>
+					</variable>
+					<variable uid="1_FILLED_d770526e-0350-4862-97a0-c6bad0bdcef6">
+						<name>FILLEDFALLTYP</name>
+						<type>bool</type>
+						<value>false</value>
+					</variable>
+					<variable uid="1_INPUT_d770526e-0350-4862-97a0-c6bad0bdcef6">
+						<name>INPUTFALLTYP</name>
+						<type>string</type>
+						<value>undefined</value>
+					</variable>
+					<variable uid="2_FILLED_8ced7aae-db86-4c75-92cb-673726bd1cec">
+						<name>FILLEDZEITRAUM</name>
+						<type>bool</type>
+						<value>false</value>
+					</variable>
+					<variable uid="2_INPUT_8ced7aae-db86-4c75-92cb-673726bd1cec">
+						<name>INPUTZEITRAUM</name>
+						<type>string</type>
+						<value>undefined</value>
+					</variable>
+					<variable uid="3_FILLED_3e155ebb-428d-458b-9b71-d2139efb8c9e">
+						<name>FILLEDRELATIVZU</name>
+						<type>bool</type>
+						<value>false</value>
+					</variable>
+					<variable uid="3_INPUT_3e155ebb-428d-458b-9b71-d2139efb8c9e">
+						<name>INPUTRELATIVZU</name>
+						<type>string</type>
+						<value>undefined</value>
+					</variable>
+					<node uid="010840ee-6b9b-4a76-aebc-6ca24e1ed770" class="de.saar.coli.dialogos.marytts.plugin.TTSNode">
+						<graphics x="158" y="672" fill="#00b200"/>
+						<att name="title" type="string" value="Query Zeitraum"/>
+						<att name="prompt" type="text">
+							<value>Bitte wählen Sie zwischen den Daten der letzten sieben Tage und den gesamten bisher gesammelten Daten</value>
+						</att>
+						<att name="prompt_type" type="string" value="text"/>
+						<att name="wait" type="boolean" value="1"/>
+						<att name="await_silence" type="boolean" value="0"/>
+					</node>
+					<node uid="02d5f4b0-dfed-4311-bd76-149591181ab9" class="dialogos.frame.nodes.FillerNode">
+						<graphics x="183" y="482" fill="#c0c0c0"/>
+						<att name="title" type="string" value="Filler"/>
+						<att name="slotIndex" type="integer" value="0"/>
+						<att name="varID" type="string"/>
+						<att name="frameNodeID" type="string" value="02aececd-c0ba-4e66-af85-412bc97634b4"/>
+					</node>
+					<node uid="15b81348-4685-4e0a-b8ab-1d89be27574b" class="dialogos.frame.nodes.StringInputNode">
+						<graphics x="40" y="176" fill="#c0c0c0"/>
+						<att name="title" type="string" value="String Input"/>
+						<att name="varID" type="string" value="INPUT_VAR_ID"/>
+					</node>
+					<node uid="16b67cd2-9022-428f-977b-3ef6e4edb900" class="com.clt.diamant.graph.nodes.ReturnNode">
+						<graphics x="58" y="931" fill="#000000"/>
+						<att name="title" type="string" value="Return"/>
+					</node>
+					<node uid="29e8eb87-4227-489d-812e-62eaa7956ee7" class="dialogos.frame.nodes.StringInputNode">
+						<graphics x="290" y="672" fill="#c0c0c0"/>
+						<att name="title" type="string" value="String Input"/>
+						<att name="varID" type="string" value="INPUT_VAR_ID"/>
+					</node>
+					<node uid="384acf02-d91b-4170-80c9-dd6c76c27734" class="dialogos.frame.nodes.FillerNode">
+						<graphics x="683" y="482" fill="#c0c0c0"/>
+						<att name="title" type="string" value="Filler"/>
+						<att name="slotIndex" type="integer" value="1"/>
+						<att name="varID" type="string"/>
+						<att name="frameNodeID" type="string" value="02aececd-c0ba-4e66-af85-412bc97634b4"/>
+					</node>
+					<node uid="39e9d735-9717-47a7-9964-df1f7dc2eb5a" class="dialogos.frame.nodes.StringInputNode">
+						<graphics x="790" y="672" fill="#c0c0c0"/>
+						<att name="title" type="string" value="String Input"/>
+						<att name="varID" type="string" value="INPUT_VAR_ID"/>
+					</node>
+					<node uid="461e83b4-fa8b-47b4-8863-d632a9b4ce04" class="de.saar.coli.dialogos.marytts.plugin.TTSNode">
+						<graphics x="43" y="108" fill="#00b200"/>
+						<att name="title" type="string" value="Help Prompt"/>
+						<att name="prompt" type="text">
+							<value>Bitte nennen Sie einen Landkreis, ob Sie Fallzahlen oder Todesfälle erfahren möchten, ob die Informationen für die letzten sieben Tage oder insgesamt sein sollen und ob die Zahlen absolut, pro einhunderttausend Einwohner oder relativ zur Einwohnerzahl sein soll</value>
+						</att>
+						<att name="prompt_type" type="string" value="text"/>
+						<att name="wait" type="boolean" value="1"/>
+						<att name="await_silence" type="boolean" value="0"/>
+					</node>
+					<node uid="7265fe14-4af6-4edb-9e44-15aa6beedc09" class="de.saar.coli.dialogos.marytts.plugin.TTSNode">
+						<graphics x="661" y="413" fill="#00b200"/>
+						<att name="title" type="string" value="Query FallTyp"/>
+						<att name="prompt" type="text">
+							<value>Bitte geben Sie an, ob Sie Fallzahlen oder Todesfälle wissen möchten</value>
+						</att>
+						<att name="prompt_type" type="string" value="text"/>
+						<att name="wait" type="boolean" value="1"/>
+						<att name="await_silence" type="boolean" value="0"/>
+					</node>
+					<node uid="748a57b8-aa25-420e-a1f5-588cb9283c00" class="com.clt.diamant.graph.nodes.ConditionalNode">
+						<graphics x="533" y="672" fill="#c0c0c0"/>
+						<att name="title" type="string" value="Check Empty 31"/>
+						<att name="expression" type="string" value="FILLEDRELATIVZU"/>
+					</node>
+					<node uid="7a425031-5687-40fb-8179-84babf702dcc" class="de.saar.coli.dialogos.marytts.plugin.TTSNode">
+						<graphics x="654" y="672" fill="#00b200"/>
+						<att name="title" type="string" value="Query RelativZu"/>
+						<att name="prompt" type="text">
+							<value>Wählen Sie, ob die Zahlen in Bezug zur Einwohnerzahl einhunderttausend Einwohner oder absolut ausgewertet werden sollen</value>
+						</att>
+						<att name="prompt_type" type="string" value="text"/>
+						<att name="wait" type="boolean" value="1"/>
+						<att name="await_silence" type="boolean" value="0"/>
+					</node>
+					<node uid="849ef9ac-0ccb-46ee-8ce3-b1c0f599d09e" class="dialogos.frame.nodes.StringInputNode">
+						<graphics x="290" y="413" fill="#c0c0c0"/>
+						<att name="title" type="string" value="String Input"/>
+						<att name="varID" type="string" value="INPUT_VAR_ID"/>
+					</node>
+					<node uid="8f7e73e3-cd66-43a1-b9f1-1d5675939855" class="dialogos.frame.nodes.FillerNode">
+						<graphics x="58" y="244" fill="#c0c0c0"/>
+						<att name="title" type="string" value="Filler"/>
+						<att name="slotIndex" type="integer" value="0"/>
+						<att name="varID" type="string"/>
+						<att name="frameNodeID" type="string" value="02aececd-c0ba-4e66-af85-412bc97634b4"/>
+					</node>
+					<node uid="90882daa-19ab-4c87-88fc-5dfda9cea22e" class="dialogos.frame.nodes.FillerNode">
+						<graphics x="683" y="741" fill="#c0c0c0"/>
+						<att name="title" type="string" value="Filler"/>
+						<att name="slotIndex" type="integer" value="3"/>
+						<att name="varID" type="string"/>
+						<att name="frameNodeID" type="string" value="02aececd-c0ba-4e66-af85-412bc97634b4"/>
+					</node>
+					<node uid="a8092e7a-a10c-46bc-9920-6421583f351c" class="com.clt.diamant.graph.nodes.ConditionalNode">
+						<graphics x="33" y="413" fill="#c0c0c0"/>
+						<att name="title" type="string" value="Check Empty 01"/>
+						<att name="expression" type="string" value="FILLEDLANDKREIS"/>
+					</node>
+					<node uid="addba66e-a8fa-421d-9a21-ca44c9dcd9f1" class="com.clt.diamant.graph.nodes.ConditionalNode">
+						<graphics x="33" y="672" fill="#c0c0c0"/>
+						<att name="title" type="string" value="Check Empty 21"/>
+						<att name="expression" type="string" value="FILLEDZEITRAUM"/>
+					</node>
+					<node uid="b61390ae-532c-402c-aab4-3e96c525bfc8" class="com.clt.diamant.graph.nodes.StartNode">
+						<graphics x="58" y="40" fill="#9999ff"/>
+						<att name="title" type="string" value="Start"/>
+					</node>
+					<node uid="b875def6-7f6e-4cf3-afe2-18fe000995c4" class="com.clt.diamant.graph.nodes.ConditionalNode">
+						<graphics x="533" y="413" fill="#c0c0c0"/>
+						<att name="title" type="string" value="Check Empty 11"/>
+						<att name="expression" type="string" value="FILLEDFALLTYP"/>
+					</node>
+					<node uid="c75045cf-2068-494b-8b52-7027d3219e18" class="dialogos.frame.nodes.FillerNode">
+						<graphics x="183" y="741" fill="#c0c0c0"/>
+						<att name="title" type="string" value="Filler"/>
+						<att name="slotIndex" type="integer" value="2"/>
+						<att name="varID" type="string"/>
+						<att name="frameNodeID" type="string" value="02aececd-c0ba-4e66-af85-412bc97634b4"/>
+					</node>
+					<node uid="c7c05737-6696-4920-aca5-e28d8aff3b77" class="dialogos.frame.nodes.StringInputNode">
+						<graphics x="790" y="413" fill="#c0c0c0"/>
+						<att name="title" type="string" value="String Input"/>
+						<att name="varID" type="string" value="INPUT_VAR_ID"/>
+					</node>
+					<node uid="da6a7883-0934-48d0-93da-7795e186f7ab" class="de.saar.coli.dialogos.marytts.plugin.TTSNode">
+						<graphics x="154" y="413" fill="#00b200"/>
+						<att name="title" type="string" value="Query Landkreis"/>
+						<att name="prompt" type="text">
+							<value>Bitte nennen Sie den Namen eines Landkreises</value>
+						</att>
+						<att name="prompt_type" type="string" value="text"/>
+						<att name="wait" type="boolean" value="1"/>
+						<att name="await_silence" type="boolean" value="0"/>
+					</node>
+					<edge src="010840ee-6b9b-4a76-aebc-6ca24e1ed770" tgt="29e8eb87-4227-489d-812e-62eaa7956ee7">
+					</edge>
+					<edge src="02d5f4b0-dfed-4311-bd76-149591181ab9" tgt="a8092e7a-a10c-46bc-9920-6421583f351c">
+					</edge>
+					<edge src="15b81348-4685-4e0a-b8ab-1d89be27574b" tgt="8f7e73e3-cd66-43a1-b9f1-1d5675939855">
+					</edge>
+					<edge src="29e8eb87-4227-489d-812e-62eaa7956ee7" tgt="c75045cf-2068-494b-8b52-7027d3219e18">
+					</edge>
+					<edge src="384acf02-d91b-4170-80c9-dd6c76c27734" tgt="b875def6-7f6e-4cf3-afe2-18fe000995c4">
+					</edge>
+					<edge src="39e9d735-9717-47a7-9964-df1f7dc2eb5a" tgt="90882daa-19ab-4c87-88fc-5dfda9cea22e">
+					</edge>
+					<edge src="461e83b4-fa8b-47b4-8863-d632a9b4ce04" tgt="15b81348-4685-4e0a-b8ab-1d89be27574b">
+					</edge>
+					<edge src="7265fe14-4af6-4edb-9e44-15aa6beedc09" tgt="c7c05737-6696-4920-aca5-e28d8aff3b77">
+					</edge>
+					<edge src="748a57b8-aa25-420e-a1f5-588cb9283c00" tgt="16b67cd2-9022-428f-977b-3ef6e4edb900">
+						<att name="condition" type="string" value="FILLEDRELATIVZU"/>
+					</edge>
+					<edge src="748a57b8-aa25-420e-a1f5-588cb9283c00" tgt="7a425031-5687-40fb-8179-84babf702dcc">
+						<att name="condition" type="string" value="else"/>
+					</edge>
+					<edge src="7a425031-5687-40fb-8179-84babf702dcc" tgt="39e9d735-9717-47a7-9964-df1f7dc2eb5a">
+					</edge>
+					<edge src="849ef9ac-0ccb-46ee-8ce3-b1c0f599d09e" tgt="02d5f4b0-dfed-4311-bd76-149591181ab9">
+					</edge>
+					<edge src="8f7e73e3-cd66-43a1-b9f1-1d5675939855" tgt="a8092e7a-a10c-46bc-9920-6421583f351c">
+					</edge>
+					<edge src="90882daa-19ab-4c87-88fc-5dfda9cea22e" tgt="748a57b8-aa25-420e-a1f5-588cb9283c00">
+					</edge>
+					<edge src="a8092e7a-a10c-46bc-9920-6421583f351c" tgt="b875def6-7f6e-4cf3-afe2-18fe000995c4">
+						<att name="condition" type="string" value="FILLEDLANDKREIS"/>
+					</edge>
+					<edge src="a8092e7a-a10c-46bc-9920-6421583f351c" tgt="da6a7883-0934-48d0-93da-7795e186f7ab">
+						<att name="condition" type="string" value="else"/>
+					</edge>
+					<edge src="addba66e-a8fa-421d-9a21-ca44c9dcd9f1" tgt="748a57b8-aa25-420e-a1f5-588cb9283c00">
+						<att name="condition" type="string" value="FILLEDZEITRAUM"/>
+					</edge>
+					<edge src="addba66e-a8fa-421d-9a21-ca44c9dcd9f1" tgt="010840ee-6b9b-4a76-aebc-6ca24e1ed770">
+						<att name="condition" type="string" value="else"/>
+					</edge>
+					<edge src="b61390ae-532c-402c-aab4-3e96c525bfc8" tgt="461e83b4-fa8b-47b4-8863-d632a9b4ce04">
+					</edge>
+					<edge src="b875def6-7f6e-4cf3-afe2-18fe000995c4" tgt="addba66e-a8fa-421d-9a21-ca44c9dcd9f1">
+						<att name="condition" type="string" value="FILLEDFALLTYP"/>
+					</edge>
+					<edge src="b875def6-7f6e-4cf3-afe2-18fe000995c4" tgt="7265fe14-4af6-4edb-9e44-15aa6beedc09">
+						<att name="condition" type="string" value="else"/>
+					</edge>
+					<edge src="c75045cf-2068-494b-8b52-7027d3219e18" tgt="addba66e-a8fa-421d-9a21-ca44c9dcd9f1">
+					</edge>
+					<edge src="c7c05737-6696-4920-aca5-e28d8aff3b77" tgt="384acf02-d91b-4170-80c9-dd6c76c27734">
+					</edge>
+					<edge src="da6a7883-0934-48d0-93da-7795e186f7ab" tgt="849ef9ac-0ccb-46ee-8ce3-b1c0f599d09e">
+					</edge>
+					<comment x="791" y="740" width="100" height="60" color="#ffff99">RelativZu</comment>
+					<comment x="291" y="740" width="100" height="60" color="#ffff99">Zeitraum</comment>
+					<comment x="791" y="481" width="100" height="60" color="#ffff99">FallTyp</comment>
+					<comment x="291" y="481" width="100" height="60" color="#ffff99">Landkreis</comment>
+				</graph>
+			</att>
+			<att name="endpoints" type="list">
+				<att name="0" type="string" value="16b67cd2-9022-428f-977b-3ef6e4edb900"/>
+			</att>
+		</node>
+		<node uid="02aececd-c0ba-4e66-af85-412bc97634b4" class="dialogos.frame.FrameNode">
+			<graphics x="371" y="125" fill="#ffbb00"/>
+			<att name="title" type="string" value="Frame"/>
+			<att name="proc_uid" type="string" value="02887db9-3810-4238-a0fd-0f9732d8a802"/>
+			<frameStruct name="Covid19Info" helpPrompt="Bitte nennen Sie einen Landkreis, ob Sie Fallzahlen oder Todesfälle erfahren möchten, ob die Informationen für die letzten sieben Tage oder insgesamt sein sollen und ob die Zahlen absolut, pro einhunderttausend Einwohner oder relativ zur Einwohnerzahl sein soll" class="dialogos.frame.struct.FrameStruct">
+				<slotStruct uid="9f91080e-ac0e-4538-80f5-b95e867ecce5" name="Landkreis" query="Bitte nennen Sie den Namen eines Landkreises" grammarName="Landkreis"/>
+				<slotStruct uid="d770526e-0350-4862-97a0-c6bad0bdcef6" name="FallTyp" query="Bitte geben Sie an, ob Sie Fallzahlen oder Todesfälle wissen möchten" grammarName="Datentyp"/>
+				<slotStruct uid="8ced7aae-db86-4c75-92cb-673726bd1cec" name="Zeitraum" query="Bitte wählen Sie zwischen den Daten der letzten sieben Tage und den gesamten bisher gesammelten Daten" grammarName="Zeitspanne"/>
+				<slotStruct uid="3e155ebb-428d-458b-9b71-d2139efb8c9e" name="RelativZu" query="Wählen Sie, ob die Zahlen in Bezug zur Einwohnerzahl einhunderttausend Einwohner oder absolut ausgewertet werden sollen" grammarName="Relation"/>
+				<grammar id="34acccdd-814a-47d8-97ae-e09571de93aa">
+					<name>Landkreis</name>
+					<value>
+            root $input;
+            $input = Flensburg | Kiel | Lübeck | Neumünster | Dithmarschen | Herzogtum Lauenburg |
+            Nordfriesland | Ostholstein | Pinneberg | Plön | Segeberg | Steinburg | Stormarn | Hamburg | Braunschweig |
+            Salzgitter | Wolfsburg | Gifhorn | Goslar | Helmstedt | Northeim | Peine | Wolfenbüttel | Göttingen | Region
+            Hannover | Diepholz | Hildesheim | Holzminden | Schaumburg | Celle | Cuxhaven | Harburg | Lüneburg |
+            Osterholz | Heidekreis | Stade | Uelzen | Verden | Delmenhorst | Emden | Osnabrück | Wilhelmshaven |
+            Ammerland | Aurich | Cloppenburg | Emsland | Friesland | Grafschaft Bentheim | Leer | Oldenburg | Osnabrück
+            | Vechta | Wesermarsch | Wittmund | Bremen | Bremerhaven | Düsseldorf | Duisburg | Essen | Krefeld |
+            Mönchengladbach | Mülheim an der Ruhr | Oberhausen | Remscheid | Solingen | Wuppertal | Kleve | Mettmann |
+            Viersen | Wesel | Bonn | Köln | Leverkusen | Städteregion Aachen | Düren | Euskirchen | Heinsberg |
+            Oberbergischer Kreis | Bottrop | Gelsenkirchen | Münster | Borken | Coesfeld | Recklinghausen | Steinfurt |
+            Warendorf | Bielefeld | Gütersloh | Herford | Höxter | Lippe | Paderborn | Bochum | Dortmund | Hagen | Hamm
+            | Herne | Hochsauerlandkreis | Märkischer Kreis | Olpe | Soest | Unna | Darmstadt | Frankfurt am Main |
+            Offenbach am Main | Wiesbaden | Bergstraße | Hochtaunuskreis | Odenwaldkreis | Offenbach | Wetteraukreis |
+            Gießen | Vogelsbergkreis | Kassel | Fulda | Kassel | Koblenz | Ahrweiler | Bad Kreuznach | Birkenfeld |
+            Neuwied | Westerwaldkreis | Trier | Vulkaneifel | Kaiserslautern | Landau in der Pfalz | Ludwigshafen am
+            Rhein | Mainz | Neustadt an der Weinstraße | Pirmasens | Speyer | Worms | Zweibrücken | Bad Dürkheim |
+            Donnersbergkreis | Germersheim | Kaiserslautern | Kusel | Südliche Weinstraße | Südwestpfalz | Stuttgart |
+            Böblingen | Esslingen | Göppingen | Ludwigsburg | Heilbronn | Heilbronn | Hohenlohekreis | Schwäbisch Hall |
+            Heidenheim | Ostalbkreis | Karlsruhe | Karlsruhe | Rastatt | Heidelberg | Mannheim | Pforzheim | Calw |
+            Enzkreis | Freudenstadt | Freiburg im Breisgau | Emmendingen | Ortenaukreis | Rottweil | Tuttlingen |
+            Konstanz | Lörrach | Waldshut | Reutlingen | Tübingen | Zollernalbkreis | Ulm | Biberach | Bodenseekreis |
+            Ravensburg | Sigmaringen | Ingolstadt | München | Rosenheim | Altötting | Berchtesgadener Land | Dachau |
+            Ebersberg | Eichstätt | Erding | Freising | Fürstenfeldbruck | Landsberg am Lech | Miesbach | München |
+            Rosenheim | Starnberg | Traunstein | Landshut | Passau | Straubing | Deggendorf | Kelheim | Landshut |
+            Passau | Regen | Amberg | Regensburg | Cham | Regensburg | Schwandorf | Tirschenreuth | Bamberg | Bayreuth |
+            Coburg | Hof | Bamberg | Bayreuth | Coburg | Forchheim | Hof | Kronach | Kulmbach | Lichtenfels | Ansbach |
+            Erlangen | Fürth | Nürnberg | Schwabach | Ansbach | Fürth | Nürnberger Land | Roth | Aschaffenburg |
+            Schweinfurt | Würzburg | Aschaffenburg | Bad Kissingen | Haßberge | Kitzingen | Miltenberg | Schweinfurt |
+            Würzburg | Augsburg | Kaufbeuren | Memmingen | Augsburg | Günzburg | Ostallgäu | Unterallgäu | Oberallgäu |
+            Regionalverband Saarbrücken | Neunkirchen | Saarlouis | Brandenburg an der Havel | Cottbus | Potsdam |
+            Barnim | Havelland | Oberhavel | Prignitz | Uckermark | Rostock | Schwerin | Mecklenburgische Seenplatte |
+            Rostock | Nordwestmecklenburg | Chemnitz | Erzgebirgskreis | Mittelsachsen | Vogtlandkreis | Zwickau |
+            Dresden | Bautzen | Görlitz | Meißen | Leipzig | Leipzig | Nordsachsen | Magdeburg | Altmarkkreis Salzwedel
+            | Börde | Burgenlandkreis | Harz | Jerichower Land | Saalekreis | Salzlandkreis | Stendal | Wittenberg |
+            Erfurt | Gera | Jena | Suhl | Weimar | Eisenach | Eichsfeld | Nordhausen | Wartburgkreis | Kyffhäuserkreis |
+            Gotha | Sömmerda | Hildburghausen | Weimarer Land | Sonneberg | Greiz | Altenburger Land | Berlin
+            Reinickendorf | Berlin Pankow | Berlin Neukölln | Berlin Lichtenberg | Berlin Spandau | Berlin Mitte;
+        </value>
+				</grammar>
+				<grammar id="22232737-032d-4c8e-b7cd-fd66dfb7daee">
+					<name>Datentyp</name>
+					<value>
+            root $input;
+            $input = $tod {$ = &quot;deaths&quot;} | $infektionen {$ = &quot;cases&quot;};
+            $tod = tod | gestorben | todeszahlen | todesfälle | vestorben | verstorbene;
+            $infektionen = fälle | infektionen | infektionszahlen | infizierte | infizierten | fallzahlen;
+        </value>
+				</grammar>
+				<grammar id="41a2d544-6a2d-4d12-a3b2-93020fe2bf66">
+					<name>Zeitspanne</name>
+					<value>
+            root $input;
+            $input = $alle {$ = &quot;all&quot;} | $woche {$ = &quot;week&quot;};
+            $alle = gesamt | gesamter zeitraum | gesamten zeitraum | bisher | bisherige | seit beginn;
+            $woche = sieben tage | woche;
+        </value>
+				</grammar>
+				<grammar id="1087e094-97d3-49c1-8f0b-bfce89f3bb2f">
+					<name>Relation</name>
+					<value>
+            root $input;
+            $input = $gesamt {$ = &quot;all&quot;} | $einwohnerzahl {$ = &quot;pop&quot;} | $einhundertk {$ = &quot;hundredk&quot;};
+            $gesamt = alle | anzahl| insgesamt | absolut | keine relation | summe;
+            $einwohnerzahl = einwohner | einwohnerzahl;
+            $einhundertk = hunderttausend | einhunderttausend;
+        </value>
+				</grammar>
+			</frameStruct>
+		</node>
+		<node uid="61a6136c-58af-4bee-89a1-b96d9b03f844" class="com.clt.diamant.graph.nodes.StartNode">
+			<graphics x="370" y="39" fill="#9999ff"/>
+			<att name="title" type="string" value="Start"/>
+		</node>
+		<node uid="649d3d15-911f-4f8f-8b33-794d8580d5fc" class="com.clt.diamant.graph.nodes.EndNode">
+			<graphics x="370" y="449" fill="#9999ff"/>
+			<att name="title" type="string" value="End"/>
+		</node>
+		<node uid="a43b3460-b131-4515-a53b-9789d679c47b" class="dialogos.api.APINode">
+			<graphics x="371" y="213" fill="#006fde"/>
+			<att name="title" type="string" value="API"/>
+			<att name="request" type="string" value="&quot;https://services7.arcgis.com/mOBPykOjAyBO2ZKk/arcgis/rest/services/RKI_Landkreisdaten/FeatureServer/0/query?where=GEN%20%3D%20%27&quot;+ toUpperCase(get(RESULTCovid19Info, &quot;Landkreis&quot;)) + &quot;%27&amp;outFields=GEN,EWZ,cases,deaths,cases7_per_100k,cases7_bl,death7_bl,cases7_lk,death7_lk,death_rate&amp;returnGeometry=false&amp;outSR=4326&amp;f=json&quot;"/>
+			<att name="requestTypes" type="string" value="Expression"/>
+			<att name="responseTypes" type="string" value="JSON"/>
+			<att name="returnVariable" type="string" value="apiReturn"/>
+		</node>
+		<node uid="cc01f187-359a-45c8-b9e2-3a0255960008" class="com.clt.diamant.graph.nodes.ScriptNode">
+			<graphics x="370" y="292" fill="#99ffff"/>
+			<att name="title" type="string" value="Script"/>
+			<att name="script" type="text">
+				<value>struct attr = get(get(get(apiReturn, &quot;features&quot;), 0), &quot;attributes&quot;);
+string landkreis = get(RESULTCovid19Info, &quot;Landkreis&quot;);
+string casesDeaths = get(RESULTCovid19Info, &quot;FallTyp&quot;);
+string time = get(RESULTCovid19Info, &quot;Zeitraum&quot;);
+string relative = get(RESULTCovid19Info, &quot;RelativZu&quot;);
+string dataName = &quot;&quot;;
+real ewz = real(get(attr, &quot;EWZ&quot;));
+real base = 0;
+real result = 0.0;
+int rounded = 0;
+answer = &quot;Die &quot;;
+
+if (casesDeaths ==  &quot;deaths&quot;)
+{
+	if (contains(time, &quot;all&quot;))
+	{
+		answer = answer + &quot;gesamte Anzahl der Todesfälle in &quot;;
+		dataName = &quot;deaths&quot;;
+	}
+	if (contains(time, &quot;week&quot;))
+	{
+		answer = answer + &quot;Anzahl der Todesfälle der vergangenen Woche in &quot;;
+		dataName = &quot;death7_lk&quot;;	
+	}
+}
+
+if (casesDeaths == &quot;cases&quot;)
+{
+	if (time == &quot;all&quot;)
+	{
+		answer = answer + &quot;gesamte Anzahl der Infektionen in &quot;;
+		dataName = &quot;cases&quot;;
+	}
+	if (time == &quot;week&quot;)
+	{
+		answer = answer + &quot;Anzahl der Infektionen innerhalb der letzten sieben Tage in &quot;;
+		dataName = &quot;cases7_lk&quot;;	
+	}
+}
+
+answer = answer + landkreis + &quot; &quot;;
+
+base = real(get(attr, dataName));
+
+switch(relative)
+{
+	case &quot;all&quot;:
+		result = base;
+	break;
+	case &quot;pop&quot;:
+		answer = answer + &quot;relativ zur Einwohnerzahl &quot;;
+		result = base / ewz;
+	break;
+	case &quot;hundredk&quot;:
+		answer = answer + &quot;pro hunderttausend &quot;;
+		result = base / ewz * 100000.0;
+	break;
+}
+
+rounded = round(result);
+
+answer = answer + &quot;beträgt &quot; + str(rounded);</value>
+			</att>
+		</node>
+		<node uid="e083ebaf-b65e-438f-bce9-9b972d1fc15e" class="de.saar.coli.dialogos.marytts.plugin.TTSNode">
+			<graphics x="336" y="363" fill="#00b200"/>
+			<att name="title" type="string" value="Speech synthesis"/>
+			<att name="prompt" type="text">
+				<value>answer</value>
+			</att>
+			<att name="prompt_type" type="string" value="expression"/>
+			<att name="wait" type="boolean" value="1"/>
+			<att name="await_silence" type="boolean" value="0"/>
+		</node>
+		<edge src="02aececd-c0ba-4e66-af85-412bc97634b4" tgt="a43b3460-b131-4515-a53b-9789d679c47b">
+			<att name="condition" type="string" value="Return"/>
+		</edge>
+		<edge src="61a6136c-58af-4bee-89a1-b96d9b03f844" tgt="02aececd-c0ba-4e66-af85-412bc97634b4">
+		</edge>
+		<edge src="a43b3460-b131-4515-a53b-9789d679c47b" tgt="cc01f187-359a-45c8-b9e2-3a0255960008">
+		</edge>
+		<edge src="cc01f187-359a-45c8-b9e2-3a0255960008" tgt="e083ebaf-b65e-438f-bce9-9b972d1fc15e">
+		</edge>
+		<edge src="e083ebaf-b65e-438f-bce9-9b972d1fc15e" tgt="649d3d15-911f-4f8f-8b33-794d8580d5fc">
+		</edge>
+	</graph>
+</wizard>

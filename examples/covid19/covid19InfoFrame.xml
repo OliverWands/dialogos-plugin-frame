@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<frameStruct name="Covid19Info" helpPrompt="Bitte nennen Sie einen Landkreis, ob Sie Fallzahlen oder Todesfälle erfahren möchten, ob die Informationen für die letzten sieben Tage oder insgesamt sein sollen und ob die Zahlen absolut, pro einhunderttausend Einwohner oder relativ zur Einwohnerzahl sein soll" class="dialogos.frame.struct.FrameStruct">
+	<slotStruct uid="9f91080e-ac0e-4538-80f5-b95e867ecce5" name="Landkreis" query="Bitte nennen Sie den Namen eines Landkreises" grammarName="Landkreis"/>
+	<slotStruct uid="d770526e-0350-4862-97a0-c6bad0bdcef6" name="FallTyp" query="Bitte geben Sie an, ob Sie Fallzahlen oder Todesfälle wissen möchten" grammarName="Datentyp"/>
+	<slotStruct uid="8ced7aae-db86-4c75-92cb-673726bd1cec" name="Zeitraum" query="Bitte wählen Sie zwischen den Daten der letzten sieben Tage und den gesamten bisher gesammelten Daten" grammarName="Zeitspanne"/>
+	<slotStruct uid="3e155ebb-428d-458b-9b71-d2139efb8c9e" name="RelativZu" query="Wählen Sie, ob die Zahlen in Bezug zur Einwohnerzahl einhunderttausend Einwohner oder absolut ausgewertet werden sollen" grammarName="Relation"/>
+	<grammar>
+		<name>Landkreis</name>
+		<value>
+            root $input;
+            $input = Flensburg | Kiel | Lübeck | Neumünster | Dithmarschen | Herzogtum Lauenburg |
+            Nordfriesland | Ostholstein | Pinneberg | Plön | Segeberg | Steinburg | Stormarn | Hamburg | Braunschweig |
+            Salzgitter | Wolfsburg | Gifhorn | Goslar | Helmstedt | Northeim | Peine | Wolfenbüttel | Göttingen | Region
+            Hannover | Diepholz | Hildesheim | Holzminden | Schaumburg | Celle | Cuxhaven | Harburg | Lüneburg |
+            Osterholz | Heidekreis | Stade | Uelzen | Verden | Delmenhorst | Emden | Osnabrück | Wilhelmshaven |
+            Ammerland | Aurich | Cloppenburg | Emsland | Friesland | Grafschaft Bentheim | Leer | Oldenburg | Osnabrück
+            | Vechta | Wesermarsch | Wittmund | Bremen | Bremerhaven | Düsseldorf | Duisburg | Essen | Krefeld |
+            Mönchengladbach | Mülheim an der Ruhr | Oberhausen | Remscheid | Solingen | Wuppertal | Kleve | Mettmann |
+            Viersen | Wesel | Bonn | Köln | Leverkusen | Städteregion Aachen | Düren | Euskirchen | Heinsberg |
+            Oberbergischer Kreis | Bottrop | Gelsenkirchen | Münster | Borken | Coesfeld | Recklinghausen | Steinfurt |
+            Warendorf | Bielefeld | Gütersloh | Herford | Höxter | Lippe | Paderborn | Bochum | Dortmund | Hagen | Hamm
+            | Herne | Hochsauerlandkreis | Märkischer Kreis | Olpe | Soest | Unna | Darmstadt | Frankfurt am Main |
+            Offenbach am Main | Wiesbaden | Bergstraße | Hochtaunuskreis | Odenwaldkreis | Offenbach | Wetteraukreis |
+            Gießen | Vogelsbergkreis | Kassel | Fulda | Kassel | Koblenz | Ahrweiler | Bad Kreuznach | Birkenfeld |
+            Neuwied | Westerwaldkreis | Trier | Vulkaneifel | Kaiserslautern | Landau in der Pfalz | Ludwigshafen am
+            Rhein | Mainz | Neustadt an der Weinstraße | Pirmasens | Speyer | Worms | Zweibrücken | Bad Dürkheim |
+            Donnersbergkreis | Germersheim | Kaiserslautern | Kusel | Südliche Weinstraße | Südwestpfalz | Stuttgart |
+            Böblingen | Esslingen | Göppingen | Ludwigsburg | Heilbronn | Heilbronn | Hohenlohekreis | Schwäbisch Hall |
+            Heidenheim | Ostalbkreis | Karlsruhe | Karlsruhe | Rastatt | Heidelberg | Mannheim | Pforzheim | Calw |
+            Enzkreis | Freudenstadt | Freiburg im Breisgau | Emmendingen | Ortenaukreis | Rottweil | Tuttlingen |
+            Konstanz | Lörrach | Waldshut | Reutlingen | Tübingen | Zollernalbkreis | Ulm | Biberach | Bodenseekreis |
+            Ravensburg | Sigmaringen | Ingolstadt | München | Rosenheim | Altötting | Berchtesgadener Land | Dachau |
+            Ebersberg | Eichstätt | Erding | Freising | Fürstenfeldbruck | Landsberg am Lech | Miesbach | München |
+            Rosenheim | Starnberg | Traunstein | Landshut | Passau | Straubing | Deggendorf | Kelheim | Landshut |
+            Passau | Regen | Amberg | Regensburg | Cham | Regensburg | Schwandorf | Tirschenreuth | Bamberg | Bayreuth |
+            Coburg | Hof | Bamberg | Bayreuth | Coburg | Forchheim | Hof | Kronach | Kulmbach | Lichtenfels | Ansbach |
+            Erlangen | Fürth | Nürnberg | Schwabach | Ansbach | Fürth | Nürnberger Land | Roth | Aschaffenburg |
+            Schweinfurt | Würzburg | Aschaffenburg | Bad Kissingen | Haßberge | Kitzingen | Miltenberg | Schweinfurt |
+            Würzburg | Augsburg | Kaufbeuren | Memmingen | Augsburg | Günzburg | Ostallgäu | Unterallgäu | Oberallgäu |
+            Regionalverband Saarbrücken | Neunkirchen | Saarlouis | Brandenburg an der Havel | Cottbus | Potsdam |
+            Barnim | Havelland | Oberhavel | Prignitz | Uckermark | Rostock | Schwerin | Mecklenburgische Seenplatte |
+            Rostock | Nordwestmecklenburg | Chemnitz | Erzgebirgskreis | Mittelsachsen | Vogtlandkreis | Zwickau |
+            Dresden | Bautzen | Görlitz | Meißen | Leipzig | Leipzig | Nordsachsen | Magdeburg | Altmarkkreis Salzwedel
+            | Börde | Burgenlandkreis | Harz | Jerichower Land | Saalekreis | Salzlandkreis | Stendal | Wittenberg |
+            Erfurt | Gera | Jena | Suhl | Weimar | Eisenach | Eichsfeld | Nordhausen | Wartburgkreis | Kyffhäuserkreis |
+            Gotha | Sömmerda | Hildburghausen | Weimarer Land | Sonneberg | Greiz | Altenburger Land | Berlin
+            Reinickendorf | Berlin Pankow | Berlin Neukölln | Berlin Lichtenberg | Berlin Spandau | Berlin Mitte;
+        </value>
+	</grammar>
+	<grammar>
+		<name>Datentyp</name>
+		<value>
+            root $input;
+            $input = $tod {$ = &quot;deaths&quot;} | $infektionen {$ = &quot;cases&quot;};
+            $tod = tod | gestorben | todeszahlen | todesfälle | vestorben | verstorbene;
+            $infektionen = fälle | infektionen | infektionszahlen | infizierte | infizierten | fallzahlen;
+        </value>
+	</grammar>
+	<grammar>
+		<name>Zeitspanne</name>
+		<value>
+            root $input;
+            $input = $alle {$ = &quot;all&quot;} | $woche {$ = &quot;week&quot;};
+            $alle = gesamt | gesamter zeitraum | gesamten zeitraum | bisher | bisherige | seit beginn;
+            $woche = sieben tage | woche;
+        </value>
+	</grammar>
+	<grammar>
+		<name>Relation</name>
+		<value>
+            root $input;
+            $input = $gesamt {$ = &quot;all&quot;} | $einwohnerzahl {$ = &quot;pop&quot;} | $einhundertk {$ = &quot;hundredk&quot;};
+            $gesamt = alle | anzahl| insgesamt | absolut | keine relation | summe;
+            $einwohnerzahl = einwohner | einwohnerzahl;
+            $einhundertk = hunderttausend | einhunderttausend;
+        </value>
+	</grammar>
+</frameStruct>
