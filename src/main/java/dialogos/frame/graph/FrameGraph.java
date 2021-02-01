@@ -119,7 +119,7 @@ public class FrameGraph
     {
         int maxWidth = 0;
         int columns;
-        if (slots.size() < 5)
+        if (slots.size() < 3)
         {
             columns = 1;
         }

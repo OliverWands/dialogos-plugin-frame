@@ -29,7 +29,7 @@ public class FillerNode extends Node
 
     private FrameNode frameNode = null;
     private Slot variable = null;
-    private int expectedSlotInput = -1;
+    private int expectedSlotInput = 0;
 
     public FillerNode()
     {
@@ -60,7 +60,7 @@ public class FillerNode extends Node
         super.writeAttributes(out, uid_map);
 
         Graph.printAtt(out, "slotIndex", expectedSlotInput);
-        Graph.printAtt(out, "varID", variable.getId());
+        Graph.printAtt(out, "varID", varID);
         Graph.printAtt(out, "frameNodeID", frameNode.getId());
     }
 
@@ -128,7 +128,6 @@ public class FillerNode extends Node
 
         tokens = GrammarIO.cleanupTokens(tokens);
 
-        expectedSlotInput = expectedSlotInput != -1 ? expectedSlotInput : 0;
         for (int inx = 0; inx < frameNode.frameStruct.size(); inx++)
         {
             SlotStruct slotStruct =
