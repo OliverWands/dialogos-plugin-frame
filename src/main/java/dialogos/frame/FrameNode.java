@@ -24,18 +24,22 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 public class FrameNode extends CallNode
 {
     private static final Color nodeColor = new Color(255, 187, 0);
     private Integer maxTokenLength = null;
 
-    public FrameStruct frameStruct = new FrameStruct();
     private ProcNode procNode = null;
+    private String id;
+    public FrameStruct frameStruct;
 
     public FrameNode()
     {
-        frameStruct.setId(this.getId());
+        id = UUID.randomUUID().toString();
+        System.out.println("## "+ id);
+        frameStruct = new FrameStruct(id);
     }
 
     public static Color getDefaultColor()
@@ -97,7 +101,6 @@ public class FrameNode extends CallNode
     @Override
     public JComponent createEditorComponent(Map<String, Object> properties)
     {
-//        return super.createEditorComponent(properties);
         return new FrameNodeMenu(this);
     }
 
@@ -339,5 +342,17 @@ public class FrameNode extends CallNode
     public Graph getSuperGraph()
     {
         return getMainOwner().getOwnedGraph();
+    }
+
+    @Override
+    public void setId(String id)
+    {
+        this.id = id;
+    }
+
+    @Override
+    public String getId()
+    {
+        return id;
     }
 }

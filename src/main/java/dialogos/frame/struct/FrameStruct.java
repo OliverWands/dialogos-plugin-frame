@@ -15,7 +15,7 @@ import java.util.*;
 
 public class FrameStruct implements IdentityObject
 {
-    private String id = UUID.randomUUID().toString();
+    private String id = null;
     private String name = null;
     private File grammarFile = null;
     private String helpPrompt = null;
@@ -23,8 +23,9 @@ public class FrameStruct implements IdentityObject
     private List<Grammar> loadedGrammars = new ArrayList<>();
     private final List<Grammar> usedGrammars = new ArrayList<>();
 
-    public FrameStruct()
+    public FrameStruct(String id)
     {
+        setId(id);
     }
 
     public void setGrammarsFromFile(File grammarFile)
@@ -173,11 +174,10 @@ public class FrameStruct implements IdentityObject
 
     public void writeToXML(XMLWriter writer)
     {
+        System.out.printf("####### %s", getId());
         if (this.isEdited())
         {
-            writer.openElement("frameStruct",
-                               new String[]{"uid", "name", "helpPrompt", "class"},
-                               new Object[]{getId(), getName(), getHelpPrompt(), getClass().getName()});
+            writer.openElement("frameStruct", new String[]{"uid", "name", "helpPrompt", "class"}, new Object[]{getId(), getName(), getHelpPrompt(), getClass().getName()});
 
             for (SlotStruct slotStruct : slotList)
             {

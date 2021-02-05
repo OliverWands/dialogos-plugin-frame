@@ -100,6 +100,7 @@ public class FillerNode extends Node
     public void setVariable(Slot variable)
     {
         this.variable = variable;
+        this.varID = variable.getId();
     }
 
     public void setFrameNode(FrameNode frameNode)
