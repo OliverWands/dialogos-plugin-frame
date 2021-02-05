@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<frameStruct name="Covid19Info" helpPrompt="Bitte nennen Sie einen Landkreis, ob Sie Fallzahlen oder Todesfälle erfahren möchten, ob die Informationen für die letzten sieben Tage oder insgesamt sein sollen und ob die Zahlen absolut, pro einhunderttausend Einwohner oder relativ zur Einwohnerzahl sein soll" class="dialogos.frame.struct.FrameStruct">
-	<slotStruct uid="9f91080e-ac0e-4538-80f5-b95e867ecce5" name="Landkreis" query="Bitte nennen Sie den Namen eines Landkreises" grammarName="Landkreis"/>
-	<slotStruct uid="d770526e-0350-4862-97a0-c6bad0bdcef6" name="FallTyp" query="Bitte geben Sie an, ob Sie Fallzahlen oder Todesfälle wissen möchten" grammarName="Datentyp"/>
-	<slotStruct uid="8ced7aae-db86-4c75-92cb-673726bd1cec" name="Zeitraum" query="Bitte wählen Sie zwischen den Daten der letzten sieben Tage und den gesamten bisher gesammelten Daten" grammarName="Zeitspanne"/>
-	<slotStruct uid="3e155ebb-428d-458b-9b71-d2139efb8c9e" name="RelativZu" query="Wählen Sie, ob die Zahlen in Bezug zur Einwohnerzahl einhunderttausend Einwohner oder absolut ausgewertet werden sollen" grammarName="Relation"/>
+<frameStruct uid="ac050c3e-25c9-42dc-bff3-8e364fa0fd92" name="Covid19Info" helpPrompt="Bitte nennen Sie einen Landkreis, ob Sie Fallzahlen oder Todesfälle erfahren möchten, ob die Informationen für die letzten sieben Tage oder insgesamt sein sollen und ob die Zahlen absolut, pro einhunderttausend Einwohner oder relativ zur Einwohnerzahl sein sollen." class="dialogos.frame.struct.FrameStruct">
+	<slotStruct uid="ae489278-acfb-44c2-bc65-46012bd71c27" name="Landkreis" query="Bitte nennen Sie den Namen eines Landkreises." grammarName="Landkreis"/>
+	<slotStruct uid="69502ea4-efc8-4fb9-813c-3da361c6e23d" name="FallTyp" query="Bitte geben Sie an, ob Sie Fallzahlen oder Todesfälle wissen möchten." grammarName="Datentyp"/>
+	<slotStruct uid="b4b2efe0-730b-4e0f-995d-5b7cf3c7bcc3" name="Zeitraum" query="Bitte wählen Sie zwischen den Daten der letzten sieben Tage und den gesamten bisher gesammelten Daten." grammarName="Zeitspanne"/>
+	<slotStruct uid="553b45ed-befb-4fd0-b30e-2299f9b8e6bd" name="RelativZu" query="Wählen Sie, ob die Zahlen in Bezug zur Einwohnerzahl einhunderttausend Einwohner oder absolut ausgewertet werden sollen." grammarName="Relation"/>
 	<grammar>
 		<name>Landkreis</name>
 		<value>
