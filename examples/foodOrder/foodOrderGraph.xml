@@ -14,8 +14,13 @@
 			<type>struct</type>
 			<value>undefined</value>
 		</variable>
-		<node uid="9cc6bd0b-07c8-4a02-b44a-4d93786cd109" class="dialogos.frame.FrameNode">
-			<graphics x="408" y="204" fill="#ffbb00"/>
+		<variable uid="RESULTIDf4a8d619-ec65-4dae-830d-b13fa9acfa83">
+			<name>RESULTFoodOrder</name>
+			<type>struct</type>
+			<value>undefined</value>
+		</variable>
+		<node uid="a662771a-efb7-4f55-b969-f8e682b4c6ea" class="dialogos.frame.FrameNode">
+			<graphics x="416" y="195" fill="#ffbb00"/>
 			<att name="title" type="string" value="Frame"/>
 			<att name="proc_uid" type="string" value="f4a8d619-ec65-4dae-830d-b13fa9acfa83"/>
 			<frameStruct uid="f4a8d619-ec65-4dae-830d-b13fa9acfa83" name="FoodOrder" helpPrompt="Enter your order consisting of main and side dish a drink and wether or not it is to go" class="dialogos.frame.struct.FrameStruct">
@@ -52,28 +57,28 @@
 			<att name="title" type="string" value="Start"/>
 		</node>
 		<node uid="f4a8d619-ec65-4dae-830d-b13fa9acfa83" class="com.clt.diamant.graph.nodes.ProcNode">
-			<graphics x="275" y="204" fill="#ffbb00"/>
+			<graphics x="283" y="195" fill="#ffbb00"/>
 			<att name="title" type="string" value="FoodOrder"/>
 			<att name="graph" type="object">
 				<graph directed="1" Graphic="1" Layout="points">
-					<att name="width" type="integer" value="750"/>
-					<att name="height" type="integer" value="1406"/>
+					<att name="width" type="integer" value="941"/>
+					<att name="height" type="integer" value="1031"/>
 					<groovyFunctions></groovyFunctions>
-					<grammar id="36687e23-8a40-43ac-b202-ea4592d70348">
+					<grammar id="c4b3fd42-4f56-4577-8737-0c832ed6dcdd">
 						<name>mainDish</name>
 						<value>root $input;$input = pasta | pizza | burger | curry | steak;</value>
 					</grammar>
-					<grammar id="44aa3a64-cd32-4967-82c2-68ed24b5eb81">
+					<grammar id="2a93bfb0-c5f4-495c-8851-17249ea7f19f">
 						<name>sideDish</name>
 						<value>root $input;$input = fries | french fries | baked potato | salad | wedges | curly fries;
         </value>
 					</grammar>
-					<grammar id="0549481e-ab1c-4dc5-8c58-fc92a7694ca1">
+					<grammar id="680f2187-c097-46a8-a92a-bcb9a8eb505e">
 						<name>drink</name>
 						<value>root $input;$input = wine | cola | water | beer | coffee | soda;
         </value>
 					</grammar>
-					<grammar id="2eb88926-0ff1-436a-a051-729ac526226d">
+					<grammar id="99981e2c-2c80-47e6-a654-0b2611072241">
 						<name>toGo</name>
 						<value>root $input;$input = to go | to eat here | here;</value>
 					</grammar>
@@ -122,107 +127,44 @@
 						<type>string</type>
 						<value>undefined</value>
 					</variable>
-					<node uid="0f8ddc7a-2e0d-4648-8d7f-ab4b2a44c370" class="dialogos.frame.nodes.FillerNode">
-						<graphics x="370" y="244" fill="#c0c0c0"/>
-						<att name="title" type="string" value="Filler"/>
-						<att name="slotIndex" type="integer" value="-1"/>
-						<att name="varID" type="string" value="INPUT_VAR_ID"/>
-						<att name="frameNodeID" type="string" value="9cc6bd0b-07c8-4a02-b44a-4d93786cd109"/>
-					</node>
-					<node uid="1d4d35df-b316-4446-af45-85a0527cd538" class="com.clt.diamant.graph.nodes.ConditionalNode">
-						<graphics x="345" y="792" fill="#c0c0c0"/>
-						<att name="title" type="string" value="Check Empty 21"/>
-						<att name="expression" type="string" value="FILLEDDRINK"/>
-					</node>
-					<node uid="205b3830-cba7-41f7-aa70-d94a10572092" class="dialogos.frame.nodes.StringInputNode">
-						<graphics x="602" y="999" fill="#c0c0c0"/>
+					<node uid="02b3cdae-5d03-4794-8b03-ecc6890e93ca" class="dialogos.frame.nodes.StringInputNode">
+						<graphics x="790" y="672" fill="#c0c0c0"/>
 						<att name="title" type="string" value="String Input"/>
 						<att name="varID" type="string" value="INPUT_VAR_ID"/>
 					</node>
-					<node uid="21eb44b9-88fa-49e3-9a23-416fea365adf" class="com.clt.diamant.graph.nodes.ConditionalNode">
-						<graphics x="345" y="378" fill="#c0c0c0"/>
-						<att name="title" type="string" value="Check Empty 01"/>
-						<att name="expression" type="string" value="FILLEDMAINDISH"/>
+					<node uid="05315b5c-74d0-4ba8-878e-4bec9ae7eff3" class="com.clt.diamant.graph.nodes.ReturnNode">
+						<graphics x="307" y="931" fill="#cc6063"/>
+						<att name="title" type="string" value="Failure"/>
 					</node>
-					<node uid="28a3c2f8-f23f-446c-950d-8b9b4833225a" class="dialogos.frame.nodes.StringInputNode">
-						<graphics x="602" y="792" fill="#c0c0c0"/>
-						<att name="title" type="string" value="String Input"/>
-						<att name="varID" type="string" value="INPUT_VAR_ID"/>
-					</node>
-					<node uid="37a35666-44e8-40cd-810c-50a2138e630a" class="com.clt.diamant.graph.nodes.ConditionalNode">
-						<graphics x="345" y="999" fill="#c0c0c0"/>
+					<node uid="0be6966a-d291-4cd5-9d51-a9355f2454aa" class="com.clt.diamant.graph.nodes.ConditionalNode">
+						<graphics x="533" y="672" fill="#c0c0c0"/>
 						<att name="title" type="string" value="Check Empty 31"/>
 						<att name="expression" type="string" value="FILLEDTOGO"/>
 					</node>
-					<node uid="3b9967cc-d2ad-4674-a8f1-25ad5d16add5" class="com.clt.diamant.graph.nodes.ConditionalNode">
-						<graphics x="345" y="585" fill="#c0c0c0"/>
-						<att name="title" type="string" value="Check Empty 11"/>
-						<att name="expression" type="string" value="FILLEDSIDEDISH"/>
+					<node uid="12691ad5-298d-4bac-953d-12709d399951" class="com.clt.diamant.graph.nodes.GotoNode">
+						<graphics x="304" y="740" fill="#cc6063"/>
+						<att name="title" type="string" value="Canceled"/>
+						<att name="label_uid" type="string" value="d8792dcc-2fc4-478f-9215-b65886722b49"/>
 					</node>
-					<node uid="468f921c-fd70-4fa0-ad01-08fff6b112cc" class="com.clt.diamant.graph.nodes.StartNode">
-						<graphics x="370" y="40" fill="#9999ff"/>
-						<att name="title" type="string" value="Start"/>
+					<node uid="23f7125e-8e5b-426b-985e-ecf3d447ce0e" class="com.clt.diamant.graph.nodes.GotoNode">
+						<graphics x="804" y="481" fill="#cc6063"/>
+						<att name="title" type="string" value="Canceled"/>
+						<att name="label_uid" type="string" value="d8792dcc-2fc4-478f-9215-b65886722b49"/>
 					</node>
-					<node uid="5a2aea45-d42b-468f-8a75-bc1083580566" class="de.saar.coli.dialogos.marytts.plugin.TTSNode">
-						<graphics x="470" y="585" fill="#00b200"/>
-						<att name="title" type="string" value="Query SideDish"/>
-						<att name="prompt" type="text">
-							<value>Which side dish do you want</value>
-						</att>
-						<att name="prompt_type" type="string" value="text"/>
-						<att name="wait" type="boolean" value="1"/>
-						<att name="await_silence" type="boolean" value="0"/>
-					</node>
-					<node uid="5f83d475-f315-496c-9b5c-eb8e3b939566" class="de.saar.coli.dialogos.marytts.plugin.TTSNode">
-						<graphics x="355" y="108" fill="#00b200"/>
-						<att name="title" type="string" value="Help Prompt"/>
-						<att name="prompt" type="text">
-							<value>Enter your order consisting of main and side dish a drink and wether or not it is to go</value>
-						</att>
-						<att name="prompt_type" type="string" value="text"/>
-						<att name="wait" type="boolean" value="1"/>
-						<att name="await_silence" type="boolean" value="0"/>
-					</node>
-					<node uid="752ec9cb-bd5e-4073-aac2-3d236195a804" class="dialogos.frame.nodes.FillerNode">
-						<graphics x="495" y="447" fill="#c0c0c0"/>
+					<node uid="34b44a2b-b2ad-4603-b098-70ba25be9f54" class="dialogos.frame.nodes.FillerNode">
+						<graphics x="183" y="482" fill="#c0c0c0"/>
 						<att name="title" type="string" value="Filler"/>
 						<att name="slotIndex" type="integer" value="0"/>
 						<att name="varID" type="string" value="INPUT_VAR_ID"/>
-						<att name="frameNodeID" type="string" value="9cc6bd0b-07c8-4a02-b44a-4d93786cd109"/>
+						<att name="frameNodeID" type="string" value="a662771a-efb7-4f55-b969-f8e682b4c6ea"/>
 					</node>
-					<node uid="8f3fe670-9dec-4f1b-ae77-9e5aadf432f8" class="com.clt.diamant.graph.nodes.ReturnNode">
-						<graphics x="370" y="1206" fill="#000000"/>
-						<att name="title" type="string" value="Return"/>
-					</node>
-					<node uid="9bd76e4a-c251-48a2-b424-c0602bc214d5" class="de.saar.coli.dialogos.marytts.plugin.TTSNode">
-						<graphics x="470" y="378" fill="#00b200"/>
-						<att name="title" type="string" value="Query MainDish"/>
-						<att name="prompt" type="text">
-							<value>Which main dish do you want</value>
-						</att>
-						<att name="prompt_type" type="string" value="text"/>
-						<att name="wait" type="boolean" value="1"/>
-						<att name="await_silence" type="boolean" value="0"/>
-					</node>
-					<node uid="9ee10240-24bd-48e1-9c4a-472c6cc18d3a" class="de.saar.coli.dialogos.marytts.plugin.TTSNode">
-						<graphics x="480" y="792" fill="#00b200"/>
-						<att name="title" type="string" value="Query Drink"/>
-						<att name="prompt" type="text">
-							<value>What do you want to drink</value>
-						</att>
-						<att name="prompt_type" type="string" value="text"/>
-						<att name="wait" type="boolean" value="1"/>
-						<att name="await_silence" type="boolean" value="0"/>
-					</node>
-					<node uid="b7b2755d-7993-41b3-82df-bac4ff1e358e" class="dialogos.frame.nodes.FillerNode">
-						<graphics x="495" y="654" fill="#c0c0c0"/>
-						<att name="title" type="string" value="Filler"/>
-						<att name="slotIndex" type="integer" value="1"/>
+					<node uid="36b92c89-a133-4e2d-81eb-da2b0c206b76" class="dialogos.frame.nodes.StringInputNode">
+						<graphics x="790" y="413" fill="#c0c0c0"/>
+						<att name="title" type="string" value="String Input"/>
 						<att name="varID" type="string" value="INPUT_VAR_ID"/>
-						<att name="frameNodeID" type="string" value="9cc6bd0b-07c8-4a02-b44a-4d93786cd109"/>
 					</node>
-					<node uid="ba216a4e-867c-4eda-8fdb-fe455effa14f" class="de.saar.coli.dialogos.marytts.plugin.TTSNode">
-						<graphics x="484" y="999" fill="#00b200"/>
+					<node uid="36d02003-be8c-484e-8ff2-a8d367b1651f" class="de.saar.coli.dialogos.marytts.plugin.TTSNode">
+						<graphics x="672" y="672" fill="#00b200"/>
 						<att name="title" type="string" value="Query ToGo"/>
 						<att name="prompt" type="text">
 							<value>Is that to go or for eating here</value>
@@ -231,105 +173,217 @@
 						<att name="wait" type="boolean" value="1"/>
 						<att name="await_silence" type="boolean" value="0"/>
 					</node>
-					<node uid="ba3db886-5b2b-4437-b9e2-0a027f639fe4" class="dialogos.frame.nodes.FillerNode">
-						<graphics x="495" y="1068" fill="#c0c0c0"/>
+					<node uid="40f43f90-773f-4199-8990-ecb1f6a5eb20" class="dialogos.frame.nodes.FillerNode">
+						<graphics x="683" y="741" fill="#c0c0c0"/>
 						<att name="title" type="string" value="Filler"/>
 						<att name="slotIndex" type="integer" value="3"/>
 						<att name="varID" type="string" value="INPUT_VAR_ID"/>
-						<att name="frameNodeID" type="string" value="9cc6bd0b-07c8-4a02-b44a-4d93786cd109"/>
+						<att name="frameNodeID" type="string" value="a662771a-efb7-4f55-b969-f8e682b4c6ea"/>
 					</node>
-					<node uid="c8d9ba58-a5a2-4105-a183-777b036f14e9" class="dialogos.frame.nodes.StringInputNode">
-						<graphics x="602" y="585" fill="#c0c0c0"/>
+					<node uid="4d6f96e6-8d47-475b-9bb1-6d49f8b7d0dd" class="dialogos.frame.nodes.FillerNode">
+						<graphics x="58" y="244" fill="#c0c0c0"/>
+						<att name="title" type="string" value="Filler"/>
+						<att name="slotIndex" type="integer" value="0"/>
+						<att name="varID" type="string" value="INPUT_VAR_ID"/>
+						<att name="frameNodeID" type="string" value="a662771a-efb7-4f55-b969-f8e682b4c6ea"/>
+					</node>
+					<node uid="4f35f51a-af98-426e-815d-de3b292cb2ad" class="dialogos.frame.nodes.StringInputNode">
+						<graphics x="40" y="176" fill="#c0c0c0"/>
 						<att name="title" type="string" value="String Input"/>
 						<att name="varID" type="string" value="INPUT_VAR_ID"/>
 					</node>
-					<node uid="c9bd2db5-4110-4053-bc5d-55fdd81ccb09" class="dialogos.frame.nodes.StringInputNode">
-						<graphics x="602" y="378" fill="#c0c0c0"/>
-						<att name="title" type="string" value="String Input"/>
-						<att name="varID" type="string" value="INPUT_VAR_ID"/>
+					<node uid="652bb45a-a0a8-475d-861b-c1e17b773368" class="de.saar.coli.dialogos.marytts.plugin.TTSNode">
+						<graphics x="158" y="413" fill="#00b200"/>
+						<att name="title" type="string" value="Query MainDish"/>
+						<att name="prompt" type="text">
+							<value>Which main dish do you want</value>
+						</att>
+						<att name="prompt_type" type="string" value="text"/>
+						<att name="wait" type="boolean" value="1"/>
+						<att name="await_silence" type="boolean" value="0"/>
 					</node>
-					<node uid="ce1451da-ac2c-43c0-b5ee-b50dcf93f5af" class="dialogos.frame.nodes.FillerNode">
-						<graphics x="495" y="861" fill="#c0c0c0"/>
+					<node uid="72242929-a791-4aa2-9dfe-c23588d597b1" class="com.clt.diamant.graph.nodes.GotoNode">
+						<graphics x="804" y="740" fill="#cc6063"/>
+						<att name="title" type="string" value="Canceled"/>
+						<att name="label_uid" type="string" value="d8792dcc-2fc4-478f-9215-b65886722b49"/>
+					</node>
+					<node uid="776d476a-f318-4992-adc3-25af53b6583c" class="com.clt.diamant.graph.nodes.GotoNode">
+						<graphics x="179" y="176" fill="#cc6063"/>
+						<att name="title" type="string" value="Canceled"/>
+						<att name="label_uid" type="string" value="d8792dcc-2fc4-478f-9215-b65886722b49"/>
+					</node>
+					<node uid="78dfdc44-34a4-4020-a97b-b73ea20e275e" class="de.saar.coli.dialogos.marytts.plugin.TTSNode">
+						<graphics x="658" y="413" fill="#00b200"/>
+						<att name="title" type="string" value="Query SideDish"/>
+						<att name="prompt" type="text">
+							<value>Which side dish do you want</value>
+						</att>
+						<att name="prompt_type" type="string" value="text"/>
+						<att name="wait" type="boolean" value="1"/>
+						<att name="await_silence" type="boolean" value="0"/>
+					</node>
+					<node uid="7bde91a4-4b52-4dc1-bc8a-b2580a4a8b7a" class="com.clt.diamant.graph.nodes.ConditionalNode">
+						<graphics x="33" y="672" fill="#c0c0c0"/>
+						<att name="title" type="string" value="Check Empty 21"/>
+						<att name="expression" type="string" value="FILLEDDRINK"/>
+					</node>
+					<node uid="96eca972-7f53-417f-aff3-f25b00c607a8" class="com.clt.diamant.graph.nodes.ReturnNode">
+						<graphics x="57" y="931" fill="#59a869"/>
+						<att name="title" type="string" value="Success"/>
+					</node>
+					<node uid="97d7fd3e-13d8-4aaf-9f7c-9b18286e75ec" class="dialogos.frame.nodes.FillerNode">
+						<graphics x="683" y="482" fill="#c0c0c0"/>
+						<att name="title" type="string" value="Filler"/>
+						<att name="slotIndex" type="integer" value="1"/>
+						<att name="varID" type="string" value="INPUT_VAR_ID"/>
+						<att name="frameNodeID" type="string" value="a662771a-efb7-4f55-b969-f8e682b4c6ea"/>
+					</node>
+					<node uid="9ffea9bc-4f2c-4470-8f5b-0613921d8843" class="dialogos.frame.nodes.FillerNode">
+						<graphics x="183" y="741" fill="#c0c0c0"/>
 						<att name="title" type="string" value="Filler"/>
 						<att name="slotIndex" type="integer" value="2"/>
 						<att name="varID" type="string" value="INPUT_VAR_ID"/>
-						<att name="frameNodeID" type="string" value="9cc6bd0b-07c8-4a02-b44a-4d93786cd109"/>
+						<att name="frameNodeID" type="string" value="a662771a-efb7-4f55-b969-f8e682b4c6ea"/>
 					</node>
-					<node uid="eb17225f-71be-4c0d-969b-3a5af86a6627" class="dialogos.frame.nodes.StringInputNode">
-						<graphics x="352" y="176" fill="#c0c0c0"/>
+					<node uid="a07d22f6-4e3f-4535-8830-b4a5f9393891" class="com.clt.diamant.graph.nodes.GotoNode">
+						<graphics x="304" y="481" fill="#cc6063"/>
+						<att name="title" type="string" value="Canceled"/>
+						<att name="label_uid" type="string" value="d8792dcc-2fc4-478f-9215-b65886722b49"/>
+					</node>
+					<node uid="a2fd0862-cc44-487d-801f-f189f58cb178" class="de.saar.coli.dialogos.marytts.plugin.TTSNode">
+						<graphics x="168" y="672" fill="#00b200"/>
+						<att name="title" type="string" value="Query Drink"/>
+						<att name="prompt" type="text">
+							<value>What do you want to drink</value>
+						</att>
+						<att name="prompt_type" type="string" value="text"/>
+						<att name="wait" type="boolean" value="1"/>
+						<att name="await_silence" type="boolean" value="0"/>
+					</node>
+					<node uid="a57a2f4b-ad86-4735-bcfb-b140cdec58a7" class="dialogos.frame.nodes.StringInputNode">
+						<graphics x="290" y="413" fill="#c0c0c0"/>
 						<att name="title" type="string" value="String Input"/>
 						<att name="varID" type="string" value="INPUT_VAR_ID"/>
 					</node>
-					<edge src="0f8ddc7a-2e0d-4648-8d7f-ab4b2a44c370" tgt="21eb44b9-88fa-49e3-9a23-416fea365adf">
+					<node uid="b03dba14-bfbf-4665-8bad-2110379c8345" class="com.clt.diamant.graph.nodes.ConditionalNode">
+						<graphics x="533" y="413" fill="#c0c0c0"/>
+						<att name="title" type="string" value="Check Empty 11"/>
+						<att name="expression" type="string" value="FILLEDSIDEDISH"/>
+					</node>
+					<node uid="c7c12a54-c64f-42db-a47b-5b9d870a3bfc" class="dialogos.frame.nodes.StringInputNode">
+						<graphics x="290" y="672" fill="#c0c0c0"/>
+						<att name="title" type="string" value="String Input"/>
+						<att name="varID" type="string" value="INPUT_VAR_ID"/>
+					</node>
+					<node uid="d8792dcc-2fc4-478f-9215-b65886722b49" class="com.clt.diamant.graph.nodes.LabelNode">
+						<graphics x="304" y="862" fill="#cc6063"/>
+						<att name="title" type="string" value="Canceled"/>
+					</node>
+					<node uid="dc1916cc-34e8-40df-b589-d1c3d1000384" class="com.clt.diamant.graph.nodes.ConditionalNode">
+						<graphics x="33" y="413" fill="#c0c0c0"/>
+						<att name="title" type="string" value="Check Empty 01"/>
+						<att name="expression" type="string" value="FILLEDMAINDISH"/>
+					</node>
+					<node uid="e45f0945-28bc-4f3c-b279-251a6c4ff6a4" class="com.clt.diamant.graph.nodes.StartNode">
+						<graphics x="58" y="40" fill="#9999ff"/>
+						<att name="title" type="string" value="Start"/>
+					</node>
+					<node uid="eee66fdc-c7af-4d32-bd17-294d316f84b5" class="de.saar.coli.dialogos.marytts.plugin.TTSNode">
+						<graphics x="43" y="108" fill="#00b200"/>
+						<att name="title" type="string" value="Help Prompt"/>
+						<att name="prompt" type="text">
+							<value>Enter your order consisting of main and side dish a drink and wether or not it is to go</value>
+						</att>
+						<att name="prompt_type" type="string" value="text"/>
+						<att name="wait" type="boolean" value="1"/>
+						<att name="await_silence" type="boolean" value="0"/>
+					</node>
+					<edge src="02b3cdae-5d03-4794-8b03-ecc6890e93ca" tgt="40f43f90-773f-4199-8990-ecb1f6a5eb20">
 					</edge>
-					<edge src="1d4d35df-b316-4446-af45-85a0527cd538" tgt="37a35666-44e8-40cd-810c-50a2138e630a">
-						<att name="condition" type="string" value="FILLEDDRINK"/>
+					<edge src="02b3cdae-5d03-4794-8b03-ecc6890e93ca" tgt="72242929-a791-4aa2-9dfe-c23588d597b1">
 					</edge>
-					<edge src="1d4d35df-b316-4446-af45-85a0527cd538" tgt="9ee10240-24bd-48e1-9c4a-472c6cc18d3a">
-						<att name="condition" type="string" value="else"/>
-					</edge>
-					<edge src="205b3830-cba7-41f7-aa70-d94a10572092" tgt="ba3db886-5b2b-4437-b9e2-0a027f639fe4">
-					</edge>
-					<edge src="21eb44b9-88fa-49e3-9a23-416fea365adf" tgt="3b9967cc-d2ad-4674-a8f1-25ad5d16add5">
-						<att name="condition" type="string" value="FILLEDMAINDISH"/>
-					</edge>
-					<edge src="21eb44b9-88fa-49e3-9a23-416fea365adf" tgt="9bd76e4a-c251-48a2-b424-c0602bc214d5">
-						<att name="condition" type="string" value="else"/>
-					</edge>
-					<edge src="28a3c2f8-f23f-446c-950d-8b9b4833225a" tgt="ce1451da-ac2c-43c0-b5ee-b50dcf93f5af">
-					</edge>
-					<edge src="37a35666-44e8-40cd-810c-50a2138e630a" tgt="8f3fe670-9dec-4f1b-ae77-9e5aadf432f8">
+					<edge src="0be6966a-d291-4cd5-9d51-a9355f2454aa" tgt="96eca972-7f53-417f-aff3-f25b00c607a8">
 						<att name="condition" type="string" value="FILLEDTOGO"/>
 					</edge>
-					<edge src="37a35666-44e8-40cd-810c-50a2138e630a" tgt="ba216a4e-867c-4eda-8fdb-fe455effa14f">
+					<edge src="0be6966a-d291-4cd5-9d51-a9355f2454aa" tgt="36d02003-be8c-484e-8ff2-a8d367b1651f">
 						<att name="condition" type="string" value="else"/>
 					</edge>
-					<edge src="3b9967cc-d2ad-4674-a8f1-25ad5d16add5" tgt="1d4d35df-b316-4446-af45-85a0527cd538">
+					<edge src="34b44a2b-b2ad-4603-b098-70ba25be9f54" tgt="dc1916cc-34e8-40df-b589-d1c3d1000384">
+					</edge>
+					<edge src="36b92c89-a133-4e2d-81eb-da2b0c206b76" tgt="97d7fd3e-13d8-4aaf-9f7c-9b18286e75ec">
+					</edge>
+					<edge src="36b92c89-a133-4e2d-81eb-da2b0c206b76" tgt="23f7125e-8e5b-426b-985e-ecf3d447ce0e">
+					</edge>
+					<edge src="36d02003-be8c-484e-8ff2-a8d367b1651f" tgt="02b3cdae-5d03-4794-8b03-ecc6890e93ca">
+					</edge>
+					<edge src="40f43f90-773f-4199-8990-ecb1f6a5eb20" tgt="0be6966a-d291-4cd5-9d51-a9355f2454aa">
+					</edge>
+					<edge src="4d6f96e6-8d47-475b-9bb1-6d49f8b7d0dd" tgt="dc1916cc-34e8-40df-b589-d1c3d1000384">
+					</edge>
+					<edge src="4f35f51a-af98-426e-815d-de3b292cb2ad" tgt="4d6f96e6-8d47-475b-9bb1-6d49f8b7d0dd">
+					</edge>
+					<edge src="4f35f51a-af98-426e-815d-de3b292cb2ad" tgt="776d476a-f318-4992-adc3-25af53b6583c">
+					</edge>
+					<edge src="652bb45a-a0a8-475d-861b-c1e17b773368" tgt="a57a2f4b-ad86-4735-bcfb-b140cdec58a7">
+					</edge>
+					<edge src="78dfdc44-34a4-4020-a97b-b73ea20e275e" tgt="36b92c89-a133-4e2d-81eb-da2b0c206b76">
+					</edge>
+					<edge src="7bde91a4-4b52-4dc1-bc8a-b2580a4a8b7a" tgt="0be6966a-d291-4cd5-9d51-a9355f2454aa">
+						<att name="condition" type="string" value="FILLEDDRINK"/>
+					</edge>
+					<edge src="7bde91a4-4b52-4dc1-bc8a-b2580a4a8b7a" tgt="a2fd0862-cc44-487d-801f-f189f58cb178">
+						<att name="condition" type="string" value="else"/>
+					</edge>
+					<edge src="97d7fd3e-13d8-4aaf-9f7c-9b18286e75ec" tgt="b03dba14-bfbf-4665-8bad-2110379c8345">
+					</edge>
+					<edge src="9ffea9bc-4f2c-4470-8f5b-0613921d8843" tgt="7bde91a4-4b52-4dc1-bc8a-b2580a4a8b7a">
+					</edge>
+					<edge src="a2fd0862-cc44-487d-801f-f189f58cb178" tgt="c7c12a54-c64f-42db-a47b-5b9d870a3bfc">
+					</edge>
+					<edge src="a57a2f4b-ad86-4735-bcfb-b140cdec58a7" tgt="34b44a2b-b2ad-4603-b098-70ba25be9f54">
+					</edge>
+					<edge src="a57a2f4b-ad86-4735-bcfb-b140cdec58a7" tgt="a07d22f6-4e3f-4535-8830-b4a5f9393891">
+					</edge>
+					<edge src="b03dba14-bfbf-4665-8bad-2110379c8345" tgt="7bde91a4-4b52-4dc1-bc8a-b2580a4a8b7a">
 						<att name="condition" type="string" value="FILLEDSIDEDISH"/>
 					</edge>
-					<edge src="3b9967cc-d2ad-4674-a8f1-25ad5d16add5" tgt="5a2aea45-d42b-468f-8a75-bc1083580566">
+					<edge src="b03dba14-bfbf-4665-8bad-2110379c8345" tgt="78dfdc44-34a4-4020-a97b-b73ea20e275e">
 						<att name="condition" type="string" value="else"/>
 					</edge>
-					<edge src="468f921c-fd70-4fa0-ad01-08fff6b112cc" tgt="5f83d475-f315-496c-9b5c-eb8e3b939566">
+					<edge src="c7c12a54-c64f-42db-a47b-5b9d870a3bfc" tgt="9ffea9bc-4f2c-4470-8f5b-0613921d8843">
 					</edge>
-					<edge src="5a2aea45-d42b-468f-8a75-bc1083580566" tgt="c8d9ba58-a5a2-4105-a183-777b036f14e9">
+					<edge src="c7c12a54-c64f-42db-a47b-5b9d870a3bfc" tgt="12691ad5-298d-4bac-953d-12709d399951">
 					</edge>
-					<edge src="5f83d475-f315-496c-9b5c-eb8e3b939566" tgt="eb17225f-71be-4c0d-969b-3a5af86a6627">
+					<edge src="d8792dcc-2fc4-478f-9215-b65886722b49" tgt="05315b5c-74d0-4ba8-878e-4bec9ae7eff3">
 					</edge>
-					<edge src="752ec9cb-bd5e-4073-aac2-3d236195a804" tgt="21eb44b9-88fa-49e3-9a23-416fea365adf">
+					<edge src="dc1916cc-34e8-40df-b589-d1c3d1000384" tgt="b03dba14-bfbf-4665-8bad-2110379c8345">
+						<att name="condition" type="string" value="FILLEDMAINDISH"/>
 					</edge>
-					<edge src="9bd76e4a-c251-48a2-b424-c0602bc214d5" tgt="c9bd2db5-4110-4053-bc5d-55fdd81ccb09">
+					<edge src="dc1916cc-34e8-40df-b589-d1c3d1000384" tgt="652bb45a-a0a8-475d-861b-c1e17b773368">
+						<att name="condition" type="string" value="else"/>
 					</edge>
-					<edge src="9ee10240-24bd-48e1-9c4a-472c6cc18d3a" tgt="28a3c2f8-f23f-446c-950d-8b9b4833225a">
+					<edge src="e45f0945-28bc-4f3c-b279-251a6c4ff6a4" tgt="eee66fdc-c7af-4d32-bd17-294d316f84b5">
 					</edge>
-					<edge src="b7b2755d-7993-41b3-82df-bac4ff1e358e" tgt="3b9967cc-d2ad-4674-a8f1-25ad5d16add5">
+					<edge src="eee66fdc-c7af-4d32-bd17-294d316f84b5" tgt="4f35f51a-af98-426e-815d-de3b292cb2ad">
 					</edge>
-					<edge src="ba216a4e-867c-4eda-8fdb-fe455effa14f" tgt="205b3830-cba7-41f7-aa70-d94a10572092">
-					</edge>
-					<edge src="ba3db886-5b2b-4437-b9e2-0a027f639fe4" tgt="37a35666-44e8-40cd-810c-50a2138e630a">
-					</edge>
-					<edge src="c8d9ba58-a5a2-4105-a183-777b036f14e9" tgt="b7b2755d-7993-41b3-82df-bac4ff1e358e">
-					</edge>
-					<edge src="c9bd2db5-4110-4053-bc5d-55fdd81ccb09" tgt="752ec9cb-bd5e-4073-aac2-3d236195a804">
-					</edge>
-					<edge src="ce1451da-ac2c-43c0-b5ee-b50dcf93f5af" tgt="1d4d35df-b316-4446-af45-85a0527cd538">
-					</edge>
-					<edge src="eb17225f-71be-4c0d-969b-3a5af86a6627" tgt="0f8ddc7a-2e0d-4648-8d7f-ab4b2a44c370">
-					</edge>
-					<comment x="228" y="999" width="100" height="60" color="#ffff99">ToGo</comment>
-					<comment x="228" y="792" width="100" height="60" color="#ffff99">Drink</comment>
-					<comment x="228" y="585" width="100" height="60" color="#ffff99">SideDish</comment>
-					<comment x="228" y="378" width="100" height="60" color="#ffff99">MainDish</comment>
+					<comment x="541" y="740" width="100" height="60" color="#ffff99">ToGo</comment>
+					<comment x="41" y="740" width="100" height="60" color="#ffff99">Drink</comment>
+					<comment x="541" y="481" width="100" height="60" color="#ffff99">SideDish</comment>
+					<comment x="41" y="481" width="100" height="60" color="#ffff99">MainDish</comment>
 				</graph>
 			</att>
 			<att name="endpoints" type="list">
-				<att name="0" type="string" value="8f3fe670-9dec-4f1b-ae77-9e5aadf432f8"/>
+				<att name="0" type="string" value="96eca972-7f53-417f-aff3-f25b00c607a8"/>
+				<att name="1" type="string" value="05315b5c-74d0-4ba8-878e-4bec9ae7eff3"/>
 			</att>
 		</node>
-		<edge src="9cc6bd0b-07c8-4a02-b44a-4d93786cd109" tgt="b156ce9d-9238-42a5-b0ac-ac8dc7beba93">
-			<att name="condition" type="string" value="Return"/>
+		<edge src="a662771a-efb7-4f55-b969-f8e682b4c6ea" tgt="b156ce9d-9238-42a5-b0ac-ac8dc7beba93">
+			<att name="condition" type="string" value="Success"/>
 		</edge>
-		<edge src="dda9d49e-cbc3-47b6-8053-37bd96a2b1ea" tgt="9cc6bd0b-07c8-4a02-b44a-4d93786cd109">
+		<edge src="a662771a-efb7-4f55-b969-f8e682b4c6ea" tgt="b156ce9d-9238-42a5-b0ac-ac8dc7beba93">
+			<att name="condition" type="string" value="Failure"/>
+		</edge>
+		<edge src="dda9d49e-cbc3-47b6-8053-37bd96a2b1ea" tgt="a662771a-efb7-4f55-b969-f8e682b4c6ea">
 		</edge>
 	</graph>
 </wizard>

@@ -27,8 +27,13 @@
 			<type>struct</type>
 			<value>undefined</value>
 		</variable>
-		<node uid="340ad99f-7365-4af7-8bcb-34fb005fadd4" class="dialogos.frame.FrameNode">
-			<graphics x="368" y="129" fill="#ffbb00"/>
+		<variable uid="RESULTIDac050c3e-25c9-42dc-bff3-8e364fa0fd92">
+			<name>RESULTCovid19Info</name>
+			<type>struct</type>
+			<value>undefined</value>
+		</variable>
+		<node uid="42d0ac2d-45b6-4697-ba0c-50d54db75d5f" class="dialogos.frame.FrameNode">
+			<graphics x="372" y="124" fill="#ffbb00"/>
 			<att name="title" type="string" value="Frame"/>
 			<att name="proc_uid" type="string" value="ac050c3e-25c9-42dc-bff3-8e364fa0fd92"/>
 			<frameStruct uid="ac050c3e-25c9-42dc-bff3-8e364fa0fd92" name="Covid19Info" helpPrompt="Bitte nennen Sie einen Landkreis, ob Sie Fallzahlen oder Todesfälle erfahren möchten, ob die Informationen für die letzten sieben Tage oder insgesamt sein sollen und ob die Zahlen absolut, pro einhunderttausend Einwohner oder relativ zur Einwohnerzahl sein sollen." class="dialogos.frame.struct.FrameStruct">
@@ -114,7 +119,7 @@
 			<att name="title" type="string" value="Start"/>
 		</node>
 		<node uid="649d3d15-911f-4f8f-8b33-794d8580d5fc" class="com.clt.diamant.graph.nodes.EndNode">
-			<graphics x="370" y="449" fill="#9999ff"/>
+			<graphics x="511" y="449" fill="#9999ff"/>
 			<att name="title" type="string" value="End"/>
 		</node>
 		<node uid="a43b3460-b131-4515-a53b-9789d679c47b" class="dialogos.api.APINode">
@@ -126,14 +131,14 @@
 			<att name="returnVariable" type="string" value="apiReturn"/>
 		</node>
 		<node uid="ac050c3e-25c9-42dc-bff3-8e364fa0fd92" class="com.clt.diamant.graph.nodes.ProcNode">
-			<graphics x="223" y="126" fill="#ffbb00"/>
+			<graphics x="232" y="124" fill="#ffbb00"/>
 			<att name="title" type="string" value="Covid19Info"/>
 			<att name="graph" type="object">
 				<graph directed="1" Graphic="1" Layout="points">
 					<att name="width" type="integer" value="941"/>
 					<att name="height" type="integer" value="1031"/>
 					<groovyFunctions></groovyFunctions>
-					<grammar id="5cd40246-fb73-497e-b1f4-def23678d751">
+					<grammar id="fefa1ed4-3c7b-4c3b-9bec-e99cde05f112">
 						<name>Landkreis</name>
 						<value>
             root $input;
@@ -176,7 +181,7 @@
             Reinickendorf | Berlin Pankow | Berlin Neukölln | Berlin Lichtenberg | Berlin Spandau | Berlin Mitte;
         </value>
 					</grammar>
-					<grammar id="cd12b556-cab4-48f4-bb73-cc102912320e">
+					<grammar id="d8655af5-575e-44af-a1dd-f9abe76a5056">
 						<name>Datentyp</name>
 						<value>
             root $input;
@@ -185,7 +190,7 @@
             $infektionen = fälle | infektionen | infektionszahlen | infizierte | infizierten | fallzahlen;
         </value>
 					</grammar>
-					<grammar id="b9375e0b-0b6a-4bac-a8a6-0ba91456f529">
+					<grammar id="0c4f081c-9710-4aa0-ab89-cff6b94bf61c">
 						<name>Zeitspanne</name>
 						<value>
             root $input;
@@ -194,7 +199,7 @@
             $woche = sieben tage | woche;
         </value>
 					</grammar>
-					<grammar id="902204d5-5fda-4521-9f83-5ec70298934a">
+					<grammar id="cc5d1142-d0be-4102-be02-2a75cbdb785e">
 						<name>Relation</name>
 						<value>
             root $input;
@@ -249,104 +254,29 @@
 						<type>string</type>
 						<value>undefined</value>
 					</variable>
-					<node uid="169134e3-2a09-4244-81d2-54f867c944ba" class="de.saar.coli.dialogos.marytts.plugin.TTSNode">
-						<graphics x="43" y="108" fill="#00b200"/>
-						<att name="title" type="string" value="Help Prompt"/>
-						<att name="prompt" type="text">
-							<value>Bitte nennen Sie einen Landkreis, ob Sie Fallzahlen oder Todesfälle erfahren möchten, ob die Informationen für die letzten sieben Tage oder insgesamt sein sollen und ob die Zahlen absolut, pro einhunderttausend Einwohner oder relativ zur Einwohnerzahl sein sollen.</value>
-						</att>
-						<att name="prompt_type" type="string" value="text"/>
-						<att name="wait" type="boolean" value="1"/>
-						<att name="await_silence" type="boolean" value="0"/>
-					</node>
-					<node uid="16e03810-b657-4556-be80-fbb37e80d9eb" class="de.saar.coli.dialogos.marytts.plugin.TTSNode">
-						<graphics x="654" y="672" fill="#00b200"/>
-						<att name="title" type="string" value="Query RelativZu"/>
-						<att name="prompt" type="text">
-							<value>Wählen Sie, ob die Zahlen in Bezug zur Einwohnerzahl einhunderttausend Einwohner oder absolut ausgewertet werden sollen.</value>
-						</att>
-						<att name="prompt_type" type="string" value="text"/>
-						<att name="wait" type="boolean" value="1"/>
-						<att name="await_silence" type="boolean" value="0"/>
-					</node>
-					<node uid="1cd60246-84a9-4ebd-8724-bae2e755764c" class="dialogos.frame.nodes.FillerNode">
-						<graphics x="183" y="741" fill="#c0c0c0"/>
-						<att name="title" type="string" value="Filler"/>
-						<att name="slotIndex" type="integer" value="2"/>
-						<att name="varID" type="string" value="INPUT_VAR_ID"/>
-						<att name="frameNodeID" type="string" value="340ad99f-7365-4af7-8bcb-34fb005fadd4"/>
-					</node>
-					<node uid="453a8f00-e8b7-446f-87f3-df18a02bc8c4" class="com.clt.diamant.graph.nodes.ConditionalNode">
-						<graphics x="33" y="672" fill="#c0c0c0"/>
-						<att name="title" type="string" value="Check Empty 21"/>
-						<att name="expression" type="string" value="FILLEDZEITRAUM"/>
-					</node>
-					<node uid="64ae38e6-02e8-469b-a3a6-dc2119e4ca86" class="dialogos.frame.nodes.FillerNode">
-						<graphics x="58" y="244" fill="#c0c0c0"/>
-						<att name="title" type="string" value="Filler"/>
-						<att name="slotIndex" type="integer" value="0"/>
-						<att name="varID" type="string" value="INPUT_VAR_ID"/>
-						<att name="frameNodeID" type="string" value="340ad99f-7365-4af7-8bcb-34fb005fadd4"/>
-					</node>
-					<node uid="65c4db9a-28e7-4849-ad4b-972d09f68f9e" class="com.clt.diamant.graph.nodes.ConditionalNode">
-						<graphics x="533" y="672" fill="#c0c0c0"/>
-						<att name="title" type="string" value="Check Empty 31"/>
-						<att name="expression" type="string" value="FILLEDRELATIVZU"/>
-					</node>
-					<node uid="6605f89e-3ac9-4a5f-bad3-4e0506acbe92" class="dialogos.frame.nodes.StringInputNode">
-						<graphics x="790" y="413" fill="#c0c0c0"/>
+					<node uid="0c1f88ce-358a-4723-b31b-e6363da89a81" class="dialogos.frame.nodes.StringInputNode">
+						<graphics x="790" y="672" fill="#c0c0c0"/>
 						<att name="title" type="string" value="String Input"/>
 						<att name="varID" type="string" value="INPUT_VAR_ID"/>
 					</node>
-					<node uid="69644c7f-5599-4a99-8a60-46307853d494" class="dialogos.frame.nodes.StringInputNode">
-						<graphics x="290" y="413" fill="#c0c0c0"/>
-						<att name="title" type="string" value="String Input"/>
-						<att name="varID" type="string" value="INPUT_VAR_ID"/>
-					</node>
-					<node uid="6f94ecb4-36ae-4758-81d7-34019b44d17a" class="de.saar.coli.dialogos.marytts.plugin.TTSNode">
-						<graphics x="154" y="413" fill="#00b200"/>
-						<att name="title" type="string" value="Query Landkreis"/>
-						<att name="prompt" type="text">
-							<value>Bitte nennen Sie den Namen eines Landkreises.</value>
-						</att>
-						<att name="prompt_type" type="string" value="text"/>
-						<att name="wait" type="boolean" value="1"/>
-						<att name="await_silence" type="boolean" value="0"/>
-					</node>
-					<node uid="78fd6f73-e737-4fc2-97f0-d4ef66c57d5a" class="de.saar.coli.dialogos.marytts.plugin.TTSNode">
-						<graphics x="661" y="413" fill="#00b200"/>
-						<att name="title" type="string" value="Query FallTyp"/>
-						<att name="prompt" type="text">
-							<value>Bitte geben Sie an, ob Sie Fallzahlen oder Todesfälle wissen möchten.</value>
-						</att>
-						<att name="prompt_type" type="string" value="text"/>
-						<att name="wait" type="boolean" value="1"/>
-						<att name="await_silence" type="boolean" value="0"/>
-					</node>
-					<node uid="876c9d92-3e0d-4d06-afaf-a85607d3e861" class="dialogos.frame.nodes.StringInputNode">
-						<graphics x="290" y="672" fill="#c0c0c0"/>
-						<att name="title" type="string" value="String Input"/>
-						<att name="varID" type="string" value="INPUT_VAR_ID"/>
-					</node>
-					<node uid="91569211-6979-4afb-96aa-1878a9061f7c" class="com.clt.diamant.graph.nodes.StartNode">
-						<graphics x="58" y="40" fill="#9999ff"/>
-						<att name="title" type="string" value="Start"/>
-					</node>
-					<node uid="a93e34de-e9b5-4b0b-b6fe-1e97f965d6d1" class="dialogos.frame.nodes.FillerNode">
-						<graphics x="683" y="482" fill="#c0c0c0"/>
-						<att name="title" type="string" value="Filler"/>
-						<att name="slotIndex" type="integer" value="1"/>
-						<att name="varID" type="string" value="INPUT_VAR_ID"/>
-						<att name="frameNodeID" type="string" value="340ad99f-7365-4af7-8bcb-34fb005fadd4"/>
-					</node>
-					<node uid="bb422a15-ce99-4c87-b3b8-f86222a8e64a" class="dialogos.frame.nodes.FillerNode">
+					<node uid="1332ddb9-ae15-446d-a551-e7b13fac77bf" class="dialogos.frame.nodes.FillerNode">
 						<graphics x="183" y="482" fill="#c0c0c0"/>
 						<att name="title" type="string" value="Filler"/>
 						<att name="slotIndex" type="integer" value="0"/>
 						<att name="varID" type="string" value="INPUT_VAR_ID"/>
-						<att name="frameNodeID" type="string" value="340ad99f-7365-4af7-8bcb-34fb005fadd4"/>
+						<att name="frameNodeID" type="string" value="42d0ac2d-45b6-4697-ba0c-50d54db75d5f"/>
 					</node>
-					<node uid="cd984c30-091d-4aed-9a27-96352cae1dd0" class="de.saar.coli.dialogos.marytts.plugin.TTSNode">
+					<node uid="1f7f9267-ae54-4c7f-908b-fcf544389107" class="com.clt.diamant.graph.nodes.ConditionalNode">
+						<graphics x="533" y="413" fill="#c0c0c0"/>
+						<att name="title" type="string" value="Check Empty 11"/>
+						<att name="expression" type="string" value="FILLEDFALLTYP"/>
+					</node>
+					<node uid="23f8e6c5-69fb-44cb-b4c1-b3f45ae8f5e2" class="dialogos.frame.nodes.StringInputNode">
+						<graphics x="40" y="176" fill="#c0c0c0"/>
+						<att name="title" type="string" value="String Input"/>
+						<att name="varID" type="string" value="INPUT_VAR_ID"/>
+					</node>
+					<node uid="29907342-46c0-4ffa-8026-42448d6f5ba0" class="de.saar.coli.dialogos.marytts.plugin.TTSNode">
 						<graphics x="158" y="672" fill="#00b200"/>
 						<att name="title" type="string" value="Query Zeitraum"/>
 						<att name="prompt" type="text">
@@ -356,101 +286,222 @@
 						<att name="wait" type="boolean" value="1"/>
 						<att name="await_silence" type="boolean" value="0"/>
 					</node>
-					<node uid="d28551fd-b7e7-4013-9893-9d65324a0abd" class="dialogos.frame.nodes.FillerNode">
+					<node uid="29bae6a4-2f03-45dd-9689-ea9ccc8efffd" class="de.saar.coli.dialogos.marytts.plugin.TTSNode">
+						<graphics x="154" y="413" fill="#00b200"/>
+						<att name="title" type="string" value="Query Landkreis"/>
+						<att name="prompt" type="text">
+							<value>Bitte nennen Sie den Namen eines Landkreises.</value>
+						</att>
+						<att name="prompt_type" type="string" value="text"/>
+						<att name="wait" type="boolean" value="1"/>
+						<att name="await_silence" type="boolean" value="0"/>
+					</node>
+					<node uid="34f50beb-dcb5-4bab-a387-253c4b7657cb" class="com.clt.diamant.graph.nodes.ConditionalNode">
+						<graphics x="533" y="672" fill="#c0c0c0"/>
+						<att name="title" type="string" value="Check Empty 31"/>
+						<att name="expression" type="string" value="FILLEDRELATIVZU"/>
+					</node>
+					<node uid="43595ee9-47fc-4860-b66b-087cb45524df" class="dialogos.frame.nodes.FillerNode">
+						<graphics x="683" y="482" fill="#c0c0c0"/>
+						<att name="title" type="string" value="Filler"/>
+						<att name="slotIndex" type="integer" value="1"/>
+						<att name="varID" type="string" value="INPUT_VAR_ID"/>
+						<att name="frameNodeID" type="string" value="42d0ac2d-45b6-4697-ba0c-50d54db75d5f"/>
+					</node>
+					<node uid="47ff78cb-096a-4c9c-af23-d2761561e481" class="dialogos.frame.nodes.StringInputNode">
+						<graphics x="290" y="672" fill="#c0c0c0"/>
+						<att name="title" type="string" value="String Input"/>
+						<att name="varID" type="string" value="INPUT_VAR_ID"/>
+					</node>
+					<node uid="4e9b0f34-33c3-4558-a4d8-a8ac2ae9c476" class="dialogos.frame.nodes.FillerNode">
 						<graphics x="683" y="741" fill="#c0c0c0"/>
 						<att name="title" type="string" value="Filler"/>
 						<att name="slotIndex" type="integer" value="3"/>
 						<att name="varID" type="string" value="INPUT_VAR_ID"/>
-						<att name="frameNodeID" type="string" value="340ad99f-7365-4af7-8bcb-34fb005fadd4"/>
+						<att name="frameNodeID" type="string" value="42d0ac2d-45b6-4697-ba0c-50d54db75d5f"/>
 					</node>
-					<node uid="dc86bb7e-f301-4d31-98e3-7d3e1974b168" class="com.clt.diamant.graph.nodes.ConditionalNode">
-						<graphics x="533" y="413" fill="#c0c0c0"/>
-						<att name="title" type="string" value="Check Empty 11"/>
-						<att name="expression" type="string" value="FILLEDFALLTYP"/>
+					<node uid="5d117d65-0370-4361-9fdf-b7a049e636eb" class="dialogos.frame.nodes.FillerNode">
+						<graphics x="58" y="244" fill="#c0c0c0"/>
+						<att name="title" type="string" value="Filler"/>
+						<att name="slotIndex" type="integer" value="0"/>
+						<att name="varID" type="string" value="INPUT_VAR_ID"/>
+						<att name="frameNodeID" type="string" value="42d0ac2d-45b6-4697-ba0c-50d54db75d5f"/>
 					</node>
-					<node uid="dd8bfc23-4315-41d5-bd37-738a416509e5" class="dialogos.frame.nodes.StringInputNode">
-						<graphics x="40" y="176" fill="#c0c0c0"/>
+					<node uid="62a2e4c6-1679-43d1-954b-f101afa91067" class="com.clt.diamant.graph.nodes.StartNode">
+						<graphics x="58" y="40" fill="#9999ff"/>
+						<att name="title" type="string" value="Start"/>
+					</node>
+					<node uid="64bc75bd-6d0f-4eec-b349-de011dfcfb1d" class="com.clt.diamant.graph.nodes.ReturnNode">
+						<graphics x="307" y="931" fill="#cc6063"/>
+						<att name="title" type="string" value="Failure"/>
+					</node>
+					<node uid="653d5c52-7163-4226-bbda-131beca3eb90" class="dialogos.frame.nodes.StringInputNode">
+						<graphics x="790" y="413" fill="#c0c0c0"/>
 						<att name="title" type="string" value="String Input"/>
 						<att name="varID" type="string" value="INPUT_VAR_ID"/>
 					</node>
-					<node uid="f1e06726-3042-4c4e-ba1f-d7fd8fb91c41" class="dialogos.frame.nodes.StringInputNode">
-						<graphics x="790" y="672" fill="#c0c0c0"/>
-						<att name="title" type="string" value="String Input"/>
-						<att name="varID" type="string" value="INPUT_VAR_ID"/>
+					<node uid="6d5e881f-5cce-4c7d-824a-feb5252c54a2" class="com.clt.diamant.graph.nodes.GotoNode">
+						<graphics x="304" y="481" fill="#cc6063"/>
+						<att name="title" type="string" value="Canceled"/>
+						<att name="label_uid" type="string" value="c60e9eea-4dae-42a2-a795-072ac1b208d9"/>
 					</node>
-					<node uid="f74a9df3-7a69-4010-8485-1872938f9e33" class="com.clt.diamant.graph.nodes.ConditionalNode">
+					<node uid="965722da-8be9-4d30-9a7e-d8cd07c227f2" class="com.clt.diamant.graph.nodes.ReturnNode">
+						<graphics x="57" y="931" fill="#59a869"/>
+						<att name="title" type="string" value="Success"/>
+					</node>
+					<node uid="9834aee2-b194-4879-8576-0a2d5e803468" class="com.clt.diamant.graph.nodes.GotoNode">
+						<graphics x="304" y="740" fill="#cc6063"/>
+						<att name="title" type="string" value="Canceled"/>
+						<att name="label_uid" type="string" value="c60e9eea-4dae-42a2-a795-072ac1b208d9"/>
+					</node>
+					<node uid="ac861ddd-6132-4e4d-b782-ecc1f5ca38cf" class="de.saar.coli.dialogos.marytts.plugin.TTSNode">
+						<graphics x="43" y="108" fill="#00b200"/>
+						<att name="title" type="string" value="Help Prompt"/>
+						<att name="prompt" type="text">
+							<value>Bitte nennen Sie einen Landkreis, ob Sie Fallzahlen oder Todesfälle erfahren möchten, ob die Informationen für die letzten sieben Tage oder insgesamt sein sollen und ob die Zahlen absolut, pro einhunderttausend Einwohner oder relativ zur Einwohnerzahl sein sollen.</value>
+						</att>
+						<att name="prompt_type" type="string" value="text"/>
+						<att name="wait" type="boolean" value="1"/>
+						<att name="await_silence" type="boolean" value="0"/>
+					</node>
+					<node uid="affaac5a-290a-41bb-ac5a-aba4717dc369" class="com.clt.diamant.graph.nodes.ConditionalNode">
+						<graphics x="33" y="672" fill="#c0c0c0"/>
+						<att name="title" type="string" value="Check Empty 21"/>
+						<att name="expression" type="string" value="FILLEDZEITRAUM"/>
+					</node>
+					<node uid="b81ad2d7-5cbb-4ca0-91d1-752f2a1646c3" class="de.saar.coli.dialogos.marytts.plugin.TTSNode">
+						<graphics x="654" y="672" fill="#00b200"/>
+						<att name="title" type="string" value="Query RelativZu"/>
+						<att name="prompt" type="text">
+							<value>Wählen Sie, ob die Zahlen in Bezug zur Einwohnerzahl einhunderttausend Einwohner oder absolut ausgewertet werden sollen.</value>
+						</att>
+						<att name="prompt_type" type="string" value="text"/>
+						<att name="wait" type="boolean" value="1"/>
+						<att name="await_silence" type="boolean" value="0"/>
+					</node>
+					<node uid="bf7a4d3a-9e3f-4063-bb7e-6a579c782900" class="com.clt.diamant.graph.nodes.ConditionalNode">
 						<graphics x="33" y="413" fill="#c0c0c0"/>
 						<att name="title" type="string" value="Check Empty 01"/>
 						<att name="expression" type="string" value="FILLEDLANDKREIS"/>
 					</node>
-					<node uid="ff29c837-bfc8-4520-ad22-f2477ba374b5" class="com.clt.diamant.graph.nodes.ReturnNode">
-						<graphics x="58" y="931" fill="#000000"/>
-						<att name="title" type="string" value="Return"/>
+					<node uid="c60e9eea-4dae-42a2-a795-072ac1b208d9" class="com.clt.diamant.graph.nodes.LabelNode">
+						<graphics x="304" y="862" fill="#cc6063"/>
+						<att name="title" type="string" value="Canceled"/>
 					</node>
-					<edge src="169134e3-2a09-4244-81d2-54f867c944ba" tgt="dd8bfc23-4315-41d5-bd37-738a416509e5">
+					<node uid="c7968c44-31fc-402a-a55a-873e16dfe5c7" class="dialogos.frame.nodes.FillerNode">
+						<graphics x="183" y="741" fill="#c0c0c0"/>
+						<att name="title" type="string" value="Filler"/>
+						<att name="slotIndex" type="integer" value="2"/>
+						<att name="varID" type="string" value="INPUT_VAR_ID"/>
+						<att name="frameNodeID" type="string" value="42d0ac2d-45b6-4697-ba0c-50d54db75d5f"/>
+					</node>
+					<node uid="cf3e8e82-b74c-4cdf-971b-635c1725dd32" class="dialogos.frame.nodes.StringInputNode">
+						<graphics x="290" y="413" fill="#c0c0c0"/>
+						<att name="title" type="string" value="String Input"/>
+						<att name="varID" type="string" value="INPUT_VAR_ID"/>
+					</node>
+					<node uid="da54ccf8-711b-4a96-9c34-3276d0353c9b" class="de.saar.coli.dialogos.marytts.plugin.TTSNode">
+						<graphics x="661" y="413" fill="#00b200"/>
+						<att name="title" type="string" value="Query FallTyp"/>
+						<att name="prompt" type="text">
+							<value>Bitte geben Sie an, ob Sie Fallzahlen oder Todesfälle wissen möchten.</value>
+						</att>
+						<att name="prompt_type" type="string" value="text"/>
+						<att name="wait" type="boolean" value="1"/>
+						<att name="await_silence" type="boolean" value="0"/>
+					</node>
+					<node uid="e6556815-d6b7-475c-b0d2-a1de2e78a3d3" class="com.clt.diamant.graph.nodes.GotoNode">
+						<graphics x="804" y="740" fill="#cc6063"/>
+						<att name="title" type="string" value="Canceled"/>
+						<att name="label_uid" type="string" value="c60e9eea-4dae-42a2-a795-072ac1b208d9"/>
+					</node>
+					<node uid="f1e0429c-2f95-4efa-9370-9de87a84672f" class="com.clt.diamant.graph.nodes.GotoNode">
+						<graphics x="179" y="176" fill="#cc6063"/>
+						<att name="title" type="string" value="Canceled"/>
+						<att name="label_uid" type="string" value="c60e9eea-4dae-42a2-a795-072ac1b208d9"/>
+					</node>
+					<node uid="fb3f7d4b-bb78-455e-a516-fdb19a79dc4e" class="com.clt.diamant.graph.nodes.GotoNode">
+						<graphics x="804" y="481" fill="#cc6063"/>
+						<att name="title" type="string" value="Canceled"/>
+						<att name="label_uid" type="string" value="c60e9eea-4dae-42a2-a795-072ac1b208d9"/>
+					</node>
+					<edge src="0c1f88ce-358a-4723-b31b-e6363da89a81" tgt="4e9b0f34-33c3-4558-a4d8-a8ac2ae9c476">
 					</edge>
-					<edge src="16e03810-b657-4556-be80-fbb37e80d9eb" tgt="f1e06726-3042-4c4e-ba1f-d7fd8fb91c41">
+					<edge src="0c1f88ce-358a-4723-b31b-e6363da89a81" tgt="e6556815-d6b7-475c-b0d2-a1de2e78a3d3">
 					</edge>
-					<edge src="1cd60246-84a9-4ebd-8724-bae2e755764c" tgt="453a8f00-e8b7-446f-87f3-df18a02bc8c4">
+					<edge src="1332ddb9-ae15-446d-a551-e7b13fac77bf" tgt="bf7a4d3a-9e3f-4063-bb7e-6a579c782900">
 					</edge>
-					<edge src="453a8f00-e8b7-446f-87f3-df18a02bc8c4" tgt="65c4db9a-28e7-4849-ad4b-972d09f68f9e">
-						<att name="condition" type="string" value="FILLEDZEITRAUM"/>
-					</edge>
-					<edge src="453a8f00-e8b7-446f-87f3-df18a02bc8c4" tgt="cd984c30-091d-4aed-9a27-96352cae1dd0">
-						<att name="condition" type="string" value="else"/>
-					</edge>
-					<edge src="64ae38e6-02e8-469b-a3a6-dc2119e4ca86" tgt="f74a9df3-7a69-4010-8485-1872938f9e33">
-					</edge>
-					<edge src="65c4db9a-28e7-4849-ad4b-972d09f68f9e" tgt="ff29c837-bfc8-4520-ad22-f2477ba374b5">
-						<att name="condition" type="string" value="FILLEDRELATIVZU"/>
-					</edge>
-					<edge src="65c4db9a-28e7-4849-ad4b-972d09f68f9e" tgt="16e03810-b657-4556-be80-fbb37e80d9eb">
-						<att name="condition" type="string" value="else"/>
-					</edge>
-					<edge src="6605f89e-3ac9-4a5f-bad3-4e0506acbe92" tgt="a93e34de-e9b5-4b0b-b6fe-1e97f965d6d1">
-					</edge>
-					<edge src="69644c7f-5599-4a99-8a60-46307853d494" tgt="bb422a15-ce99-4c87-b3b8-f86222a8e64a">
-					</edge>
-					<edge src="6f94ecb4-36ae-4758-81d7-34019b44d17a" tgt="69644c7f-5599-4a99-8a60-46307853d494">
-					</edge>
-					<edge src="78fd6f73-e737-4fc2-97f0-d4ef66c57d5a" tgt="6605f89e-3ac9-4a5f-bad3-4e0506acbe92">
-					</edge>
-					<edge src="876c9d92-3e0d-4d06-afaf-a85607d3e861" tgt="1cd60246-84a9-4ebd-8724-bae2e755764c">
-					</edge>
-					<edge src="91569211-6979-4afb-96aa-1878a9061f7c" tgt="169134e3-2a09-4244-81d2-54f867c944ba">
-					</edge>
-					<edge src="a93e34de-e9b5-4b0b-b6fe-1e97f965d6d1" tgt="dc86bb7e-f301-4d31-98e3-7d3e1974b168">
-					</edge>
-					<edge src="bb422a15-ce99-4c87-b3b8-f86222a8e64a" tgt="f74a9df3-7a69-4010-8485-1872938f9e33">
-					</edge>
-					<edge src="cd984c30-091d-4aed-9a27-96352cae1dd0" tgt="876c9d92-3e0d-4d06-afaf-a85607d3e861">
-					</edge>
-					<edge src="d28551fd-b7e7-4013-9893-9d65324a0abd" tgt="65c4db9a-28e7-4849-ad4b-972d09f68f9e">
-					</edge>
-					<edge src="dc86bb7e-f301-4d31-98e3-7d3e1974b168" tgt="453a8f00-e8b7-446f-87f3-df18a02bc8c4">
+					<edge src="1f7f9267-ae54-4c7f-908b-fcf544389107" tgt="affaac5a-290a-41bb-ac5a-aba4717dc369">
 						<att name="condition" type="string" value="FILLEDFALLTYP"/>
 					</edge>
-					<edge src="dc86bb7e-f301-4d31-98e3-7d3e1974b168" tgt="78fd6f73-e737-4fc2-97f0-d4ef66c57d5a">
+					<edge src="1f7f9267-ae54-4c7f-908b-fcf544389107" tgt="da54ccf8-711b-4a96-9c34-3276d0353c9b">
 						<att name="condition" type="string" value="else"/>
 					</edge>
-					<edge src="dd8bfc23-4315-41d5-bd37-738a416509e5" tgt="64ae38e6-02e8-469b-a3a6-dc2119e4ca86">
+					<edge src="23f8e6c5-69fb-44cb-b4c1-b3f45ae8f5e2" tgt="5d117d65-0370-4361-9fdf-b7a049e636eb">
 					</edge>
-					<edge src="f1e06726-3042-4c4e-ba1f-d7fd8fb91c41" tgt="d28551fd-b7e7-4013-9893-9d65324a0abd">
+					<edge src="23f8e6c5-69fb-44cb-b4c1-b3f45ae8f5e2" tgt="f1e0429c-2f95-4efa-9370-9de87a84672f">
 					</edge>
-					<edge src="f74a9df3-7a69-4010-8485-1872938f9e33" tgt="dc86bb7e-f301-4d31-98e3-7d3e1974b168">
+					<edge src="29907342-46c0-4ffa-8026-42448d6f5ba0" tgt="47ff78cb-096a-4c9c-af23-d2761561e481">
+					</edge>
+					<edge src="29bae6a4-2f03-45dd-9689-ea9ccc8efffd" tgt="cf3e8e82-b74c-4cdf-971b-635c1725dd32">
+					</edge>
+					<edge src="34f50beb-dcb5-4bab-a387-253c4b7657cb" tgt="965722da-8be9-4d30-9a7e-d8cd07c227f2">
+						<att name="condition" type="string" value="FILLEDRELATIVZU"/>
+					</edge>
+					<edge src="34f50beb-dcb5-4bab-a387-253c4b7657cb" tgt="b81ad2d7-5cbb-4ca0-91d1-752f2a1646c3">
+						<att name="condition" type="string" value="else"/>
+					</edge>
+					<edge src="43595ee9-47fc-4860-b66b-087cb45524df" tgt="1f7f9267-ae54-4c7f-908b-fcf544389107">
+					</edge>
+					<edge src="47ff78cb-096a-4c9c-af23-d2761561e481" tgt="c7968c44-31fc-402a-a55a-873e16dfe5c7">
+					</edge>
+					<edge src="47ff78cb-096a-4c9c-af23-d2761561e481" tgt="9834aee2-b194-4879-8576-0a2d5e803468">
+					</edge>
+					<edge src="4e9b0f34-33c3-4558-a4d8-a8ac2ae9c476" tgt="34f50beb-dcb5-4bab-a387-253c4b7657cb">
+					</edge>
+					<edge src="5d117d65-0370-4361-9fdf-b7a049e636eb" tgt="bf7a4d3a-9e3f-4063-bb7e-6a579c782900">
+					</edge>
+					<edge src="62a2e4c6-1679-43d1-954b-f101afa91067" tgt="ac861ddd-6132-4e4d-b782-ecc1f5ca38cf">
+					</edge>
+					<edge src="653d5c52-7163-4226-bbda-131beca3eb90" tgt="43595ee9-47fc-4860-b66b-087cb45524df">
+					</edge>
+					<edge src="653d5c52-7163-4226-bbda-131beca3eb90" tgt="fb3f7d4b-bb78-455e-a516-fdb19a79dc4e">
+					</edge>
+					<edge src="ac861ddd-6132-4e4d-b782-ecc1f5ca38cf" tgt="23f8e6c5-69fb-44cb-b4c1-b3f45ae8f5e2">
+					</edge>
+					<edge src="affaac5a-290a-41bb-ac5a-aba4717dc369" tgt="34f50beb-dcb5-4bab-a387-253c4b7657cb">
+						<att name="condition" type="string" value="FILLEDZEITRAUM"/>
+					</edge>
+					<edge src="affaac5a-290a-41bb-ac5a-aba4717dc369" tgt="29907342-46c0-4ffa-8026-42448d6f5ba0">
+						<att name="condition" type="string" value="else"/>
+					</edge>
+					<edge src="b81ad2d7-5cbb-4ca0-91d1-752f2a1646c3" tgt="0c1f88ce-358a-4723-b31b-e6363da89a81">
+					</edge>
+					<edge src="bf7a4d3a-9e3f-4063-bb7e-6a579c782900" tgt="1f7f9267-ae54-4c7f-908b-fcf544389107">
 						<att name="condition" type="string" value="FILLEDLANDKREIS"/>
 					</edge>
-					<edge src="f74a9df3-7a69-4010-8485-1872938f9e33" tgt="6f94ecb4-36ae-4758-81d7-34019b44d17a">
+					<edge src="bf7a4d3a-9e3f-4063-bb7e-6a579c782900" tgt="29bae6a4-2f03-45dd-9689-ea9ccc8efffd">
 						<att name="condition" type="string" value="else"/>
 					</edge>
-					<comment x="791" y="740" width="100" height="60" color="#ffff99">RelativZu</comment>
-					<comment x="291" y="740" width="100" height="60" color="#ffff99">Zeitraum</comment>
-					<comment x="791" y="481" width="100" height="60" color="#ffff99">FallTyp</comment>
-					<comment x="291" y="481" width="100" height="60" color="#ffff99">Landkreis</comment>
+					<edge src="c60e9eea-4dae-42a2-a795-072ac1b208d9" tgt="64bc75bd-6d0f-4eec-b349-de011dfcfb1d">
+					</edge>
+					<edge src="c7968c44-31fc-402a-a55a-873e16dfe5c7" tgt="affaac5a-290a-41bb-ac5a-aba4717dc369">
+					</edge>
+					<edge src="cf3e8e82-b74c-4cdf-971b-635c1725dd32" tgt="1332ddb9-ae15-446d-a551-e7b13fac77bf">
+					</edge>
+					<edge src="cf3e8e82-b74c-4cdf-971b-635c1725dd32" tgt="6d5e881f-5cce-4c7d-824a-feb5252c54a2">
+					</edge>
+					<edge src="da54ccf8-711b-4a96-9c34-3276d0353c9b" tgt="653d5c52-7163-4226-bbda-131beca3eb90">
+					</edge>
+					<comment x="541" y="740" width="100" height="60" color="#ffff99">RelativZu</comment>
+					<comment x="41" y="740" width="100" height="60" color="#ffff99">Zeitraum</comment>
+					<comment x="541" y="481" width="100" height="60" color="#ffff99">FallTyp</comment>
+					<comment x="41" y="481" width="100" height="60" color="#ffff99">Landkreis</comment>
 				</graph>
 			</att>
 			<att name="endpoints" type="list">
-				<att name="0" type="string" value="ff29c837-bfc8-4520-ad22-f2477ba374b5"/>
+				<att name="0" type="string" value="965722da-8be9-4d30-9a7e-d8cd07c227f2"/>
+				<att name="1" type="string" value="64bc75bd-6d0f-4eec-b349-de011dfcfb1d"/>
 			</att>
 		</node>
 		<node uid="cc01f187-359a-45c8-b9e2-3a0255960008" class="com.clt.diamant.graph.nodes.ScriptNode">
@@ -531,10 +582,13 @@ answer = answer + &quot;beträgt &quot; + str(rounded);</value>
 			<att name="wait" type="boolean" value="1"/>
 			<att name="await_silence" type="boolean" value="0"/>
 		</node>
-		<edge src="340ad99f-7365-4af7-8bcb-34fb005fadd4" tgt="a43b3460-b131-4515-a53b-9789d679c47b">
-			<att name="condition" type="string" value="Return"/>
+		<edge src="42d0ac2d-45b6-4697-ba0c-50d54db75d5f" tgt="a43b3460-b131-4515-a53b-9789d679c47b">
+			<att name="condition" type="string" value="Success"/>
 		</edge>
-		<edge src="61a6136c-58af-4bee-89a1-b96d9b03f844" tgt="340ad99f-7365-4af7-8bcb-34fb005fadd4">
+		<edge src="42d0ac2d-45b6-4697-ba0c-50d54db75d5f" tgt="649d3d15-911f-4f8f-8b33-794d8580d5fc">
+			<att name="condition" type="string" value="Failure"/>
+		</edge>
+		<edge src="61a6136c-58af-4bee-89a1-b96d9b03f844" tgt="42d0ac2d-45b6-4697-ba0c-50d54db75d5f">
 		</edge>
 		<edge src="a43b3460-b131-4515-a53b-9789d679c47b" tgt="cc01f187-359a-45c8-b9e2-3a0255960008">
 		</edge>
