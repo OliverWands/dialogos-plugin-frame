@@ -2,9 +2,7 @@ package dialogos.frame.graph;
 
 import com.clt.diamant.graph.Comment;
 import com.clt.diamant.graph.Node;
-import com.clt.diamant.graph.nodes.ConditionalNode;
-import com.clt.diamant.graph.nodes.ReturnNode;
-import com.clt.diamant.graph.nodes.StartNode;
+import com.clt.diamant.graph.nodes.*;
 import com.clt.script.exp.Type;
 import de.saar.coli.dialogos.marytts.plugin.TTSNode;
 import dialogos.frame.FrameNode;
@@ -18,6 +16,8 @@ import java.util.List;
 public class FrameGraph
 {
     private final StartNode startNode;
+    private final LabelNode cancelLabel;
+    private final ReturnNode failureReturn;
     private final FrameNode frameNode;
     private final NodeBuilder nodeBuilder;
     private final String INV_ID = "INPUT_VAR_ID";
@@ -30,6 +30,14 @@ public class FrameGraph
     public FrameGraph(FrameNode frameNode)
     {
         startNode = frameNode.getOwnedGraph().getStartNode();
+
+        failureReturn = new ReturnNode();
+        failureReturn.setTitle("Failure");
+        failureReturn.setColor(new Color(204, 96, 99));
+
+        cancelLabel = new LabelNode();
+        cancelLabel.setTitle("Canceled");
+        cancelLabel.setColor(new Color(204, 96, 99));
 
         GraphBuilder.removeAllNodes(frameNode.getOwnedGraph());
         GraphBuilder.removeAllComments(frameNode.getOwnedGraph());
@@ -50,13 +58,17 @@ public class FrameGraph
 
             startNode.setLocation(58, startNode.getY());
 
-            frameNode.getOwnedGraph().setSize(frameNode.getOwnedGraph().getWidth(),
-                                              (frameNode.frameStruct.size() + 3) * 200);
+            frameNode.getOwnedGraph().setSize(frameNode.getOwnedGraph().getWidth(), (frameNode.frameStruct.size() + 3) * 200);
 
-            ReturnNode returnNode = new ReturnNode();
-            returnNode.setTitle("Return");
-            returnNode.setColor(Color.BLACK);
-            frameNode.add(returnNode);
+            ReturnNode successReturn = new ReturnNode();
+            successReturn.setTitle("Success");
+            successReturn.setColor(new Color(89, 168, 105));
+            frameNode.add(successReturn);
+
+            frameNode.add(failureReturn);
+            frameNode.add(cancelLabel);
+
+            GraphBuilder.setEdge(cancelLabel, failureReturn);
 
             TTSNode helpPrompt = new TTSNode();
             nodeBuilder.assignTTSNode(helpPrompt, "Help Prompt", frameNode.frameStruct.getHelpPrompt());
@@ -66,6 +78,11 @@ public class FrameGraph
             inputNode.setVariableID(INV_ID);
             frameNode.add(inputNode);
 
+            GotoNode gotoNode = nodeBuilder.createGotoNode("Canceled", cancelLabel, new Color(204, 96, 99));
+            frameNode.add(gotoNode);
+
+            inputNode.getEdge(1).setTarget(gotoNode);
+
             FillerNode fillerNode = new FillerNode();
             fillerNode.setVariable(frameNode.getVariable(INV_ID));
             fillerNode.setFrameNode(frameNode);
@@ -74,13 +91,13 @@ public class FrameGraph
             GraphBuilder.placeBottom(startNode, helpPrompt);
             GraphBuilder.placeBottom(helpPrompt, inputNode);
             GraphBuilder.placeBottom(inputNode, fillerNode);
+            GraphBuilder.placeRight(inputNode, gotoNode);
 
             GraphBuilder.connectNodes(new Node[]{startNode, helpPrompt, inputNode, fillerNode});
 
-            int maxX = buildBottomUp(frameNode.frameStruct.getSlots(), fillerNode, returnNode);
+            int maxX = buildBottomUp(frameNode.frameStruct.getSlots(), fillerNode, successReturn);
 
-            frameNode.getOwnedGraph().setSize(maxX + 258,
-                                              returnNode.getLocation().y + 100);
+            frameNode.getOwnedGraph().setSize(maxX + 258, successReturn.getLocation().y + 100);
         }
     }
 
@@ -95,14 +112,8 @@ public class FrameGraph
         for (int inx = 0; inx < frameNode.frameStruct.size(); inx++)
         {
             SlotStruct slot = frameNode.frameStruct.getSlot(inx);
-            frameNode.addVariable(NodeBuilder.filledVariableID(frameNode.frameStruct, slot),
-                                  NodeBuilder.filledVariableName(slot),
-                                  Type.Bool,
-                                  "false");
-            frameNode.addVariable(NodeBuilder.inputVariableID(frameNode.frameStruct, slot),
-                                  NodeBuilder.inputVariableName(slot),
-                                  Type.String,
-                                  null);
+            frameNode.addVariable(NodeBuilder.filledVariableID(frameNode.frameStruct, slot), NodeBuilder.filledVariableName(slot), Type.Bool, "false");
+            frameNode.addVariable(NodeBuilder.inputVariableID(frameNode.frameStruct, slot), NodeBuilder.inputVariableName(slot), Type.String, null);
         }
     }
 
@@ -138,12 +149,13 @@ public class FrameGraph
 
         int rows = (int) (Math.ceil((double) slots.size() / columns));
 
-        frameNode.getOwnedGraph().setSize(frameNode.getOwnedGraph().getWidth() * columns,
-                                          frameNode.getOwnedGraph().getHeight() * rows);
+        frameNode.getOwnedGraph().setSize(frameNode.getOwnedGraph().getWidth() * columns, frameNode.getOwnedGraph().getHeight() * rows);
 
         end.setLocation(150, end.getY());
 
         GraphBuilder.placeBottom(start, end, rows * 3 + 4);
+        GraphBuilder.placeRight(end, failureReturn, 2);
+        GraphBuilder.placeTop(failureReturn, cancelLabel);
         Node previous = end;
 
         int index = slots.size() - 1;
@@ -163,6 +175,11 @@ public class FrameGraph
                 inputNode.setVariableID(INV_ID);
                 frameNode.add(inputNode);
 
+                GotoNode gotoNode = nodeBuilder.createGotoNode("Canceled", cancelLabel, new Color(204, 96, 99));
+                frameNode.add(gotoNode);
+
+                inputNode.getEdge(1).setTarget(gotoNode);
+
                 TTSNode queryNode = new TTSNode();
                 nodeBuilder.assignTTSNode(queryNode, String.format("Query %s", slotStruct.getName()), slotStruct.getQuery());
                 frameNode.add(queryNode);
@@ -172,9 +189,7 @@ public class FrameGraph
                 frameNode.addComment(comment);
 
                 ConditionalNode checkEmpty = new ConditionalNode();
-                nodeBuilder.assignConditionalNode(checkEmpty,
-                                                  "Check Empty " + index + 1,
-                                                  NodeBuilder.filledVariableName(slotStruct));
+                nodeBuilder.assignConditionalNode(checkEmpty, "Check Empty " + index + 1, NodeBuilder.filledVariableName(slotStruct));
                 frameNode.add(checkEmpty);
                 GraphBuilder.setConditionalEdges(checkEmpty, previous, queryNode);
                 GraphBuilder.connectNodes(new Node[]{queryNode, inputNode, fillerNode, checkEmpty});
@@ -186,8 +201,9 @@ public class FrameGraph
                 }
                 GraphBuilder.placeTopRight(fillerNode, inputNode);
                 GraphBuilder.placeLeft(inputNode, queryNode);
+                GraphBuilder.placeBottom(inputNode, gotoNode);
                 GraphBuilder.placeLeft(queryNode, checkEmpty);
-                GraphBuilder.placeBottom(inputNode, comment);
+                GraphBuilder.placeBottom(checkEmpty, comment);
 
                 previous = checkEmpty;
                 if (column == 0)

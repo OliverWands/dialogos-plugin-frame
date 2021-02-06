@@ -5,6 +5,8 @@ import com.clt.diamant.Slot;
 import com.clt.diamant.graph.Graph;
 import com.clt.diamant.graph.Node;
 import com.clt.diamant.graph.nodes.ConditionalNode;
+import com.clt.diamant.graph.nodes.GotoNode;
+import com.clt.diamant.graph.nodes.LabelNode;
 import com.clt.diamant.graph.nodes.SetVariableNode;
 import de.saar.coli.dialogos.marytts.plugin.TTSNode;
 import dialogos.frame.nodes.FrameInput;
@@ -135,6 +137,16 @@ public class NodeBuilder
         ConditionalNode conditionalNode = node;
         conditionalNode.setTitle(title);
         conditionalNode.setProperty(ConditionalNode.EXPRESSION, expression);
+    }
+
+    public GotoNode createGotoNode(String title, LabelNode target, Color color)
+    {
+        GotoNode gotoNode = new GotoNode();
+        gotoNode.setTitle(title);
+        gotoNode.setColor(color);
+        gotoNode.setProperty("target", target);
+
+        return gotoNode;
     }
 
     public static String filledVariableName(SlotStruct slot)

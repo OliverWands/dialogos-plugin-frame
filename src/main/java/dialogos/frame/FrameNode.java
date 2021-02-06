@@ -38,7 +38,6 @@ public class FrameNode extends CallNode
     public FrameNode()
     {
         id = UUID.randomUUID().toString();
-        System.out.println("## "+ id);
         frameStruct = new FrameStruct(id);
     }
 

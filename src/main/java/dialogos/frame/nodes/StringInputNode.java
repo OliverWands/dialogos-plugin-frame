@@ -1,6 +1,7 @@
 package dialogos.frame.nodes;
 
 import com.clt.diamant.*;
+import com.clt.diamant.graph.Edge;
 import com.clt.diamant.graph.Graph;
 import com.clt.diamant.graph.Node;
 import com.clt.diamant.gui.NodePropertiesDialog;
@@ -24,12 +25,13 @@ public class StringInputNode extends Node implements FrameInput
     private String input;
     private String varID;
     private JComboBox<String> varCombo;
+    private Edge targetEdge;
 
     public StringInputNode()
     {
         super();
         addEdge();
-//        addEdge();
+        addEdge();
         setTitle(Resources.getString("String Input"));
     }
 
@@ -37,7 +39,7 @@ public class StringInputNode extends Node implements FrameInput
     public Node execute(WozInterface comm, InputCenter input, ExecutionLogger logger)
     {
         handleInput(comm.getLayeredPane());
-        Node target = this.getEdge(0).getTarget();
+        Node target = targetEdge.getTarget(); //this.getEdge(0).getTarget();
         comm.transition(this, target, 0, null);
         return target;
     }
@@ -161,13 +163,18 @@ public class StringInputNode extends Node implements FrameInput
                                     {
                                         input = result.getText();
                                         apply.notifyAll();
+                                        targetEdge = getOutEdges().get(0);
                                     }
                                 });
 
         final JButton stop = new JButton(GUI.getString("Cancel"));
         stop.addActionListener(e ->
                                {
-
+                                   synchronized (apply)
+                                   {
+                                       apply.notifyAll();
+                                       targetEdge = getOutEdges().get(1);
+                                   }
                                });
 
         bottom.add(stop);
@@ -224,6 +231,19 @@ public class StringInputNode extends Node implements FrameInput
     public void setVariableID(String id)
     {
         varID = id;
+    }
+
+    @Override
+    public Color getPortColor(int portNumber)
+    {
+        if (portNumber < this.numEdges() - 1)
+        {
+            return new Color(89, 168, 105);
+        }
+        else
+        {
+            return new Color(204, 96, 99);
+        }
     }
 }
 
