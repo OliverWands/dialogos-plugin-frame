@@ -152,6 +152,12 @@ public class GraphBuilder
         placeBottom(relativeTo, element, 1);
     }
 
+    public static void placeBottomAbs(VisualGraphElement relativeTo, VisualGraphElement element, int yunits)
+    {
+        element.setLocation(getMiddle(relativeTo) - getHalvedWidth(element),
+                            (int) Math.floor(relativeTo.getY() + yunits));
+    }
+
     public static void placeBottom(VisualGraphElement relativeTo, VisualGraphElement element, double scale)
     {
         element.setLocation(getMiddle(relativeTo) - getHalvedWidth(element),
