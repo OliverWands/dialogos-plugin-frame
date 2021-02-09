@@ -4,6 +4,7 @@ import com.clt.diamant.graph.Comment;
 import com.clt.diamant.graph.Node;
 import com.clt.diamant.graph.nodes.*;
 import com.clt.script.exp.Type;
+import com.clt.script.exp.types.StructType;
 import de.saar.coli.dialogos.marytts.plugin.TTSNode;
 import dialogos.frame.FrameNode;
 import dialogos.frame.nodes.FillerNode;
@@ -108,6 +109,7 @@ public class FrameGraph
     {
 
         frameNode.addVariable(INV_ID, "INPUT_VAR", Type.String, null);
+        frameNode.addVariable(frameNode.frameStruct.getResultVariableID() + "inter", frameNode.frameStruct.getResultVariableName() + "inter", new StructType(), null);
 
         for (int inx = 0; inx < frameNode.frameStruct.size(); inx++)
         {

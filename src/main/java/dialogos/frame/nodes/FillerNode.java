@@ -151,6 +151,7 @@ public class FillerNode extends Node
         }
 
         Slot structVar = null;
+        Slot interVar = null;
 
         for (Slot slot : frameNode.getSuperGraph().getVariables())
         {
@@ -158,6 +159,19 @@ public class FillerNode extends Node
             {
                 structVar = slot;
             }
+        }
+
+        for (Slot slot : frameNode.getOwnedGraph().getVariables())
+        {
+            if (slot.getId().equals(frameNode.frameStruct.getResultVariableID() + "inter"))
+            {
+                interVar = slot;
+            }
+        }
+
+        if (interVar != null)
+        {
+            interVar.setValue(Value.fromJson(frameNode.frameStruct.toJson()));
         }
 
         if (structVar != null)
