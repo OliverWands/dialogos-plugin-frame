@@ -15,7 +15,12 @@ import org.xml.sax.SAXException;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -26,6 +31,10 @@ public class StringInputNode extends Node implements FrameInput
     private String varID;
     private JComboBox<String> varCombo;
     private Edge targetEdge;
+
+//    private final boolean DEBUG = true;
+//    private final String filePath = "~/develop/IdeaProjects/debugOutput";
+//    private final String fileName = "dialogueOne.txt";
 
     public StringInputNode()
     {
@@ -162,6 +171,27 @@ public class StringInputNode extends Node implements FrameInput
                                     synchronized (apply)
                                     {
                                         input = result.getText();
+
+//                                        if (DEBUG)
+//                                        {
+//                                            try
+//                                            {
+//                                                File logFile = Paths.get(filePath, fileName).toFile();
+//                                                if (!logFile.exists())
+//                                                {
+//                                                    Files.write(logFile.toPath(), new ArrayList<>(), StandardCharsets.UTF_8);
+//                                                }
+//
+//                                                ArrayList<Edge> edges = new ArrayList<>(in_edges());
+//                                                String prompt = (String) edges.get(0).getSource().getProperty("prompt");
+//                                                String print = String.format("System: %s\nNutzer: %s\n\n", prompt, input);
+//                                                Files.write(logFile.toPath(), print.getBytes(), StandardOpenOption.APPEND);
+//                                            } catch (IOException ioException)
+//                                            {
+//                                                ioException.printStackTrace();
+//                                            }
+//                                        }
+
                                         apply.notifyAll();
                                         targetEdge = getOutEdges().get(0);
                                     }

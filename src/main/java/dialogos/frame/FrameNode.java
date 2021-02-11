@@ -21,10 +21,8 @@ import org.xml.sax.SAXException;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
+import java.util.*;
 import java.util.List;
-import java.util.Map;
-import java.util.UUID;
 
 public class FrameNode extends CallNode
 {
@@ -37,8 +35,8 @@ public class FrameNode extends CallNode
 
     public FrameNode()
     {
-        id = UUID.randomUUID().toString();
-        frameStruct = new FrameStruct(id);
+        setId(UUID.randomUUID().toString());
+        frameStruct = new FrameStruct(getId());
     }
 
     public static Color getDefaultColor()
@@ -317,7 +315,7 @@ public class FrameNode extends CallNode
 
     public void setUsedGrammars()
     {
-        List<Grammar> grammars = new ArrayList<>();
+        Set<Grammar> grammars = new HashSet<>();
         frameStruct.getSlots().forEach(slot -> grammars.add(getGrammar(slot.getGrammarName())));
         frameStruct.getUsedGrammars().clear();
         frameStruct.getUsedGrammars().addAll(grammars);

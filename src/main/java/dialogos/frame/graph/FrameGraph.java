@@ -151,12 +151,8 @@ public class FrameGraph
 
         int rows = (int) (Math.ceil((double) slots.size() / columns));
 
-        System.out.printf("%d %d %d\n", columns, slots.size(), rows);
-
         // frameNode.getOwnedGraph().setSize(frameNode.getOwnedGraph().getWidth() * columns, frameNode.getOwnedGraph().getHeight() * rows);
         frameNode.getOwnedGraph().setSize(frameNode.getOwnedGraph().getWidth() * columns, 500 * rows);
-
-        System.out.printf("%d %d\n", frameNode.getOwnedGraph().getWidth(), frameNode.getOwnedGraph().getHeight());
 
         end.setLocation(150, end.getY());
 

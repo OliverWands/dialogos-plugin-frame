@@ -155,7 +155,7 @@ public class FillerNode extends Node
 
         for (Slot slot : frameNode.getSuperGraph().getVariables())
         {
-            if (slot.getId().equals(frameNode.frameStruct.getResultVariableID()))
+            if (slot.getId() != null && slot.getId().equals(frameNode.frameStruct.getResultVariableID()))
             {
                 structVar = slot;
             }
@@ -163,7 +163,7 @@ public class FillerNode extends Node
 
         for (Slot slot : frameNode.getOwnedGraph().getVariables())
         {
-            if (slot.getId().equals(frameNode.frameStruct.getResultVariableID() + "inter"))
+            if (slot.getId() != null && slot.getId().equals(frameNode.frameStruct.getResultVariableID() + "inter"))
             {
                 interVar = slot;
             }
