@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE wizard SYSTEM "Wizard.dtd">
+
+<wizard>
+	<plugin type="dialogos-plugin-frame">
+	</plugin>
+	<plugin type="dialogos.plugin.tts">
+	</plugin>
+	<graph directed="1" Graphic="1" Layout="points">
+		<att name="width" type="integer" value="750"/>
+		<att name="height" type="integer" value="540"/>
+		<groovyFunctions></groovyFunctions>
+		<variable uid="RESULTID4708ded2-2ea4-4ff9-90eb-245485ee2d61">
+			<name>RESULTNavigation</name>
+			<type>struct</type>
+			<value>undefined</value>
+		</variable>
+		<variable uid="0cd14c24-a495-4980-acfd-1261c690c6e6">
+			<name>result</name>
+			<type>string</type>
+			<value>undefined</value>
+		</variable>
+		<node uid="088fb189-3153-46a4-b957-7e99ee79f952" class="dialogos.frame.FrameNode">
+			<graphics x="369" y="133" fill="#ffbb00"/>
+			<att name="title" type="string" value="Frame"/>
+			<att name="proc_uid" type="string" value="4708ded2-2ea4-4ff9-90eb-245485ee2d61"/>
+			<frameStruct uid="4708ded2-2ea4-4ff9-90eb-245485ee2d61" name="Navigation" helpPrompt="Geben Sie einen Startort und einen Zielort an." class="dialogos.frame.struct.FrameStruct">
+				<slotStruct uid="79c18d2c-fce1-4cb8-bde8-57c7a2d48925" name="StartOrt" query="Bitte geben Sie den Startort" grammarName="Stadt"/>
+				<slotStruct uid="4e88a187-b932-45ed-987d-c8975f3605f8" name="ZielOrt" query="Bitte geben Sie den Zielort" grammarName="Stadt"/>
+				<grammar id="aab5e4e6-a28a-4039-ab5b-63f5f51d115e">
+					<name>Stadt</name>
+					<value>root $input;
+ $input = Hamburg | Berlin | München | Hannover;</value>
+				</grammar>
+			</frameStruct>
+		</node>
+		<node uid="4708ded2-2ea4-4ff9-90eb-245485ee2d61" class="com.clt.diamant.graph.nodes.ProcNode">
+			<graphics x="233" y="133" fill="#ffbb00"/>
+			<att name="title" type="string" value="Navigation"/>
+			<att name="graph" type="object">
+				<graph directed="1" Graphic="1" Layout="points">
+					<att name="width" type="integer" value="441"/>
+					<att name="height" type="integer" value="1052"/>
+					<groovyFunctions></groovyFunctions>
+					<grammar id="aab5e4e6-a28a-4039-ab5b-63f5f51d115e">
+						<name>Stadt</name>
+						<value>root $input;
+ $input = Hamburg | Berlin | München | Hannover;</value>
+					</grammar>
+					<variable uid="INPUT_VAR_ID">
+						<name>INPUT_VAR</name>
+						<type>string</type>
+						<value>undefined</value>
+					</variable>
+					<variable uid="RESULTID4708ded2-2ea4-4ff9-90eb-245485ee2d61inter">
+						<name>RESULTNavigationinter</name>
+						<type>struct</type>
+						<value>undefined</value>
+					</variable>
+					<variable uid="0_FILLED_79c18d2c-fce1-4cb8-bde8-57c7a2d48925">
+						<name>FILLEDSTARTORT</name>
+						<type>bool</type>
+						<value>false</value>
+					</variable>
+					<variable uid="0_INPUT_79c18d2c-fce1-4cb8-bde8-57c7a2d48925">
+						<name>INPUTSTARTORT</name>
+						<type>string</type>
+						<value>undefined</value>
+					</variable>
+					<variable uid="1_FILLED_4e88a187-b932-45ed-987d-c8975f3605f8">
+						<name>FILLEDZIELORT</name>
+						<type>bool</type>
+						<value>false</value>
+					</variable>
+					<variable uid="1_INPUT_4e88a187-b932-45ed-987d-c8975f3605f8">
+						<name>INPUTZIELORT</name>
+						<type>string</type>
+						<value>undefined</value>
+					</variable>
+					<node uid="07e97dcd-e616-4d3d-9fe9-614d54a96165" class="de.saar.coli.dialogos.marytts.plugin.TTSNode">
+						<graphics x="43" y="108" fill="#00b200"/>
+						<att name="title" type="string" value="Help Prompt"/>
+						<att name="prompt" type="text">
+							<value>Geben Sie einen Startort und einen Zielort an.</value>
+						</att>
+						<att name="prompt_type" type="string" value="text"/>
+						<att name="wait" type="boolean" value="1"/>
+						<att name="await_silence" type="boolean" value="0"/>
+					</node>
+					<node uid="09530f97-11ff-4334-9107-bdb8555d88a5" class="com.clt.diamant.graph.nodes.GotoNode">
+						<graphics x="179" y="176" fill="#cc6063"/>
+						<att name="title" type="string" value="Canceled"/>
+						<att name="label_uid" type="string" value="0ec6d446-ab33-49bb-b9db-68d679239a54"/>
+					</node>
+					<node uid="0ec6d446-ab33-49bb-b9db-68d679239a54" class="com.clt.diamant.graph.nodes.LabelNode">
+						<graphics x="304" y="883" fill="#cc6063"/>
+						<att name="title" type="string" value="Canceled"/>
+					</node>
+					<node uid="2952aa5b-feef-49de-9a6f-2d3a6b1f9929" class="com.clt.diamant.graph.nodes.GotoNode">
+						<graphics x="304" y="502" fill="#cc6063"/>
+						<att name="title" type="string" value="Canceled"/>
+						<att name="label_uid" type="string" value="0ec6d446-ab33-49bb-b9db-68d679239a54"/>
+					</node>
+					<node uid="415cb294-b374-41e5-858d-5545588d0f47" class="dialogos.frame.nodes.FillerNode">
+						<graphics x="183" y="503" fill="#c0c0c0"/>
+						<att name="title" type="string" value="Filler"/>
+						<att name="slotIndex" type="integer" value="0"/>
+						<att name="varID" type="string" value="INPUT_VAR_ID"/>
+						<att name="frameNodeID" type="string" value="088fb189-3153-46a4-b957-7e99ee79f952"/>
+					</node>
+					<node uid="42bfda3e-0025-495a-bc53-6069caf1c1ed" class="dialogos.frame.nodes.FillerNode">
+						<graphics x="183" y="762" fill="#c0c0c0"/>
+						<att name="title" type="string" value="Filler"/>
+						<att name="slotIndex" type="integer" value="1"/>
+						<att name="varID" type="string" value="INPUT_VAR_ID"/>
+						<att name="frameNodeID" type="string" value="088fb189-3153-46a4-b957-7e99ee79f952"/>
+					</node>
+					<node uid="51be718f-024a-4744-aa4d-c239492c46da" class="com.clt.diamant.graph.nodes.ReturnNode">
+						<graphics x="307" y="952" fill="#cc6063"/>
+						<att name="title" type="string" value="Failure"/>
+					</node>
+					<node uid="6786c156-1912-4cef-ad30-0ebd1c9e2a55" class="dialogos.frame.nodes.StringInputNode">
+						<graphics x="40" y="176" fill="#c0c0c0"/>
+						<att name="title" type="string" value="String Input"/>
+						<att name="varID" type="string" value="INPUT_VAR_ID"/>
+					</node>
+					<node uid="71e58198-c355-4d99-8e5e-ce9170129044" class="de.saar.coli.dialogos.marytts.plugin.TTSNode">
+						<graphics x="161" y="693" fill="#00b200"/>
+						<att name="title" type="string" value="Query ZielOrt"/>
+						<att name="prompt" type="text">
+							<value>Bitte geben Sie den Zielort</value>
+						</att>
+						<att name="prompt_type" type="string" value="text"/>
+						<att name="wait" type="boolean" value="1"/>
+						<att name="await_silence" type="boolean" value="0"/>
+					</node>
+					<node uid="a1febf74-7d70-4630-8096-608d232e2848" class="com.clt.diamant.graph.nodes.GotoNode">
+						<graphics x="304" y="761" fill="#cc6063"/>
+						<att name="title" type="string" value="Canceled"/>
+						<att name="label_uid" type="string" value="0ec6d446-ab33-49bb-b9db-68d679239a54"/>
+					</node>
+					<node uid="a3123bb1-2451-4017-85a1-beba6b688c96" class="com.clt.diamant.graph.nodes.StartNode">
+						<graphics x="58" y="40" fill="#9999ff"/>
+						<att name="title" type="string" value="Start"/>
+					</node>
+					<node uid="a503a31b-5efe-4446-bc06-a48148e9c86d" class="dialogos.frame.nodes.StringInputNode">
+						<graphics x="290" y="434" fill="#c0c0c0"/>
+						<att name="title" type="string" value="String Input"/>
+						<att name="varID" type="string" value="INPUT_VAR_ID"/>
+					</node>
+					<node uid="c13fbe92-c13d-4a53-ae8e-b8b6798cde28" class="dialogos.frame.nodes.StringInputNode">
+						<graphics x="290" y="693" fill="#c0c0c0"/>
+						<att name="title" type="string" value="String Input"/>
+						<att name="varID" type="string" value="INPUT_VAR_ID"/>
+					</node>
+					<node uid="c88c26ed-f1b8-4044-a2c2-b92a81d7495c" class="com.clt.diamant.graph.nodes.ReturnNode">
+						<graphics x="57" y="952" fill="#59a869"/>
+						<att name="title" type="string" value="Success"/>
+					</node>
+					<node uid="cc32c722-df5c-496d-82a4-1edc3da94629" class="com.clt.diamant.graph.nodes.ConditionalNode">
+						<graphics x="33" y="693" fill="#c0c0c0"/>
+						<att name="title" type="string" value="Check Empty 11"/>
+						<att name="expression" type="string" value="FILLEDZIELORT"/>
+					</node>
+					<node uid="e72307f9-6f1c-45b5-b6c4-ed784eea2074" class="dialogos.frame.nodes.FillerNode">
+						<graphics x="58" y="244" fill="#c0c0c0"/>
+						<att name="title" type="string" value="Filler"/>
+						<att name="slotIndex" type="integer" value="0"/>
+						<att name="varID" type="string" value="INPUT_VAR_ID"/>
+						<att name="frameNodeID" type="string" value="088fb189-3153-46a4-b957-7e99ee79f952"/>
+					</node>
+					<node uid="f4d9d6b6-e554-4cb6-92ba-9c74a9450869" class="com.clt.diamant.graph.nodes.ConditionalNode">
+						<graphics x="33" y="434" fill="#c0c0c0"/>
+						<att name="title" type="string" value="Check Empty 01"/>
+						<att name="expression" type="string" value="FILLEDSTARTORT"/>
+					</node>
+					<node uid="feeb923c-0cac-4aba-a331-fb4744b76d63" class="de.saar.coli.dialogos.marytts.plugin.TTSNode">
+						<graphics x="158" y="434" fill="#00b200"/>
+						<att name="title" type="string" value="Query StartOrt"/>
+						<att name="prompt" type="text">
+							<value>Bitte geben Sie den Startort</value>
+						</att>
+						<att name="prompt_type" type="string" value="text"/>
+						<att name="wait" type="boolean" value="1"/>
+						<att name="await_silence" type="boolean" value="0"/>
+					</node>
+					<edge src="07e97dcd-e616-4d3d-9fe9-614d54a96165" tgt="6786c156-1912-4cef-ad30-0ebd1c9e2a55">
+					</edge>
+					<edge src="0ec6d446-ab33-49bb-b9db-68d679239a54" tgt="51be718f-024a-4744-aa4d-c239492c46da">
+					</edge>
+					<edge src="415cb294-b374-41e5-858d-5545588d0f47" tgt="f4d9d6b6-e554-4cb6-92ba-9c74a9450869">
+					</edge>
+					<edge src="42bfda3e-0025-495a-bc53-6069caf1c1ed" tgt="cc32c722-df5c-496d-82a4-1edc3da94629">
+					</edge>
+					<edge src="6786c156-1912-4cef-ad30-0ebd1c9e2a55" tgt="e72307f9-6f1c-45b5-b6c4-ed784eea2074">
+					</edge>
+					<edge src="6786c156-1912-4cef-ad30-0ebd1c9e2a55" tgt="09530f97-11ff-4334-9107-bdb8555d88a5">
+					</edge>
+					<edge src="71e58198-c355-4d99-8e5e-ce9170129044" tgt="c13fbe92-c13d-4a53-ae8e-b8b6798cde28">
+					</edge>
+					<edge src="a3123bb1-2451-4017-85a1-beba6b688c96" tgt="07e97dcd-e616-4d3d-9fe9-614d54a96165">
+					</edge>
+					<edge src="a503a31b-5efe-4446-bc06-a48148e9c86d" tgt="415cb294-b374-41e5-858d-5545588d0f47">
+					</edge>
+					<edge src="a503a31b-5efe-4446-bc06-a48148e9c86d" tgt="2952aa5b-feef-49de-9a6f-2d3a6b1f9929">
+					</edge>
+					<edge src="c13fbe92-c13d-4a53-ae8e-b8b6798cde28" tgt="42bfda3e-0025-495a-bc53-6069caf1c1ed">
+					</edge>
+					<edge src="c13fbe92-c13d-4a53-ae8e-b8b6798cde28" tgt="a1febf74-7d70-4630-8096-608d232e2848">
+					</edge>
+					<edge src="cc32c722-df5c-496d-82a4-1edc3da94629" tgt="c88c26ed-f1b8-4044-a2c2-b92a81d7495c">
+						<att name="condition" type="string" value="FILLEDZIELORT"/>
+					</edge>
+					<edge src="cc32c722-df5c-496d-82a4-1edc3da94629" tgt="71e58198-c355-4d99-8e5e-ce9170129044">
+						<att name="condition" type="string" value="else"/>
+					</edge>
+					<edge src="e72307f9-6f1c-45b5-b6c4-ed784eea2074" tgt="f4d9d6b6-e554-4cb6-92ba-9c74a9450869">
+					</edge>
+					<edge src="f4d9d6b6-e554-4cb6-92ba-9c74a9450869" tgt="cc32c722-df5c-496d-82a4-1edc3da94629">
+						<att name="condition" type="string" value="FILLEDSTARTORT"/>
+					</edge>
+					<edge src="f4d9d6b6-e554-4cb6-92ba-9c74a9450869" tgt="feeb923c-0cac-4aba-a331-fb4744b76d63">
+						<att name="condition" type="string" value="else"/>
+					</edge>
+					<edge src="feeb923c-0cac-4aba-a331-fb4744b76d63" tgt="a503a31b-5efe-4446-bc06-a48148e9c86d">
+					</edge>
+					<comment x="41" y="761" width="100" height="60" color="#ffff99">ZielOrt</comment>
+					<comment x="41" y="502" width="100" height="60" color="#ffff99">StartOrt</comment>
+				</graph>
+			</att>
+			<att name="endpoints" type="list">
+				<att name="0" type="string" value="c88c26ed-f1b8-4044-a2c2-b92a81d7495c"/>
+				<att name="1" type="string" value="51be718f-024a-4744-aa4d-c239492c46da"/>
+			</att>
+		</node>
+		<node uid="7adc46a3-114f-4b0f-b5ee-e8bc299f1aaa" class="de.saar.coli.dialogos.marytts.plugin.TTSNode">
+			<graphics x="317" y="290" fill="#00b200"/>
+			<att name="title" type="string" value="Speech synthesis"/>
+			<att name="prompt" type="text">
+				<value>result</value>
+			</att>
+			<att name="prompt_type" type="string" value="expression"/>
+			<att name="wait" type="boolean" value="1"/>
+			<att name="await_silence" type="boolean" value="0"/>
+		</node>
+		<node uid="df816929-7477-49a8-9e1b-ec702ba8c472" class="com.clt.diamant.graph.nodes.EndNode">
+			<graphics x="547" y="397" fill="#9999ff"/>
+			<att name="title" type="string" value="End"/>
+		</node>
+		<node uid="e2a90ddb-7afd-447f-91ee-a8c9df1d1a02" class="com.clt.diamant.graph.nodes.ScriptNode">
+			<graphics x="352" y="219" fill="#99ffff"/>
+			<att name="title" type="string" value="Script"/>
+			<att name="script" type="text">
+				<value>string start = get(RESULTNavigation, &quot;StartOrt&quot;);
+string ziel = get(RESULTNavigation, &quot;ZielOrt&quot;);
+result = &quot;Navigiere von &quot; + start + &quot; nach &quot; + ziel;</value>
+			</att>
+		</node>
+		<node uid="fa592d90-3faa-4481-922f-10d0c214b2fe" class="com.clt.diamant.graph.nodes.StartNode">
+			<graphics x="370" y="40" fill="#9999ff"/>
+			<att name="title" type="string" value="Start"/>
+		</node>
+		<edge src="088fb189-3153-46a4-b957-7e99ee79f952" tgt="e2a90ddb-7afd-447f-91ee-a8c9df1d1a02">
+			<att name="condition" type="string" value="Success"/>
+		</edge>
+		<edge src="088fb189-3153-46a4-b957-7e99ee79f952" tgt="df816929-7477-49a8-9e1b-ec702ba8c472">
+			<att name="condition" type="string" value="Failure"/>
+		</edge>
+		<edge src="7adc46a3-114f-4b0f-b5ee-e8bc299f1aaa" tgt="df816929-7477-49a8-9e1b-ec702ba8c472">
+		</edge>
+		<edge src="e2a90ddb-7afd-447f-91ee-a8c9df1d1a02" tgt="7adc46a3-114f-4b0f-b5ee-e8bc299f1aaa">
+		</edge>
+		<edge src="fa592d90-3faa-4481-922f-10d0c214b2fe" tgt="088fb189-3153-46a4-b957-7e99ee79f952">
+		</edge>
+	</graph>
+</wizard>

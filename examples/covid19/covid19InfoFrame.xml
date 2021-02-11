@@ -52,8 +52,10 @@
 		<value>
             root $input;
             $input = $tod {$ = &quot;deaths&quot;} | $infektionen {$ = &quot;cases&quot;};
-            $tod = tod | gestorben | todeszahlen | todesfälle | vestorben | verstorbene;
-            $infektionen = fälle | infektionen | infektionszahlen | infizierte | infizierten | fallzahlen;
+            $tod = tod | gestorben | gestorbene | gestorbenen | todeszahlen | todeszahl | todesfälle | todesfall |
+            vestorben | verstorbene | verstorbenen | tote | toten;
+            $infektionen = fälle | infektion | infektionen | infektionszahl | infektionszahlen | infiziert |
+            infizierte | infizierten | fallzahlen | fallzahl;
         </value>
 	</grammar>
 	<grammar>
@@ -61,7 +63,7 @@
 		<value>
             root $input;
             $input = $alle {$ = &quot;all&quot;} | $woche {$ = &quot;week&quot;};
-            $alle = gesamt | gesamter zeitraum | gesamten zeitraum | bisher | bisherige | seit beginn;
+            $alle = gesamt | gesamter zeitraum | gesamten zeitraum | bisher | bisherige | seit beginn | insgesamt;
             $woche = sieben tage | woche;
         </value>
 	</grammar>
@@ -70,8 +72,8 @@
 		<value>
             root $input;
             $input = $gesamt {$ = &quot;all&quot;} | $einwohnerzahl {$ = &quot;pop&quot;} | $einhundertk {$ = &quot;hundredk&quot;};
-            $gesamt = alle | anzahl| insgesamt | absolut | keine relation | summe;
-            $einwohnerzahl = einwohner | einwohnerzahl;
+            $gesamt = gesamte anzahl | absolut | keine relation | summe;
+            $einwohnerzahl = alle einwohner | einwohnerzahl;
             $einhundertk = hunderttausend | einhunderttausend;
         </value>
 	</grammar>

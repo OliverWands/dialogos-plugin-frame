@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<frameStruct uid="4708ded2-2ea4-4ff9-90eb-245485ee2d61" name="Navigation" helpPrompt="Geben Sie einen Startort und einen Zielort an." class="dialogos.frame.struct.FrameStruct">
+	<slotStruct uid="79c18d2c-fce1-4cb8-bde8-57c7a2d48925" name="StartOrt" query="Bitte geben Sie den Startort" grammarName="Stadt"/>
+	<slotStruct uid="4e88a187-b932-45ed-987d-c8975f3605f8" name="ZielOrt" query="Bitte geben Sie den Zielort" grammarName="Stadt"/>
+	<grammar id="aab5e4e6-a28a-4039-ab5b-63f5f51d115e">
+		<name>Stadt</name>
+		<value>root $input;
+ $input = Hamburg | Berlin | München | Hannover;</value>
+	</grammar>
+	<grammar id="aab5e4e6-a28a-4039-ab5b-63f5f51d115e">
+		<name>Stadt</name>
+		<value>root $input;
+ $input = Hamburg | Berlin | München | Hannover;</value>
+	</grammar>
+</frameStruct>
