@@ -47,10 +47,10 @@
         <value>
             root $input;
             $input = $tod {$ = "deaths"} | $infektionen {$ = "cases"};
-            $tod = tod | gestorben | gestorbene | gestorbenen | todeszahlen | todeszahl | todesfälle | todesfall |
+            $tod = tot | gestorben | gestorbene | gestorbenen | todeszahlen | todeszahl | todesfälle | todesfall |
             vestorben | verstorbene | verstorbenen | tote | toten;
             $infektionen = fälle | infektion | infektionen | infektionszahl | infektionszahlen | infiziert |
-            infizierte | infizierten | fallzahlen | fallzahl;
+            infizierte | infizierten | fallzahlen | fallzahl | inzidenz;
         </value>
     </grammar>
     <grammar>

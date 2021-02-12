@@ -52,10 +52,10 @@
 		<value>
             root $input;
             $input = $tod {$ = &quot;deaths&quot;} | $infektionen {$ = &quot;cases&quot;};
-            $tod = tod | gestorben | gestorbene | gestorbenen | todeszahlen | todeszahl | todesfälle | todesfall |
+            $tod = tot| gestorben | gestorbene | gestorbenen | todeszahlen | todeszahl | todesfälle | todesfall |
             vestorben | verstorbene | verstorbenen | tote | toten;
             $infektionen = fälle | infektion | infektionen | infektionszahl | infektionszahlen | infiziert |
-            infizierte | infizierten | fallzahlen | fallzahl;
+            infizierte | infizierten | fallzahlen | fallzahl | inzidenz;
         </value>
 	</grammar>
 	<grammar>
@@ -73,7 +73,7 @@
             root $input;
             $input = $gesamt {$ = &quot;all&quot;} | $einwohnerzahl {$ = &quot;pop&quot;} | $einhundertk {$ = &quot;hundredk&quot;};
             $gesamt = gesamte anzahl | absolut | keine relation | summe;
-            $einwohnerzahl = alle einwohner | einwohnerzahl;
+            $einwohnerzahl = einwohner | einwohnerzahl;
             $einhundertk = hunderttausend | einhunderttausend;
         </value>
 	</grammar>
