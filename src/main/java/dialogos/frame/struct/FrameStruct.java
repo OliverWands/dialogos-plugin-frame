@@ -255,7 +255,9 @@ public class FrameStruct implements IdentityObject
                                 }
                                 else if (grammarElem.equals("value"))
                                 {
-                                    grammar.setGrammar(this.getValue());
+                                    String grammarString = this.getValue();
+                                    grammarString = grammarString.replaceAll(" {2,}", " ");;
+                                    grammar.setGrammar(grammarString);
                                 }
                             }
                         });
