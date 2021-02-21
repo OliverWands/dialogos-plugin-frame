@@ -181,11 +181,10 @@ public class NewFrameEditor extends AbstractMenuDialog
         editSlot.addActionListener(e -> createSlotEditor(table.getSelectedRow()));
 
         JButton deleteSlot = new JButton("Delete");
-        deleteSlot.addActionListener(e ->
-                                     {
-                                         node.frameStruct.removeSlot(table.getSelectedRow());
-                                         updateFrameTable();
-                                     });
+        deleteSlot.addActionListener(e -> {
+            node.frameStruct.removeSlot(table.getSelectedRow());
+            updateFrameTable();
+        });
 
         JPanel editPanel = new JPanel(new GridBagLayout());
         GridBagConstraints constraints = new GridBagConstraints();

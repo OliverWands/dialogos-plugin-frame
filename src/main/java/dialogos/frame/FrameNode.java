@@ -21,8 +21,8 @@ import org.xml.sax.SAXException;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.*;
 import java.util.List;
+import java.util.*;
 
 public class FrameNode extends CallNode
 {
@@ -31,7 +31,7 @@ public class FrameNode extends CallNode
 
     private ProcNode procNode = null;
     private String id;
-    public FrameStruct frameStruct;
+    public final FrameStruct frameStruct;
 
     public FrameNode()
     {
@@ -52,7 +52,8 @@ public class FrameNode extends CallNode
     @Override
     public Node execute(WozInterface wozInterface, InputCenter input, ExecutionLogger logger)
     {
-        Plugin.FramePluginRuntime runtime = (Plugin.FramePluginRuntime) this.getPluginRuntime(Plugin.class, wozInterface);
+        Plugin.FramePluginRuntime runtime =
+                (Plugin.FramePluginRuntime) this.getPluginRuntime(Plugin.class, wozInterface);
         maxTokenLength = runtime.getMaxTokenWords();
 
         if (procNode == null)
@@ -106,7 +107,8 @@ public class FrameNode extends CallNode
     {
         Map<String, Object> props = (Map<String, Object>) this.deep_copy(this.properties);
 
-        NodePropertiesDialog dialog = new NodePropertiesDialog(this, parent, props, this.createEditorComponent(props));
+        NodePropertiesDialog dialog =
+                new NodePropertiesDialog(this, parent, props, this.createEditorComponent(props));
         dialog.setVisible(true);
 
         this.setProperty(NodePropertiesDialog.LAST_TAB, props.get(NodePropertiesDialog.LAST_TAB));
@@ -154,7 +156,7 @@ public class FrameNode extends CallNode
                     super.setProperty("procedure", procNode);
                 }
 
-                // If the graph is created  for the first time
+                // If the graph is created for the first time
                 if (getVariable(frameStruct.getResultVariableID()) == null)
                 {
                     Slot slot = new Slot();
@@ -267,21 +269,6 @@ public class FrameNode extends CallNode
             }
         }
         return null;
-    }
-
-    /**
-     * Create a new grammar using the parameters and adding it to the graph of the procedure.
-     *
-     * @param id             The grammar id.
-     * @param name           The grammar name.
-     * @param grammarContent The grammar content.
-     */
-    public void addGrammar(String id, String name, String grammarContent)
-    {
-        List<Grammar> grammars = getOwnedGraph().getGrammars();
-        Grammar grammar = new Grammar(name, grammarContent);
-        grammar.setId(id);
-        grammars.add(grammar);
     }
 
     /**

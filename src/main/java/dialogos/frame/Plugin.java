@@ -7,7 +7,6 @@ import com.clt.diamant.graph.Graph;
 import com.clt.diamant.graph.Node;
 import com.clt.xml.XMLReader;
 import com.clt.xml.XMLWriter;
-import org.xml.sax.SAXException;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -71,7 +70,7 @@ public class Plugin implements com.clt.dialogos.plugin.Plugin
         }
 
         @Override
-        protected void readAttribute(XMLReader xmlReader, String name, String value, IdMap idMap) throws SAXException
+        protected void readAttribute(XMLReader xmlReader, String name, String value, IdMap idMap)
         {
             if (name.equals("maxTokenWords"))
             {
@@ -135,7 +134,8 @@ public class Plugin implements com.clt.dialogos.plugin.Plugin
                         {
                             maxTokenWords = null;
                             JOptionPane.showMessageDialog(null,
-                                                          "Error: Please only enter numbers", "Error Message",
+                                                          "Error: Please only enter numbers",
+                                                          "Error Message",
                                                           JOptionPane.ERROR_MESSAGE);
                         }
                         else
@@ -160,7 +160,7 @@ public class Plugin implements com.clt.dialogos.plugin.Plugin
         }
 
         @Override
-        protected PluginRuntime createRuntime(Component component) throws Exception
+        protected PluginRuntime createRuntime(Component component)
         {
             return new FramePluginRuntime(FramePluginSettings.this);
         }
@@ -168,7 +168,7 @@ public class Plugin implements com.clt.dialogos.plugin.Plugin
 
     static class FramePluginRuntime implements PluginRuntime
     {
-        FramePluginSettings settings;
+        final FramePluginSettings settings;
 
         FramePluginRuntime(FramePluginSettings settings)
         {

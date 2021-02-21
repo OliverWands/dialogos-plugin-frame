@@ -15,12 +15,6 @@ import org.xml.sax.SAXException;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.File;
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -31,10 +25,6 @@ public class StringInputNode extends Node implements FrameInput
     private String varID;
     private JComboBox<String> varCombo;
     private Edge targetEdge;
-
-//    private final boolean DEBUG = true;
-//    private final String filePath = "~/develop/IdeaProjects/debugOutput";
-//    private final String fileName = "dialogueOne.txt";
 
     public StringInputNode()
     {
@@ -48,7 +38,7 @@ public class StringInputNode extends Node implements FrameInput
     public Node execute(WozInterface comm, InputCenter input, ExecutionLogger logger)
     {
         handleInput(comm.getLayeredPane());
-        Node target = targetEdge.getTarget(); //this.getEdge(0).getTarget();
+        Node target = targetEdge.getTarget();
         comm.transition(this, target, 0, null);
         return target;
     }
@@ -60,31 +50,24 @@ public class StringInputNode extends Node implements FrameInput
         GridBagConstraints constraints = new GridBagConstraints();
 
         List<Slot> stringVars = new ArrayList<>();
-        this.getGraph().getAllVariables(Graph.LOCAL).forEach(var ->
-                                                             {
-                                                                 if (var.getType().equals(Type.String))
-                                                                 {
-                                                                     stringVars.add(var);
-                                                                 }
-                                                             });
+        this.getGraph().getAllVariables(Graph.LOCAL).forEach(var -> {
+            if (var.getType().equals(Type.String))
+            {
+                stringVars.add(var);
+            }
+        });
 
         String[] varNames = new String[stringVars.size()];
         for (int inx = 0; inx < stringVars.size(); inx++)
         {
             varNames[inx] = stringVars.get(inx).getName();
-            if (varID != null)
-            {
-
-            }
         }
 
         constraints.gridy = 0;
         panel.add(new JLabel("Select variable to receive the input"), constraints);
 
         varCombo = new JComboBox<>(varNames);
-        if (varID != null)
-        {
-        }
+
         constraints.gridy = 1;
         constraints.fill = GridBagConstraints.HORIZONTAL;
         panel.add(varCombo, constraints);
@@ -93,7 +76,7 @@ public class StringInputNode extends Node implements FrameInput
     }
 
     @Override
-    public void writeVoiceXML(XMLWriter w, IdMap uid_map) throws IOException
+    public void writeVoiceXML(XMLWriter w, IdMap uid_map)
     {
 
     }
@@ -122,7 +105,8 @@ public class StringInputNode extends Node implements FrameInput
     {
         Map<String, Object> props = (Map<String, Object>) this.deep_copy(this.properties);
 
-        NodePropertiesDialog dialog = new NodePropertiesDialog(this, parent, props, this.createEditorComponent(props));
+        NodePropertiesDialog dialog =
+                new NodePropertiesDialog(this, parent, props, this.createEditorComponent(props));
         dialog.setVisible(true);
 
         this.setProperty(NodePropertiesDialog.LAST_TAB, props.get(NodePropertiesDialog.LAST_TAB));
@@ -166,46 +150,23 @@ public class StringInputNode extends Node implements FrameInput
         bottom.setOpaque(false);
 
         final JButton apply = new JButton("Apply");
-        apply.addActionListener(e ->
-                                {
-                                    synchronized (apply)
-                                    {
-                                        input = result.getText();
-
-//                                        if (DEBUG)
-//                                        {
-//                                            try
-//                                            {
-//                                                File logFile = Paths.get(filePath, fileName).toFile();
-//                                                if (!logFile.exists())
-//                                                {
-//                                                    Files.write(logFile.toPath(), new ArrayList<>(), StandardCharsets.UTF_8);
-//                                                }
-//
-//                                                ArrayList<Edge> edges = new ArrayList<>(in_edges());
-//                                                String prompt = (String) edges.get(0).getSource().getProperty("prompt");
-//                                                String print = String.format("System: %s\nNutzer: %s\n\n", prompt, input);
-//                                                Files.write(logFile.toPath(), print.getBytes(), StandardOpenOption.APPEND);
-//                                            } catch (IOException ioException)
-//                                            {
-//                                                ioException.printStackTrace();
-//                                            }
-//                                        }
-
-                                        apply.notifyAll();
-                                        targetEdge = getOutEdges().get(0);
-                                    }
-                                });
+        apply.addActionListener(e -> {
+            synchronized (apply)
+            {
+                input = result.getText();
+                apply.notifyAll();
+                targetEdge = getOutEdges().get(0);
+            }
+        });
 
         final JButton stop = new JButton(GUI.getString("Cancel"));
-        stop.addActionListener(e ->
-                               {
-                                   synchronized (apply)
-                                   {
-                                       apply.notifyAll();
-                                       targetEdge = getOutEdges().get(1);
-                                   }
-                               });
+        stop.addActionListener(e -> {
+            synchronized (apply)
+            {
+                apply.notifyAll();
+                targetEdge = getOutEdges().get(1);
+            }
+        });
 
         bottom.add(stop);
         bottom.add(apply);

@@ -29,25 +29,10 @@ public class TokenList extends ArrayList<Token>
         return returnVal;
     }
 
-    public int getMaxEndIndex()
-    {
-        return maxEndIndex;
-    }
-
-    public int getMinStartIndex()
-    {
-        return minStartIndex;
-    }
-
     @Override
     public String toString()
     {
         return toJSONArray().toString();
-    }
-
-    public String toPretty()
-    {
-        return toJSONArray().toString(4);
     }
 
     private JSONArray toJSONArray()

@@ -105,28 +105,27 @@ public class FrameNodeMenu extends JPanel
         inputPanel.add(export, constraints);
 
         exportButton.setEnabled(false);
-        exportButton.addActionListener(e ->
-                                       {
-                                           JFrame frame = new JFrame();
-                                           frame.setLayout(new BorderLayout());
-                                           JFileChooser fileChooser = new JFileChooser();
+        exportButton.addActionListener(e -> {
+            JFrame frame = new JFrame();
+            frame.setLayout(new BorderLayout());
+            JFileChooser fileChooser = new JFileChooser();
 
-                                           frame.add(fileChooser, BorderLayout.SOUTH);
-                                           if (fileChooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION)
-                                           {
-                                               File file = fileChooser.getSelectedFile();
+            frame.add(fileChooser, BorderLayout.SOUTH);
+            if (fileChooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION)
+            {
+                File file = fileChooser.getSelectedFile();
 
-                                               try
-                                               {
-                                                   XMLWriter writer = new XMLWriter(file);
-                                                   frameNode.frameStruct.writeToXML(writer);
-                                                   writer.close();
-                                               } catch (IOException exp)
-                                               {
-                                                   exp.printStackTrace();
-                                               }
-                                           }
-                                       });
+                try
+                {
+                    XMLWriter writer = new XMLWriter(file);
+                    frameNode.frameStruct.writeToXML(writer);
+                    writer.close();
+                } catch (IOException exp)
+                {
+                    exp.printStackTrace();
+                }
+            }
+        });
 
         constraints.gridx = 1;
         constraints.gridwidth = 3;

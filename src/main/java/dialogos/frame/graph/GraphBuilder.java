@@ -102,42 +102,16 @@ public class GraphBuilder
         }
     }
 
-    /**
-     * @param node
-     * @param exprTrue
-     * @param exprFalse
-     */
     public static void setConditionalEdges(ConditionalNode node, Node exprTrue, Node exprFalse)
     {
         setEdge(node, exprTrue, 0);
         setEdge(node, exprFalse, 1);
     }
 
-    /**
-     * @param node
-     * @param exprTrue
-     * @param exprFalse
-     */
-    public static void placeConditional(ConditionalNode node, Node exprTrue, Node exprFalse)
-    {
-        placeBottomLeft(node, exprTrue);
-        placeBottomRight(node, exprFalse);
-    }
-
-    /**
-     * Change the position of the element to be bottom left of relativeTo
-     *
-     * @param relativeTo The element that is used as the reference.
-     * @param element    The element whose position will be changed.
-     */
-    public static void placeBottomLeft(VisualGraphElement relativeTo, VisualGraphElement element)
-    {
-        placeBottomLeft(relativeTo, element, 1, 1);
-    }
-
     public static void placeBottomLeft(VisualGraphElement relativeTo, VisualGraphElement element, double xScale, double yScale)
     {
-        element.setLocation((int) Math.floor(getMiddle(relativeTo) - getHalvedWidth(element) - (baseWidth * X_UNIT * xScale)),
+        element.setLocation((int) Math
+                                    .floor(getMiddle(relativeTo) - getHalvedWidth(element) - (baseWidth * X_UNIT * xScale)),
                             (int) Math.floor(relativeTo.getY() + baseHeight * Y_UNIT * yScale));
     }
 
@@ -164,20 +138,10 @@ public class GraphBuilder
                             (int) Math.floor(relativeTo.getY() + baseHeight * Y_UNIT * scale));
     }
 
-    /**
-     * Change the position of the element to be bottom right of relativeTo
-     *
-     * @param relativeTo The element that is used as the reference.
-     * @param element    The element whose position will be changed.
-     */
-    public static void placeBottomRight(VisualGraphElement relativeTo, VisualGraphElement element)
-    {
-        placeBottomRight(relativeTo, element, 1, 1);
-    }
-
     public static void placeBottomRight(VisualGraphElement relativeTo, VisualGraphElement element, double xScale, double yScale)
     {
-        element.setLocation((int) Math.floor(getMiddle(relativeTo) - getHalvedWidth(element) + (baseWidth * X_UNIT * xScale)),
+        element.setLocation((int) Math
+                                    .floor(getMiddle(relativeTo) - getHalvedWidth(element) + (baseWidth * X_UNIT * xScale)),
                             (int) Math.floor(relativeTo.getY() + baseHeight * Y_UNIT * yScale));
     }
 
@@ -194,7 +158,9 @@ public class GraphBuilder
 
     public static void placeLeft(VisualGraphElement relativeTo, VisualGraphElement element, double scale)
     {
-        element.setLocation((int) Math.floor(getMiddle(relativeTo) - getHalvedWidth(element) - (baseWidth * X_UNIT * scale)), relativeTo.getY());
+        element.setLocation((int) Math
+                                    .floor(getMiddle(relativeTo) - getHalvedWidth(element) - (baseWidth * X_UNIT * scale)),
+                            relativeTo.getY());
     }
 
     /**
@@ -210,23 +176,15 @@ public class GraphBuilder
 
     public static void placeRight(VisualGraphElement relativeTo, VisualGraphElement element, double scale)
     {
-        element.setLocation((int) Math.floor(getMiddle(relativeTo) - getHalvedWidth(element) + (baseWidth * X_UNIT * scale)), relativeTo.getY());
-    }
-
-    /**
-     * Change the position of the element to be top left of relativeTo
-     *
-     * @param relativeTo The element that is used as the reference.
-     * @param element    The element whose position will be changed.
-     */
-    public static void placeTopLeft(VisualGraphElement relativeTo, VisualGraphElement element)
-    {
-        placeTopLeft(relativeTo, element, 1, 1);
+        element.setLocation((int) Math
+                                    .floor(getMiddle(relativeTo) - getHalvedWidth(element) + (baseWidth * X_UNIT * scale)),
+                            relativeTo.getY());
     }
 
     public static void placeTopLeft(VisualGraphElement relativeTo, VisualGraphElement element, double xScale, double yScale)
     {
-        element.setLocation((int) Math.floor(getMiddle(relativeTo) - getHalvedWidth(element) - (baseWidth * X_UNIT * xScale)),
+        element.setLocation((int) Math
+                                    .floor(getMiddle(relativeTo) - getHalvedWidth(element) - (baseWidth * X_UNIT * xScale)),
                             (int) Math.floor(relativeTo.getY() - baseHeight * Y_UNIT * yScale));
     }
 
@@ -243,7 +201,8 @@ public class GraphBuilder
 
     public static void placeTop(VisualGraphElement relativeTo, VisualGraphElement element, double scale)
     {
-        element.setLocation(getMiddle(relativeTo) - getHalvedWidth(element), (int) Math.floor(relativeTo.getY() - baseHeight * Y_UNIT * scale));
+        element.setLocation(getMiddle(relativeTo) - getHalvedWidth(element),
+                            (int) Math.floor(relativeTo.getY() - baseHeight * Y_UNIT * scale));
     }
 
     /**
@@ -259,7 +218,8 @@ public class GraphBuilder
 
     public static void placeTopRight(VisualGraphElement relativeTo, VisualGraphElement element, double xScale, double yScale)
     {
-        element.setLocation((int) Math.floor(getMiddle(relativeTo) - getHalvedWidth(element) + (baseWidth * X_UNIT * xScale)),
+        element.setLocation((int) Math
+                                    .floor(getMiddle(relativeTo) - getHalvedWidth(element) + (baseWidth * X_UNIT * xScale)),
                             (int) Math.floor(relativeTo.getY() - baseHeight * Y_UNIT * yScale));
     }
 

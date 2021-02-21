@@ -1,84 +1,27 @@
 package dialogos.frame.graph;
 
-import com.clt.diamant.Grammar;
-import com.clt.diamant.Slot;
 import com.clt.diamant.graph.Graph;
-import com.clt.diamant.graph.Node;
 import com.clt.diamant.graph.nodes.ConditionalNode;
 import com.clt.diamant.graph.nodes.GotoNode;
 import com.clt.diamant.graph.nodes.LabelNode;
-import com.clt.diamant.graph.nodes.SetVariableNode;
 import de.saar.coli.dialogos.marytts.plugin.TTSNode;
-import dialogos.frame.nodes.FrameInput;
 import dialogos.frame.struct.FrameStruct;
 import dialogos.frame.struct.SlotStruct;
-import edu.cmu.lti.dialogos.sphinx.plugin.SphinxNode;
 
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Class that allows for easier programmatic modification of a selection of nodes.
  */
 public class NodeBuilder
 {
-    Graph ownedGraph;
-    public static String FILLED = "FILLED";
-    public static String INPUT = "INPUT";
+    final Graph ownedGraph;
+    public static final String FILLED = "FILLED";
+    public static final String INPUT = "INPUT";
 
     public NodeBuilder(Graph ownedGraph)
     {
         this.ownedGraph = ownedGraph;
-    }
-
-    /**
-     * Calculates a color for the node, using the hash of its title.
-     *
-     * @param node The node whose color will be changed.
-     */
-    public void changeColor(Node node)
-    {
-        Color color = new Color((int) Math.floor(((double) node.getTitle().hashCode() * 16777215.0) / 2147483647.0));
-        node.setColor(color);
-    }
-
-    public void assignSetVariableNode(SetVariableNode node, String varID, String assingVal)
-    {
-        if (node == null)
-        {
-            node = new SetVariableNode();
-        }
-
-        SetVariableNode variableNode = node;
-        variableNode.setProperty(SetVariableNode.VAR_ID, varID);
-
-        List<SetVariableNode.VarAssignment> assignments =
-                (List<SetVariableNode.VarAssignment>) variableNode.getProperty(SetVariableNode.ASSIGNMENTS);
-
-        if (assignments == null)
-        {
-            assignments = new ArrayList<>();
-        }
-
-        SetVariableNode.VarAssignment assignment = new SetVariableNode.VarAssignment();
-
-        List<Slot> slots = ownedGraph.getVariables();
-
-        for (Slot slot : slots)
-        {
-            if (slot.getId().equals(varID))
-            {
-                assignment.setVariable(slot);
-                variableNode.setTitle(slot.getName() + " " + assingVal);
-            }
-        }
-
-        assignment.setValue(assingVal);
-
-        assignments.add(assignment);
-
-        variableNode.setProperty(SetVariableNode.ASSIGNMENTS, assignments);
     }
 
     public void assignTTSNode(TTSNode node, String title, String prompt)
@@ -91,40 +34,6 @@ public class NodeBuilder
         TTSNode ttsNode = node;
         ttsNode.setTitle(title);
         ttsNode.setProperty("prompt", prompt);
-    }
-
-    public void assignSphinxNode(SphinxNode node, String grammarID)
-    {
-        List<Grammar> grammars = ownedGraph.getGrammars();
-
-        if (grammars != null)
-        {
-            for (Grammar grammar : grammars)
-            {
-                if (grammar.getId() != null && grammar.getId().equals(grammarID))
-                {
-                    node.setProperty("grammar", grammar);
-                    break;
-                }
-            }
-        }
-    }
-
-    public void assignSlotSphinx(SphinxNode node, Grammar grammar, String edgeCondition)
-    {
-        node.setTitle(grammar.getName());
-        changeColor(node);
-        node.setProperty("grammar", grammar);
-        node.addEdge(edgeCondition);
-    }
-
-    public void assignInputNode(Node node, String title, String variableID)
-    {
-        if (node instanceof FrameInput)
-        {
-            ((FrameInput) node).setVariableID(variableID);
-            node.setTitle(title);
-        }
     }
 
     public void assignConditionalNode(ConditionalNode node, String title, String expression)
@@ -169,9 +78,6 @@ public class NodeBuilder
         return String.format("%d_%s_%s", frameStruct.getIndex(slot), INPUT, slot.getId());
     }
 
-    //
-    // Think of more elegant solution
-    //
     private static String replaceAllDigits(String input)
     {
         if (!input.matches(".*\\d+.*"))

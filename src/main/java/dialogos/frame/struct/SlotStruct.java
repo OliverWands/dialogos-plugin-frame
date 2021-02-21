@@ -83,7 +83,7 @@ public class SlotStruct implements IdentityObject
         return value;
     }
 
-    public boolean isFilled()
+    public boolean isEmpty()
     {
         return isFilled;
     }
@@ -100,10 +100,7 @@ public class SlotStruct implements IdentityObject
     {
         writer.printElement("slotStruct",
                             new String[]{"uid", "name", "query", "grammarName"},
-                            new Object[]{getId(),
-                                    getName(),
-                                    getQuery(),
-                                    getGrammarName()},
+                            new Object[]{getId(), getName(), getQuery(), getGrammarName()},
                             null);
     }
 

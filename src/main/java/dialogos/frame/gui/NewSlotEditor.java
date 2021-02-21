@@ -132,10 +132,9 @@ public class NewSlotEditor extends AbstractMenuDialog
             frameNode.frameStruct.addSlot(new SlotStruct());
         }
 
-        frameNode.frameStruct.getSlot(index)
-                .setName(nameText.getText())
-                .setGrammarName(grammarCombo.getItemAt(grammarCombo.getSelectedIndex()))
-                .setQuery(queryText.getText());
+        frameNode.frameStruct.getSlot(index).setName(nameText.getText())
+                             .setGrammarName(grammarCombo.getItemAt(grammarCombo.getSelectedIndex()))
+                             .setQuery(queryText.getText());
     }
 
     @Override

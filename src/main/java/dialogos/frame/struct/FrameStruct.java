@@ -11,7 +11,10 @@ import org.xml.sax.Attributes;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 public class FrameStruct implements IdentityObject
 {
@@ -100,7 +103,6 @@ public class FrameStruct implements IdentityObject
         return helpPrompt;
     }
 
-    // TODO Move the Grammar file selector from the NewFrameMenu to the FrameNodeMenu.
     public File getGrammarFile()
     {
         return grammarFile;
@@ -112,7 +114,7 @@ public class FrameStruct implements IdentityObject
         Set<String> grammarNames = new HashSet<>();
         for (SlotStruct slotStruct : slotList)
         {
-            if (!slotStruct.isFilled())
+            if (slotStruct.isEmpty())
             {
                 grammarNames.add(slotStruct.getGrammarName());
             }
@@ -138,7 +140,7 @@ public class FrameStruct implements IdentityObject
 
         for (SlotStruct slot : slotList)
         {
-            if (!slot.isFilled())
+            if (slot.isEmpty())
             {
                 return false;
             }
@@ -174,10 +176,11 @@ public class FrameStruct implements IdentityObject
 
     public void writeToXML(XMLWriter writer)
     {
-        System.out.printf("####### %s", getId());
         if (this.isEdited())
         {
-            writer.openElement("frameStruct", new String[]{"uid", "name", "helpPrompt", "class"}, new Object[]{getId(), getName(), getHelpPrompt(), getClass().getName()});
+            writer.openElement("frameStruct",
+                               new String[]{"uid", "name", "helpPrompt", "class"},
+                               new Object[]{getId(), getName(), getHelpPrompt(), getClass().getName()});
 
             for (SlotStruct slotStruct : slotList)
             {
@@ -256,7 +259,7 @@ public class FrameStruct implements IdentityObject
                                 else if (grammarElem.equals("value"))
                                 {
                                     String grammarString = this.getValue();
-                                    grammarString = grammarString.replaceAll(" {2,}", " ");;
+                                    grammarString = grammarString.replaceAll(" {2,}", " ");
                                     grammar.setGrammar(grammarString);
                                 }
                             }

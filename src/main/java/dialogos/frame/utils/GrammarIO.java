@@ -215,7 +215,7 @@ public class GrammarIO
                         }
                     }
                     else if (token.getStartIndex() < compareTkn.getStartIndex() &&
-                            token.getEndIndex() >= compareTkn.getEndIndex())
+                             token.getEndIndex() >= compareTkn.getEndIndex())
                     {
                         cleaned.remove(compareTkn);
                     }

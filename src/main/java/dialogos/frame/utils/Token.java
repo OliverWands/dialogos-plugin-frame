@@ -8,7 +8,6 @@ import java.util.List;
 public class Token
 {
     private String content;
-    private String lower;
     private int size;
     private int startIndex;
     private int endIndex;

@@ -8,7 +8,7 @@ import java.awt.event.WindowListener;
 
 public abstract class AbstractMenuDialog extends JDialog
 {
-    public JPanel topPanel;
+    public final JPanel topPanel;
     private final Window window;
 
     AbstractMenuDialog(Window window, String title)
@@ -75,20 +75,18 @@ public abstract class AbstractMenuDialog extends JDialog
         buttonPanel.setBorder(new EmptyBorder(5, 0, 0, 0));
 
         JButton applyButton = new JButton("Apply");
-        applyButton.addActionListener(e ->
-                                      {
-                                          applyAction();
-                                          window.dispatchEvent(new WindowEvent(window, WindowEvent.WINDOW_CLOSING));
-                                          window.dispose();
-                                      });
+        applyButton.addActionListener(e -> {
+            applyAction();
+            window.dispatchEvent(new WindowEvent(window, WindowEvent.WINDOW_CLOSING));
+            window.dispose();
+        });
 
         JButton cancelButton = new JButton("Cancel");
-        cancelButton.addActionListener(e ->
-                                       {
-                                           cancelAction();
-                                           window.dispatchEvent(new WindowEvent(window, WindowEvent.WINDOW_CLOSING));
-                                           window.dispose();
-                                       });
+        cancelButton.addActionListener(e -> {
+            cancelAction();
+            window.dispatchEvent(new WindowEvent(window, WindowEvent.WINDOW_CLOSING));
+            window.dispose();
+        });
 
         GridBagConstraints constraints = new GridBagConstraints();
 

@@ -21,6 +21,8 @@ import java.util.Map;
  * Take string from previous node, tokenize it, tag it with the grammars stored in the frame plugin settings
  * Then get the minimal, tagged list and find out which slots of the frame in the frame plugin settings has already
  * been filled with this one. Then return the frame to the graph/node.
+ * <p>
+ * Represents the semantic interpretation.
  */
 public class FillerNode extends Node
 {
@@ -79,8 +81,7 @@ public class FillerNode extends Node
                 break;
             case "frameNodeID":
                 frameNodeID = value;
-                r.addCompletionRoutine((XMLReader.CompletionRoutine) () ->
-                {
+                r.addCompletionRoutine((XMLReader.CompletionRoutine) () -> {
                     Node node = uid_map.nodes.get(frameNodeID);
                     if (node instanceof FrameNode)
                     {
@@ -134,7 +135,7 @@ public class FillerNode extends Node
             SlotStruct slotStruct =
                     frameNode.frameStruct.getSlot((expectedSlotInput + inx) % frameNode.frameStruct.size());
 
-            if (!slotStruct.isFilled())
+            if (slotStruct.isEmpty())
             {
                 for (Token token : tokens)
                 {
@@ -142,7 +143,7 @@ public class FillerNode extends Node
                     {
                         slotStruct.setValue(token.getContent().toLowerCase());
                         frameNode.getVariable(NodeBuilder.filledVariableID(frameNode.frameStruct, slotStruct))
-                                .setValue(Value.of(true));
+                                 .setValue(Value.of(true));
                         tokens.remove(token);
                         break;
                     }
