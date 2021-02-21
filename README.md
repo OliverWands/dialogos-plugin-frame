@@ -82,7 +82,7 @@ available in german.
 
 This example showcases the filling of multiple slots that use the same grammar.
 
-- [examples/navigation](examples/navigation/navigationFrame.xml) contains the exported frame and can be imported using
+- [examples/navigation/navigationFrame.xml](examples/navigation/navigationFrame.xml) contains the exported frame and can be imported using
   the frame nodes import functionality.
-- [examples/covid19/covid19InfoGraph.xml](examples/covid19/covid19InfoGraph.xml) is a saved dialogue-graph that contains
+- [examples/navigation/navigationGraph.xml](examples/navigation/navigationGraph.xml) is a saved dialogue-graph that contains
   the frame node and a small grammar.
