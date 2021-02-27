@@ -1,12 +1,17 @@
 # dialogos-plugin-frame
 
-A plugin to automatically generate dialouge graphs based on a frame.
+A plugin to automatically generate dialogue graphs based on a frame.
+
+## Starting the plugin
+Start a DialogOS-instance that includes the plugin using the following command: 
+
+`./gradlew run`
 
 ## How to use the FrameNode
 
 A small introduction on how to use the `FrameNode`.
 
-The `FrameNode` can generate a dialogue-graph that represents a frame-based dialouge system. Based on the frame you
+The `FrameNode` can generate a dialogue-graph that represents a frame-based dialogue system. Based on the frame you
 enter in the *Properties* of the `FrameNode` a subgraph/procedure will be generated that will try to collect the
 information specified in the frame.
 
@@ -67,7 +72,7 @@ order is to go.
 
 ### Covid-19
 
-This example retrieves the current covid-19 data from the API of the Robert-Koch-Institut. The example is currently only
+This example retrieves the current covid-19 data from the API of the "Robert-Koch-Institut". The example is currently only
 available in german.
 
 - [examples/covid19/covid19InfoFrame.xml](examples/covid19/covid19InfoFrame.xml) contains the exported frame and can be
