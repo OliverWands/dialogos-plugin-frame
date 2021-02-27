@@ -21,10 +21,10 @@ The name of the frame is the specifier. The help prompt will be given at the sta
 summary of the needed information, so that users will know what to enter. The grammar file is an xml file that can
 contain multiple grammars. These will be loaded into DialogOS and can be used as a tag for a slot. It is also possible
 to add grammars manually to the DialogOS-graph and use them as tags. However they need to be present in order to select
-them as a tag.\
+them as a tag.
 
 The `Up` and `Down` buttons are used for changing the order of a selected slot. This is especially important when using
-a grammar multiple times. If this is the case, the slots will be filled in the same order as they are in the frame. \
+a grammar multiple times. If this is the case, the slots will be filled in the same order as they are in the frame.
 
 Using the three buttons on the bottom left it is possible to either add a new slot to the frame or edit/delete an
 existing slot from the frame.\
@@ -42,8 +42,11 @@ When pressing `Ok` the procedure will be generated. It contains the graph that w
 outputs (green and red) correspond to *success* and *cancelled*. Success will be used when the dialogue finished,
 cancelled will be used when the dialogue was cancelled.
 
-**If you plan on modifying the generated graph, _DO NOT_ press OK in the properties after you modified it. _This will
-re-generate the graph and discard all modifications!_**
+###IMPORTANT:
+If you plan on modifying the generated graph. Make sure to do so after you're finished modifying the frame.
+
+**_If you modify the frame and press "OK" to apply your changes, the graph will be re-built.
+This removes every change that has been made._**
 
 ## Examples
 
