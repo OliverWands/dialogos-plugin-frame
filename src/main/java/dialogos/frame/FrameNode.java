@@ -33,6 +33,10 @@ public class FrameNode extends CallNode
     private String id;
     public final FrameStruct frameStruct;
 
+    private String oldName = null;
+    private String oldPrompt = null;
+    private ArrayList<SlotStruct> oldSlots = null;
+
     public FrameNode()
     {
         setId(UUID.randomUUID().toString());
@@ -175,15 +179,31 @@ public class FrameNode extends CallNode
                 setUsedGrammars();
                 owned.addAll(frameStruct.getUsedGrammars());
 
-                GraphEditorFactory.show(procNode);
-                new FrameGraph(this).buildFrameInterpretationAlgo();
-                GraphEditorFactory.get(procNode).closeEditor();
+                //
+                // Only re-build the graph if changes to the frame have been made. Or if the graph is built for the
+                // first time.
+                //
+                if (oldName == null || oldPrompt == null || oldSlots == null ||
+                    !oldSlots.equals(new ArrayList<>(frameStruct.getSlots())) ||
+                    !oldName.equals(frameStruct.getName()) || !oldPrompt.equals(frameStruct.getHelpPrompt()))
+                {
+                    GraphEditorFactory.show(procNode);
+                    new FrameGraph(this).buildFrameInterpretationAlgo();
+                    GraphEditorFactory.get(procNode).closeEditor();
+                }
+
+                oldName = frameStruct.getName();
+                oldPrompt = frameStruct.getHelpPrompt();
+                oldSlots = new ArrayList<>(frameStruct.getSlots());
             }
 
             return true;
         }
         else
         {
+            frameStruct.setName(oldName);
+            frameStruct.setHelpPrompt(oldPrompt);
+            frameStruct.setSlots(oldSlots);
             return false;
         }
     }
