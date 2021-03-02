@@ -47,7 +47,7 @@ When pressing `Ok` the procedure will be generated. It contains the graph that w
 outputs (green and red) correspond to *success* and *cancelled*. Success will be used when the dialogue finished,
 cancelled will be used when the dialogue was cancelled.
 
-###IMPORTANT:
+### IMPORTANT:
 If you plan on modifying the generated graph. Make sure to do so after you're finished modifying the frame.
 
 **_If you modify the frame and press "OK" to apply your changes, the graph will be re-built.
