@@ -279,6 +279,11 @@ public class FrameNode extends CallNode
         variables.add(variable);
     }
 
+    /**
+     * Get a DialogOS Variable by its ID.
+     * @param id The id of the wanted variable.
+     * @return The variable or null if no variable with the entered id exists.
+     */
     public Slot getVariable(String id)
     {
         for (Slot slot : getOwnedGraph().getVariables())
@@ -312,6 +317,10 @@ public class FrameNode extends CallNode
         return null;
     }
 
+    /**
+     * Retrieve a list that contains all the grammars of the graph that contains the FrameNode and the FrameStruct.
+     * @return The list of grammars.
+     */
     public List<Grammar> getAllGrammars()
     {
         List<Grammar> all = new ArrayList<>(getSuperGraph().getGrammars());
@@ -320,6 +329,9 @@ public class FrameNode extends CallNode
         return all;
     }
 
+    /**
+     * Adds all the grammars to the FrameStruct that are used in a Slot of it.
+     */
     public void setUsedGrammars()
     {
         Set<Grammar> grammars = new HashSet<>();

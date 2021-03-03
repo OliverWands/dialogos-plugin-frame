@@ -7,16 +7,11 @@ import java.util.List;
 
 public class Token
 {
+    private final int size;
+    private final int startIndex;
+    private final int endIndex;
+    private final List<String> tags;
     private String content;
-    private int size;
-    private int startIndex;
-    private int endIndex;
-    private List<String> tags;
-
-    public Token()
-    {
-
-    }
 
     public Token(String content, int startIndex, int endIndex)
     {
@@ -27,27 +22,10 @@ public class Token
         tags = new ArrayList<>();
     }
 
-    public Token setIndices(int startIndex, int endIndex)
-    {
-        this.startIndex = startIndex;
-        this.endIndex = endIndex;
-        size = endIndex - startIndex;
-        return this;
-    }
-
-    public Token addTag(String tag)
+    public void addTag(String tag)
     {
         tags.add(tag);
-        return this;
     }
-
-    public Token setTags(List<String> tags)
-    {
-        this.tags = tags;
-        return this;
-    }
-
-    // TODO remove tags methods
 
     public int getEndIndex()
     {
@@ -85,12 +63,6 @@ public class Token
         return jsonObject.toString(indent);
     }
 
-    @Override
-    public String toString()
-    {
-        return toString(0);
-    }
-
     public boolean hasTag(String tag)
     {
         return tags.contains(tag);
@@ -106,6 +78,12 @@ public class Token
             }
         }
         return false;
+    }
+
+    @Override
+    public String toString()
+    {
+        return toString(0);
     }
 }
 

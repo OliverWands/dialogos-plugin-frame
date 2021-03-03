@@ -23,6 +23,9 @@ public class FrameGraph
     private final NodeBuilder nodeBuilder;
     private final String INV_ID = "INPUT_VAR_ID";
 
+    private final Color red = new Color(204, 96, 99);
+    private final Color green = new Color(89, 168, 105);
+
     /**
      * Constructor for the FrameGraph
      *
@@ -34,11 +37,11 @@ public class FrameGraph
 
         failureReturn = new ReturnNode();
         failureReturn.setTitle("Failure");
-        failureReturn.setColor(new Color(204, 96, 99));
+        failureReturn.setColor(red);
 
         cancelLabel = new LabelNode();
         cancelLabel.setTitle("Canceled");
-        cancelLabel.setColor(new Color(204, 96, 99));
+        cancelLabel.setColor(red);
 
         GraphBuilder.removeAllNodes(frameNode.getOwnedGraph());
         GraphBuilder.removeAllComments(frameNode.getOwnedGraph());
@@ -64,7 +67,7 @@ public class FrameGraph
 
             ReturnNode successReturn = new ReturnNode();
             successReturn.setTitle("Success");
-            successReturn.setColor(new Color(89, 168, 105));
+            successReturn.setColor(green);
             frameNode.add(successReturn);
 
             frameNode.add(failureReturn);
@@ -80,7 +83,7 @@ public class FrameGraph
             inputNode.setVariableID(INV_ID);
             frameNode.add(inputNode);
 
-            GotoNode gotoNode = nodeBuilder.createGotoNode("Canceled", cancelLabel, new Color(204, 96, 99));
+            GotoNode gotoNode = nodeBuilder.createGotoNode("Canceled", cancelLabel, red);
             frameNode.add(gotoNode);
 
             inputNode.getEdge(1).setTarget(gotoNode);
@@ -137,6 +140,7 @@ public class FrameGraph
      * @param slots The slots that should be filled using the graph.
      * @param start The top node that connects the slot filling.
      * @param end   The last node that marks the end of the slot filling.
+     * @return The maximum X-position. Is used to adjust the width of the graph.
      */
     private int buildBottomUp(List<SlotStruct> slots, Node start, Node end)
     {

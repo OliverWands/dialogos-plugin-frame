@@ -35,7 +35,7 @@ public class Plugin implements com.clt.dialogos.plugin.Plugin
     @Override
     public String getName()
     {
-        return "Frame-based Dialogsystems";
+        return "Frame-based dialogue systems";
     }
 
     @Override
@@ -92,7 +92,7 @@ public class Plugin implements com.clt.dialogos.plugin.Plugin
             inputPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
             GridBagConstraints constraints = new GridBagConstraints();
 
-            JLabel lengthLabel = new JLabel("Token word count:");
+            JLabel lengthLabel = new JLabel("Max token-length (word count):");
 
             constraints.gridx = 0;
             constraints.gridy = 0;

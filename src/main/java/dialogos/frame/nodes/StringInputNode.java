@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class StringInputNode extends Node implements FrameInput
+public class StringInputNode extends Node
 {
     private String input;
     private String varID;
@@ -212,13 +212,6 @@ public class StringInputNode extends Node implements FrameInput
         }
     }
 
-    @Override
-    public String getVariableID()
-    {
-        return varID;
-    }
-
-    @Override
     public void setVariableID(String id)
     {
         varID = id;
