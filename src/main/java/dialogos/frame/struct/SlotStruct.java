@@ -85,7 +85,7 @@ public class SlotStruct implements IdentityObject
 
     public boolean isEmpty()
     {
-        return isFilled;
+        return !isFilled;
     }
 
     public String removeValue()

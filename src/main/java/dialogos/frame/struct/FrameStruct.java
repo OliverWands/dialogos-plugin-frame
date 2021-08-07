@@ -245,7 +245,6 @@ public class FrameStruct implements IdentityObject
                         break;
                     case "grammar":
                         final Grammar grammar = new Grammar("grammar");
-                        grammar.setId(atts.getValue("id"));
                         usedGrammars.add(grammar);
                         reader.setHandler(new AbstractHandler("grammar")
                         {

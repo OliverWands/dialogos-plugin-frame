@@ -27,16 +27,6 @@
 			<type>struct</type>
 			<value>undefined</value>
 		</variable>
-		<variable uid="RESULTIDac050c3e-25c9-42dc-bff3-8e364fa0fd92">
-			<name>RESULTCovid19Info</name>
-			<type>struct</type>
-			<value>undefined</value>
-		</variable>
-		<variable uid="RESULTIDac050c3e-25c9-42dc-bff3-8e364fa0fd92">
-			<name>RESULTCovid19Info</name>
-			<type>struct</type>
-			<value>undefined</value>
-		</variable>
 		<node uid="61a6136c-58af-4bee-89a1-b96d9b03f844" class="com.clt.diamant.graph.nodes.StartNode">
 			<graphics x="370" y="39" fill="#9999ff"/>
 			<att name="title" type="string" value="Start"/>
@@ -46,7 +36,7 @@
 			<att name="title" type="string" value="End"/>
 		</node>
 		<node uid="a43b3460-b131-4515-a53b-9789d679c47b" class="dialogos.api.APINode">
-			<graphics x="371" y="213" fill="#006fde"/>
+			<graphics x="319" y="213" fill="#006fde"/>
 			<att name="title" type="string" value="API"/>
 			<att name="request" type="string" value="&quot;https://services7.arcgis.com/mOBPykOjAyBO2ZKk/arcgis/rest/services/RKI_Landkreisdaten/FeatureServer/0/query?where=GEN%20%3D%20%27&quot;+ toUpperCase(get(RESULTCovid19Info, &quot;Landkreis&quot;)) + &quot;%27&amp;outFields=GEN,EWZ,cases,deaths,cases7_per_100k,cases7_bl,death7_bl,cases7_lk,death7_lk,death_rate&amp;returnGeometry=false&amp;outSR=4326&amp;f=json&quot;"/>
 			<att name="requestTypes" type="string" value="Expression"/>
@@ -584,7 +574,7 @@ switch(relative)
 rounded = round(result);
 
 answer = answer + &quot;beträgt &quot; + str(rounded);
-print("System: " + answer);
+print(&quot;System: &quot; + answer);
 				</value>
 			</att>
 		</node>
